@@ -1,34 +1,39 @@
+
+
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link " id="signUp-tab" data-toggle="tab" href="#signUp" role="tab" aria-controls="signUp" aria-selected="false">Sign Up</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link " id="searchFlight-tab" data-toggle="tab" href="#searchFlight" role="tab" aria-controls="searchFlight" aria-selected="false">Search Flight</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link" id="bookFlight-tab" data-toggle="tab" href="#bookFlight" role="tab" aria-controls="bookFlight" aria-selected="false">Book Flight</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion" aria-selected="false">Promotion</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link" id="passegerCheck-tab" data-toggle="tab" href="#passegerCheck" role="tab" aria-controls="passegerCheck" aria-selected="false">Passeger Check</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link" id="registerFlight-tab" data-toggle="tab" href="#registerFlight" role="tab" aria-controls="registerFlight" aria-selected="false">Register Flight</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="d">
     <a class="nav-link" id="openingOfFlight-tab" data-toggle="tab" href="#openingOfFlight" role="tab" aria-controls="openingOfFlight" aria-selected="false">Opening Of Flight</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" id="flightClosure-tab" data-toggle="tab" href="#flightClosure" role="tab" aria-controls="flightClosure" aria-selected="false">Flight Closure</a>
+  <li class="nav-item" *ngIf="d">
+    <a class="nav-link" id="flightClosure-tab" data-toggle="tab" href="#flightClosure" role="tab" aria-controls="flightClosure" aria-selected="false" >Flight Closure</a>
   </li>
 </ul>
+
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...home</div>
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <app-home></app-home>  
+  </div>
   <div class="tab-pane fade" id="signUp" role="tabpanel" aria-labelledby="signUp-tab">...signUp</div>
   <div class="tab-pane fade" id="searchFlight" role="tabpanel" aria-labelledby="searchFlight-tab">...searchFlight</div>
   <div class="tab-pane fade" id="bookFlight" role="tabpanel" aria-labelledby="bookFlight-tab">...bookFlight</div>
@@ -38,4 +43,5 @@
   <div class="tab-pane fade" id="openingOfFlight" role="tabpanel" aria-labelledby="openingOfFlight-tab">...openingOfFlight</div>
   <div class="tab-pane fade" id="flightClosure" role="tabpanel" aria-labelledby="flightClosure-tab">...flightClosure</div>
 </div>
+
 <router-outlet></router-outlet>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { disableBindings } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'TECAirlinesAirport';
+  d:boolean = false;
+  n:string="";
+
+  /**
+   * registry
+   */
+  public registry(state:boolean,name:string) {
+    this.d=state;
+    this.n=name;        
+  }
 }

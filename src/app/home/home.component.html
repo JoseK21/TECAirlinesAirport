@@ -1,0 +1,50 @@
+<div class="container-fluid text-center grad">
+  <br>
+  <h1>Welcome to TECAirlines </h1>
+  <p>Airport</p>
+  <br>
+  <img src="/assets/logo.PNG" height="60" width="260" alt="">
+  <br><br>
+
+  <div class="align-self-center">
+
+
+
+    <form>
+      <div class="form-row justify-content-center">
+        <div class="col-3 ">
+          <input #UN type="text" class="form-control" placeholder="Username">
+        </div>
+        <div class="col-3 ">
+          <input #PW type="password" class="form-control" placeholder="Password">
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-5">
+          <button type="button" class="btn btn-dark btn-block" (click)="setStatusRegistry(true,UN.value)">Log In</button>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-2 align-self-center">
+          <button type="button" class="btn btn-dark btn-block" data-toggle="modal"
+            data-target=".signUp">Sign Up</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+
+  <!-- Large modal Sign Up-->
+  <div class="modal fade signUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        ...
+      </div>
+    </div>
+  </div>
+
+</div>
+
