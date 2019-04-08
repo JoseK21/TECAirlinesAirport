@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
+  n:number=0;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public checkStudent() {
+    if(this.n == 0){
+      this.n=1;
+    }else{
+      this.n=0;
+    }
   }
 
 }
