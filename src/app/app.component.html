@@ -37,7 +37,7 @@
   </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content grad" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <!--Nombre de interes : messageEvent -->
     <app-home (messageEvent)="receiveMessage($event)"></app-home>
@@ -45,9 +45,13 @@
   <div class="tab-pane fade" id="signUp" role="tabpanel" aria-labelledby="signUp-tab">
     <app-sign-up></app-sign-up>
   </div>
-  <div class="tab-pane fade" id="searchFlight" role="tabpanel" aria-labelledby="searchFlight-tab">...searchFlight</div>
+  <div class="tab-pane fade" id="searchFlight" role="tabpanel" aria-labelledby="searchFlight-tab">
+    <app-search-flight></app-search-flight>
+   </div>
   <div class="tab-pane fade" id="bookFlight" role="tabpanel" aria-labelledby="bookFlight-tab">...bookFlight</div>
-  <div class="tab-pane fade" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">...promotion</div>
+  <div class="tab-pane fade" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
+    <app-promotion></app-promotion>
+  </div>
   <div class="tab-pane fade" id="passegerCheck" role="tabpanel" aria-labelledby="passegerCheck-tab">...passegerCheck
   </div>
   <div class="tab-pane fade" id="registerFlight" role="tabpanel" aria-labelledby="registerFlight-tab">...registerFlight

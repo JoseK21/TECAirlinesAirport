@@ -1,0 +1,5 @@
+.grad {
+    background-image: linear-gradient(to bottom , rgba(255,0,0,0), rgb(30, 22, 134));          
+    min-height: 93.5vh;
+    margin: 0; 
+  }

@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchFlightComponent implements OnInit {
 
+  country1:string="CountryExameple: Panama";
+  country2:string="CountryExameple: USA";
+
+  heroes = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
+
   constructor() { }
 
   ngOnInit() {
   }
+
+ 
 
 }
