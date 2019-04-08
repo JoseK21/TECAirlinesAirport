@@ -7,15 +7,26 @@ import { disableBindings } from '@angular/core/src/render3';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TECAirlinesAirport';
-  d:boolean = false;
+  title = 'TECAirlinesAirport';  
   n:string="";
+  init:boolean=true;
+  options:boolean = false;
+  message:string;
+
+  receiveMessage($event) {
+    this.message = $event
+    if(this.message=="true"){
+      this.options=true;
+    }else if(this.message=="false"){
+      this.options=false;
+    }
+  }
 
   /**
    * registry
    */
   public registry(state:boolean,name:string) {
-    this.d=state;
+    this.options=state;
     this.n=name;        
   }
 }
