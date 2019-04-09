@@ -1,8 +1,82 @@
-<div class="container">
+<div *ngIf="windowsSearch">
+  <br><br>
+  <div class="container">
+    <form>
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="validationDefault01">From(*)</label>
+          <button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,0)" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo">{{ptD}}</button>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="validationDefault02">To(*)</label>
+          <button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,1)" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo">{{ptA}}</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          Departure(*)<input #D1 type="date" class="form-control"  required>
+        </div>
+        <div class="col-md-4 mb-3">
+          Return(*)<input #D2 type="date" class="form-control" (click)="setMinDate(D1.value)" min="minDate" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-2 mb-3 ">
+          <div class="form-check ">
+           <input class="form-check-input" type="radio" name="r1" id="inlineR11" value="option1" checked>
+            <label class="form-check-label" for="inlineR11">Round Trip</label>
+          </div>
+          <div class="form-check ">
+            <input class="form-check-input" type="radio" name="r2" id="inlineR21" value="option2" checked>
+            <label class="form-check-label" for="inlineR21">Business Class</label>
+          </div>
+          <div class="form-check ">
+           <input class="form-check-input" type="radio" name="r3" id="inlineR31" value="option1" checked>  
+            <label class="form-check-label" for="inlineR31"> Exact dates</label>    
+          </div>
+        </div>
+        <div class="col-md-2 mb-3 ">
+          <div class="form-check ">
+            <input class="form-check-input" type="radio" name="r1" id="inlineR12" value="option2">
+            <label class="form-check-label" for="inlineR12">One way</label>
+          </div>
+          <div class="form-check ">
+            <input class="form-check-input" type="radio" name="r2" id="inlineR22" value="option1">   
+            <label class="form-check-label" for="inlineR22">Economy Class</label>         
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="r3" id="inlineR23" value="option2">  
+            <label class="form-check-label" for="inlineR22">Flexible dates</label>           
+          </div>
+        </div>
+        <div class="col-md-8 mb-5">
+          <div class="row">
+            <div class="col">
+              Adult(+12)<input type="number" max="10" min="0" value="0">
+            </div>
+            <div class="col">
+              Children(2-11)<input type="number" max="10" min="0" value="0">
+            </div>
+            <div class="col">
+              <span class="form-check-label">Infants(0-1)</span>
+              <input type="number" max="10" min="0" value="0">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" (click)="changeWindows()" type="button">Submit form</button>
+    </form>
+    <br>
+  </div>
+</div>
 
+<div class="container" *ngIf="!windowsSearch">
   <div class="container-fluid ">
     <br><br>
     <div class="container">
+      <button class="btn btn-outline-dark btn-sm" (click)="changeWindows()" type="button">Back</button>
       <form>
         <div class="row">
           <div class="col">
@@ -66,12 +140,55 @@
       <br>
     </div>
   </div>
+</div>
 
-  <!--MODAL Reservation -->
+  <!--MODAL -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <!--Modal 1-->
+      <div class="modal-content" *ngIf="showModal==0">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Select country</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <div class="form-group col-md-6">
+                  Continent
+                  <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Africa</option>
+                    <option>Asia</option>
+                    <option>Europe</option>
+                    <option>Nort America</option>
+                    <option>Surt America</option>
+                    <option>Antarctica</option>
+                    <option>Oceania</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-group col-md-6">
+                  Country
+                  <select #inputStateFrom class="form-control">
+                    <option selected>Choose...</option>
+                    <option>..</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <button type="button" *ngIf="point==0" (click)="setptD(inputStateFrom.value)" class="btn btn-outline-info">Select</button>
+             <button type="button" *ngIf="point==1" (click)="setptA(inputStateFrom.value)" class="btn btn-outline-info">Select</button>          </div>
+      </div>
+      <!-- Modal 2-->
+      <div class="modal-content" *ngIf="showModal==1">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
           <button type="button" class="btn btn-outline-primary btn-sm " id="contenedorCuerpo" data-toggle="modal"
@@ -91,7 +208,6 @@
                 </div>
               </div>
             </form>
-
             <img src="/assets/tarjetas.png" width="180" height="40" alt="">
             <div>
               <label for="message-text" class="col-form-label">Credit card:</label>
@@ -101,12 +217,53 @@
               <label for="message-text" class="col-form-label">Security code</label>
               <input type="text" class="form-control" id="recipient-name">
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">To buy</button>
+        </div>
+      </div>
+      <!-- Modal 3-->
+      <div class="modal-content" *ngIf="showModal==2">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Select country</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <div class="form-group col-md-6">
+                <label for="inputState">Continent</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>Africa</option>
+                  <option>Asia</option>
+                  <option>Europe</option>
+                  <option>Nort America</option>
+                  <option>Surt America</option>
+                  <option>Antarctica</option>
+                  <option>Oceania</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group col-md-6">
+                <label>Country</label>
+                <select #inputStateFrom class="form-control">
+                  <option selected>Choose...</option>
+                  <option>..</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="setptD(inputStateFrom.value)"
+            data-dismiss="modal">Select</button>
         </div>
       </div>
     </div>
@@ -129,4 +286,52 @@
       </div>
     </div>
   </div>
+
+<!--
+<div class="modal fade" style="color:  rgb(90, 89, 89)" id="exampleModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select country</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <div class="form-group col-md-6">
+              <label for="inputState">Continent</label>
+              <select id="inputState" class="form-control">
+                <option selected>Choose...</option>
+                <option>Africa</option>
+                <option>Asia</option>
+                <option>Europe</option>
+                <option>Nort America</option>
+                <option>Surt America</option>
+                <option>Antarctica</option>
+                <option>Oceania</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group col-md-6">
+              <label>Country</label>
+              <select #inputStateFrom class="form-control">
+                <option selected>Choose...</option>
+                <option>..</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="setptD(inputStateFrom.value)"
+          data-dismiss="modal">Select</button>
+      </div>
+    </div>
+  </div>
 </div>
+-->

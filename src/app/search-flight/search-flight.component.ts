@@ -7,16 +7,67 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchFlightComponent implements OnInit {
 
-  country1:string="CountryExameple: Panama";
-  country2:string="CountryExameple: USA";
+  country1: string = "CountryExameple: Panama";
+  country2: string = "CountryExameple: USA";
 
   heroes = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
+
+  ptD: string = "Enter your point of departure ";
+  ptA: string = "Enter your point of arrival";
+
+  windowsSearch: boolean = true;
+  showModal: number = 0;
+  point: number = 0;
+  minDate="";
 
   constructor() { }
 
   ngOnInit() {
   }
 
- 
+  /**
+   * changeWindows
+   */
+  public changeWindows() {
+    this.windowsSearch = !this.windowsSearch;
+  }
 
+  /**
+   * setptD
+   * Selecciona el punto de partida 
+   */
+  public setptD(input: string) {
+    this.ptD = input;
+  }
+  /**
+   * setptA
+   * Selecciona el punto de llegada 
+   */
+  public setptA(input: string) {
+    this.ptA = input;
+  }
+
+  /**
+   * setMinDate
+   */
+  public setMinDate(mindate:string) {
+    this.minDate=mindate;
+    console.log(mindate);
+    
+  }
+
+
+  /**
+   * numModal
+   * 0: pointDeparture
+   * 1: pointArrival
+   * charModal
+   * 
+   */
+  public changeModal(numModal: number, charModal: number) {
+    if(numModal==0){
+      this.point = charModal;
+    }
+    this.showModal = numModal;    
+  }
 }
