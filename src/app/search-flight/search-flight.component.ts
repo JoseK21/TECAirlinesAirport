@@ -19,6 +19,8 @@ export class SearchFlightComponent implements OnInit {
   showModal: number = 0;
   point: number = 0;
   minDate="";
+  maxDate="";
+  showDateReturn:boolean=true;
 
   constructor() { }
 
@@ -38,6 +40,7 @@ export class SearchFlightComponent implements OnInit {
    */
   public setptD(input: string) {
     this.ptD = input;
+
   }
   /**
    * setptA
@@ -54,6 +57,20 @@ export class SearchFlightComponent implements OnInit {
     this.minDate=mindate;
     console.log(mindate);
     
+  }
+  /**
+   * setMaxDate
+   */
+  public setMaxDate(maxdate:string) {
+    this.maxDate=maxdate;
+    console.log(maxdate);
+  }
+
+  /**
+   * removeDateReturn
+   */
+  public removeDateReturn(check:boolean) {
+    this.showDateReturn=check;
   }
 
 

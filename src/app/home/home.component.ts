@@ -1,6 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { shouldCallLifecycleInitHook } from '@angular/core/src/view';
-import { delay } from 'q';
 
 @Component({
   selector: 'app-home',
