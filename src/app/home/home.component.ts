@@ -10,9 +10,9 @@ export class HomeComponent implements OnInit {
   registry: boolean = false;
   name: string = '';
   password: string = '';
-  v1: true;
-  v2: true;
+  validAdmin:number= 0;
   show_LI_SO:boolean=true; //Show Logn In : LO
+
   constructor() { }
 
   ngOnInit() {
@@ -64,4 +64,21 @@ export class HomeComponent implements OnInit {
     this.show_LI_SO=true; //Show Sign Out : SO
     this.sendCheck("false");
   }
+
+  /**
+   * registryAdmin
+   */
+  public registryAdmin(firstName:string,lastName:string,phone:string,email:string,password:string) {
+    if( firstName.trim()== "" ||lastName.trim()== ""||phone.trim()== ""||email.trim()== ""||password.trim()== "")  {
+      console.log("Error");
+      //No hacer nada       
+      this.validAdmin=2;  //Esta linea va abajo donde se espera la respuesta del servidor
+    }else{
+      console.log("Firtsname: "+firstName+" Lastname:"+lastName+" Phone:"+phone+" Email:" +email+" Password:"+password);
+      this.validAdmin=1;
+      // depende de la respuesta del servidor se asigna el valor de {validAdmin}
+    }
+  }
+
+
 }
