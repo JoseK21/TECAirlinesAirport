@@ -88,24 +88,16 @@
           <div class="col">
             <label>{{country1}}</label>
             <h3>Airport of origin</h3>
-            <select class="form-control">
-              <option>Airport 1</option>
-              <option>Airport 2</option>
-              <option>Airport 3</option>
-              <option>Airport 4</option>
-              <option>Airport 5</option>
+            <select class="form-control" >
+              <option *ngFor="let ad of airportDep" >{{ad}}</option>
             </select>
           </div>
           <div class="col">
             <label>{{country2}}</label>
             <h3>Arrival airport</h3>
-            <select class="form-control">
-              <option>Airport 1</option>
-              <option>Airport 2</option>
-              <option>Airport 3</option>
-              <option>Airport 4</option>
-              <option>Airport 5</option>
-            </select>
+            <select class="form-control" >
+                <option *ngFor="let aa of airportArr">{{aa}}</option>
+              </select>
           </div>
           <div class="col align-self-end">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
@@ -128,7 +120,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let hero of heroes; let i = index;">
+          <tr *ngFor="let hero of heroes">
             <th scope="row">i</th>
             <td>Costa Rica</td>
             <td>04:30pm</td>
@@ -292,52 +284,3 @@
       </div>
     </div>
   </div>
-
-<!--
-<div class="modal fade" style="color:  rgb(90, 89, 89)" id="exampleModal" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Select country</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <div class="form-group col-md-6">
-              <label for="inputState">Continent</label>
-              <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>Africa</option>
-                <option>Asia</option>
-                <option>Europe</option>
-                <option>Nort America</option>
-                <option>Surt America</option>
-                <option>Antarctica</option>
-                <option>Oceania</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="form-group col-md-6">
-              <label>Country</label>
-              <select #inputStateFrom class="form-control">
-                <option selected>Choose...</option>
-                <option>..</option>
-              </select>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="setptD(inputStateFrom.value)"
-          data-dismiss="modal">Select</button>
-      </div>
-    </div>
-  </div>
-</div>
--->

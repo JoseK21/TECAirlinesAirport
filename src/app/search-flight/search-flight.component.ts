@@ -11,6 +11,9 @@ export class SearchFlightComponent implements OnInit {
   country2: string = "CountryExameple: USA";
 
   heroes = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
+  airportDep = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+  airportArr = ['ast', 'ber', 'cax', 'det', 'ext', 'fas', 'gil', 'hou', 'ila', 'jor'];
+
 
   ptD: string = "Enter your point of departure ";
   ptA: string = "Enter your point of arrival";
