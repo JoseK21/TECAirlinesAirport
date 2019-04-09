@@ -55,8 +55,7 @@ export class SearchFlightComponent implements OnInit {
    */
   public setMinDate(mindate:string) {
     this.minDate=mindate;
-    console.log(mindate);
-    
+    console.log(mindate);    
   }
   /**
    * setMaxDate

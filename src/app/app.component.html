@@ -12,10 +12,6 @@
       aria-controls="searchFlight" aria-selected="false">Search Flight</a>
   </li>
   <li class="nav-item" *ngIf="options">
-    <a class="nav-link" id="bookFlight-tab" data-toggle="tab" href="#bookFlight" role="tab" aria-controls="bookFlight"
-      aria-selected="false">Book Flight</a>
-  </li>
-  <li class="nav-item" *ngIf="options">
     <a class="nav-link" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion"
       aria-selected="false">Promotion</a>
   </li>
@@ -48,7 +44,6 @@
   <div class="tab-pane fade" id="searchFlight" role="tabpanel" aria-labelledby="searchFlight-tab">
     <app-search-flight></app-search-flight>
    </div>
-  <div class="tab-pane fade" id="bookFlight" role="tabpanel" aria-labelledby="bookFlight-tab">...bookFlight</div>
   <div class="tab-pane fade" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
     <app-promotion></app-promotion>
   </div>
