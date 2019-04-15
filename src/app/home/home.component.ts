@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   // Este nombre :messageEvent es el nombre con que el otro componente sabe quien lo esta llamando
   @Output() messageEvent = new EventEmitter<string>();    
+  
 
   sendMessage() {
     this.messageEvent.emit(this.message)

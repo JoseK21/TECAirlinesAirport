@@ -1,33 +1,47 @@
 import { Component, OnInit } from '@angular/core';
+import { and } from '@angular/router/src/utils/collection';
+import { DatePipe, formatDate } from '@angular/common';
+
 
 @Component({
   selector: 'app-search-flight',
   templateUrl: './search-flight.component.html',
-  styleUrls: ['./search-flight.component.css']
+  styleUrls: ['./search-flight.component.css'],
+  providers: [DatePipe]
 })
 export class SearchFlightComponent implements OnInit {
-
-  country1: string = "CountryExameple: Panama";
-  country2: string = "CountryExameple: USA";
-
-  heroes = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
-  airportDep = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-  airportArr = ['ast', 'ber', 'cax', 'det', 'ext', 'fas', 'gil', 'hou', 'ila', 'jor'];
-
-
+  heroes = ['Magneta', 'Tornado'];
   ptD: string = "Enter your point of departure ";
   ptA: string = "Enter your point of arrival";
-
   windowsSearch: boolean = true;
   showModal: number = 0;
   point: number = 0;
-  minDate="";
-  maxDate="";
-  showDateReturn:boolean=true;
 
-  constructor() { }
+  options: boolean = true; //Change to false
+  enableSF: boolean = false;
+  dateNOW:string;
+  
+  typeFlight:boolean=false; // false : Round Class - true : One way
+  class3:boolean=false; // false : Bussiness Class - true : Economy Class
+  
+  constructor() {         
+   }
 
-  ngOnInit() {
+  ngOnInit() {   
+    this.dateNOW= formatDate(new Date(), 'yyyy-MM-dd', 'en');
+  }
+
+
+  receiveMessage($event) {
+    if (this.point == 0) {
+      this.ptD = $event;
+    } else if (this.point == 1) {
+      this.ptA = $event;
+    }
+    if(this.ptD!= "Enter your point of departure " && this.ptA!="Enter your point of arrival"){
+      this.enableSF=true;
+    }
+    
   }
 
   /**
@@ -35,6 +49,19 @@ export class SearchFlightComponent implements OnInit {
    */
   public changeWindows() {
     this.windowsSearch = !this.windowsSearch;
+    this.ptD="Enter your point of departure ";
+    this.ptA="Enter your point of arrival";
+    this.enableSF=false;
+   }
+  /**
+   * sendData
+   */
+  public sendData(date:string,adults:string,children:string,infacts:string) {
+    console.log("Departure : "+this.ptD+" Arrival: "+this.ptA);
+    
+    console.log("Date : "+date+" Adults: "+adults+" Clildren: "+children+" Infacts: "+infacts);    
+    this.changeWindows();
+    
   }
 
   /**
@@ -43,6 +70,7 @@ export class SearchFlightComponent implements OnInit {
    */
   public setptD(input: string) {
     this.ptD = input;
+    console.log(input);
 
   }
   /**
@@ -51,30 +79,8 @@ export class SearchFlightComponent implements OnInit {
    */
   public setptA(input: string) {
     this.ptA = input;
+    console.log(input);
   }
-
-  /**
-   * setMinDate
-   */
-  public setMinDate(mindate:string) {
-    this.minDate=mindate;
-    console.log(mindate);    
-  }
-  /**
-   * setMaxDate
-   */
-  public setMaxDate(maxdate:string) {
-    this.maxDate=maxdate;
-    console.log(maxdate);
-  }
-
-  /**
-   * removeDateReturn
-   */
-  public removeDateReturn(check:boolean) {
-    this.showDateReturn=check;
-  }
-
 
   /**
    * numModal
@@ -83,10 +89,30 @@ export class SearchFlightComponent implements OnInit {
    * charModal
    * 
    */
-  public changeModal(numModal: number, charModal: number) {
-    if(numModal==0){
+  public changeModal(numModal: number, charModal: number) { //CharModal: Input seleccionado
+    if (numModal == 0) {
       this.point = charModal;
     }
-    this.showModal = numModal;    
+    this.showModal = numModal;
+  }
+
+  /**
+   * changeCheck
+   */
+  public changeCheck(row:number,col:number) {
+    if(row==1){
+      if(col==1){
+        this.typeFlight=false;
+      }else{
+        this.typeFlight=true;
+      }
+    }else{
+      if(col==1){
+        this.class3=false;
+      }else{
+        this.class3=true;
+      }
+
+    }
   }
 }
