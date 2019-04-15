@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'TECAirlinesAirport';  
   n:string="";
   init:boolean=true;
-  options:boolean = false; //Change to false
+  options:boolean = true; //Change to false
   message:string;
 
   receiveMessage($event) {
