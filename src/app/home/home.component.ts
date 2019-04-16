@@ -101,6 +101,7 @@ export class HomeComponent implements OnInit {
    * registryAdmin : Change msg
    */
   public registryAdmin(firstName: string, lastName: string, phone: string, email: string, username: string, password: string , rol: string) {
+    this.showMessage=true;
     if (firstName.trim() == "" || lastName.trim() == "" || phone.trim() == "" || email.trim() == "" || username.trim() == "" || password.trim() == ""  || rol.trim() == "") {
       this.msj = "Warning! ";
       this.text = "Empty inputs ";
