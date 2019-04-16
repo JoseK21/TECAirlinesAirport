@@ -5,11 +5,11 @@
       <div class="form-row">
         <div class="col-md-6 mb-3">
           From(*)<button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,0)"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" value="Enter your point of departure ">{{ptD}}</button>
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >{{ptD}}</button>
         </div>
         <div class="col-md-6 mb-3">
           To(*)<button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,1)"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" value="Enter your point of arrival">{{ptA}}</button>
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >{{ptA}}</button>
         </div>
       </div>
       <div class="form-row">
@@ -96,7 +96,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <!--Modal 1-->
+    <!--Modal Select Airport-->
     <div class="modal-content" *ngIf="showModal==0">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Select Airport</h5>
@@ -108,12 +108,14 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
-    <!-- Modal 2-->
+    <!-- Modal Reservation-->
     <div class="modal-content" *ngIf="showModal==1">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
-        <button type="button" class="btn btn-outline-primary btn-sm " id="contenedorCuerpo" data-toggle="modal"
+        <!--
+          <button type="button" class="btn btn-outline-primary btn-sm " id="contenedorCuerpo" data-toggle="modal"
           data-target="#exampleModalSIGNUP" data-whatever="@mdo">Sign Up</button>
+        -->
       </div>
       <div class="modal-body">
         <app-reservation></app-reservation>
