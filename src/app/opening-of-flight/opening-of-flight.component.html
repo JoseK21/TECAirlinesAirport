@@ -1,3 +1,16 @@
 <div class="container">
+    <br>
+    <form>
+        Flight Id<input #id type="number" class="form-control" placeholder="Id" min="0" required> <br>
+        <button type="button" class="btn btn-primary btn-block" (click)="sendID(id.value)">Open</button>
+    </form>
+    <br>
+
+    <div class="alert alert-{{type}} alert-dismissible fade show" role="alert" *ngIf="openB==1">
+        <strong>{{state}}</strong>{{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="setStateMessage()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
 </div>
