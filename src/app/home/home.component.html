@@ -7,10 +7,10 @@
     <form>
       <div class="form-row justify-content-center">
         <div class="col-3 ">
-          <input #UN type="text" class="form-control" placeholder="Username" required >          
+          <input #UN type="text" class="form-control" placeholder="Username" required>
         </div>
         <div class="col-3 ">
-          <input #PW type="password" class="form-control" placeholder="Password" required>          
+          <input #PW type="password" class="form-control" placeholder="Password" required>
         </div>
       </div>
       <br>
@@ -27,23 +27,21 @@
             Up</button>
         </div>
       </div>
-
     </form>
   </div>
 
   <div *ngIf="!show_LI_SO" class="align-self-center">
     <form>
-      <!--SALIR-->
+      <!--SALIR: Sign Out-->
+      <h3>Account: {{name}}</h3>
       <div class="row justify-content-center">
         <div class="col-5">
           <button class="btn btn-dark btn-block" (click)="SignIn()" type="button">Sign
             Out</button>
         </div>
       </div>
-
     </form>
   </div>
-
   <br>
 </div>
 <!-- Large modal Sign Up-->
@@ -57,7 +55,6 @@
             <img src="assets/admin2.svg" alt="">
           </div>
           <div class="col-1"></div>
-          <!--Space-->
           <div class="col align-self-center">
             <form>
               <div class="form-group">
@@ -65,8 +62,8 @@
                   <div class="col-5">
                     Full name<input #FN type="text" class="form-control" placeholder="First name" required>
                   </div>
-                  <div class="col-5">
-                    <input #LN type="text" class="form-control" placeholder="Last name" required>                    
+                  <div class="col-5 align-self-end">
+                    <input #LN type="text" class="form-control" placeholder="Last name" required>
                   </div>
                 </div>
                 <div class="form-row ">
@@ -79,19 +76,24 @@
                     E-mail <input #E type="email" class="form-control" required>
                   </div>
                   <div class="col-5">
-                    Password <input #PW type="text" class="form-control" required>
-                    <div class="invalid-feedback">
-                      Please write a password
+                      Rol <input #Ro type="text" class="form-control" required>
                     </div>
+                </div>
+                <div class="form-row ">
+                  <div class="col-5">
+                    Username <input #US type="text" class="form-control" required>
+                  </div>
+                  <div class="col-5">
+                    Password <input #PW type="text" class="form-control" required>
                   </div>
                 </div>
                 <br>
                 <div class="form-row ">
                   <div class="col-10">
                     <button class="btn btn-success btn-block"
-                      (click)="registryAdmin(FN.value,LN.value,P.value,E.value,PW.value)" type="submit">Sign Up</button>
+                      (click)="registryAdmin(FN.value,LN.value,P.value,E.value,US.value,PW.value,Ro.value)" type="button">Sign
+                      Up</button>
                   </div>
-
                 </div>
               </div>
             </form>
@@ -99,21 +101,18 @@
         </div>
       </div>
 
+      <!--Message of input valided-->
       <div class="modal-footer">
-        <div style="margin:0 auto;" *ngIf="validAdmin==1" class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Success!</strong> Administrator account created successfully.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div style="margin:0 auto;" *ngIf="validAdmin==2" class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Error!</strong> Email associated with another account
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <div style="margin:0 auto;" *ngIf="showMessage" class="alert alert-{{type}} alert-dismissible fade show"
+          role="alert">
+          <strong>{{msj}}</strong>{{text}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+
     </div>
   </div>
 </div>
