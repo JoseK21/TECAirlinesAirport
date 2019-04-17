@@ -11,6 +11,7 @@ import { ServiceService } from '../service.service';
   providers: [DatePipe]
 })
 export class SearchFlightComponent implements OnInit {
+  airport = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
   heroes = ['Magneta', 'Tornado'];
   ptD: string = "Enter your point of departure ";
   ptA: string = "Enter your point of arrival";
@@ -20,16 +21,31 @@ export class SearchFlightComponent implements OnInit {
 
   options: boolean = true; //Change to false
   enableSF: boolean = false;
-  dateNOW:string;
-  
-  typeFlight:boolean=false; // false : Round Class - true : One way
-  class3:boolean=false; // false : Bussiness Class - true : Economy Class
-  
-  constructor(private service: ServiceService) {         
-   }
+  dateNOW: string;
 
-  ngOnInit() {   
-    this.dateNOW= formatDate(new Date(), 'yyyy-MM-dd', 'en');
+  typeFlight: boolean = false; // false : Round Class - true : One way
+  class3: boolean = false; // false : Bussiness Class - true : Economy Class
+
+  airportSelected: string = "";
+  airportLoadApi: boolean = false;
+  airportLoadCorrect: boolean = false;
+
+  // Variables to need load with info of Data Base
+  ap_name = [];
+  ap_short_name = [];
+
+  //Variables to send in Reservation
+  s_flight_Id: string = "";
+  s_type: string = "";
+  s_is_first_class: boolean = false;
+  s_people_flying: number = 0;
+  s_username: string = "";
+
+  constructor(private service: ServiceService) {
+  }
+
+  ngOnInit() {
+    this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
 
@@ -39,10 +55,18 @@ export class SearchFlightComponent implements OnInit {
     } else if (this.point == 1) {
       this.ptA = $event;
     }
-    if(this.ptD!= "Enter your point of departure " && this.ptA!="Enter your point of arrival"){
-      this.enableSF=true;
+    if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
+      this.enableSF = true;
     }
-    
+
+  }
+
+  /**
+ * setAirport
+ */
+  public setAirport(airport: string) {
+    this.airportSelected = airport;
+    this.ptD = airport;
   }
 
   /**
@@ -50,19 +74,30 @@ export class SearchFlightComponent implements OnInit {
    */
   public changeWindows() {
     this.windowsSearch = !this.windowsSearch;
-    this.ptD="Enter your point of departure ";
-    this.ptA="Enter your point of arrival";
-    this.enableSF=false;
-   }
+    this.ptD = "Enter your point of departure ";
+    this.ptA = "Enter your point of arrival";
+    this.enableSF = false;
+    this.typeFlight=false;
+    this.class3=false;
+  }
+
   /**
    * sendData
    */
-  public sendData(date:string,adults:string,children:string,infacts:string) {
-    console.log("Departure : "+this.ptD+" Arrival: "+this.ptA);
+  public sendData(date: string, adults: number, children: number, infacts: number) {
+    if(!this.typeFlight){ // False
+      this.s_type="Ida y Vuelta";
+    }else{
+      this.s_type="Solo Ida";
+    }
+    this.s_is_first_class=!this.class3;  
+
+   this.s_people_flying= Number(adults)+Number(children)+Number(infacts);
+
     
-    console.log("Date : "+date+" Adults: "+adults+" Clildren: "+children+" Infacts: "+infacts);    
-    this.changeWindows();
-    
+    console.log("<Import datas>\n"+ " type: "+this.s_type+ " is_first_class: "+this.s_is_first_class+ " people_flying: "+this.s_people_flying);
+     this.changeWindows();
+
   }
 
   /**
@@ -70,8 +105,14 @@ export class SearchFlightComponent implements OnInit {
    * Selecciona el punto de partida 
    */
   public setptD(input: string) {
-    this.ptD = input;
-    console.log(input);
+    if (input.trim().length > 0) {
+      this.ptD = input;
+      console.log(input);
+    }
+    if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
+      this.enableSF = true;
+    }
+
 
   }
   /**
@@ -79,8 +120,46 @@ export class SearchFlightComponent implements OnInit {
    * Selecciona el punto de llegada 
    */
   public setptA(input: string) {
-    this.ptA = input;
-    console.log(input);
+    if (input.trim().length > 0) {
+      this.ptA = input;
+      console.log(input);
+    }
+    if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
+      this.enableSF = true;
+    }
+  }
+
+  /**
+   * getAirport
+   */
+  public getAirport() {
+    if (!this.airportLoadApi) {
+      // COLSULTA A LA BASE
+      console.log("Load Airport");
+      this.airportLoadApi = true; // QUITAR LUEGO QUE SE OBTIENE TODO BIEN DE LA BASE
+      this.service.getAirports().subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer);
+        console.log(JSON.parse(userStr));
+        JSON.parse(userStr, (key, value) => {
+          if (key === 'http_result') {
+            this.airportLoadCorrect = value;
+            this.airportLoadApi = true;
+            console.log(value);
+          }
+          if (this.airportLoadCorrect) {
+            if (key === 'ap_name') {
+              console.log('ap_name :' + value);
+              this.ap_name = value;
+            }
+            if (key === 'ap_short_name') {
+              console.log('ap_short_name :' + value);
+              this.ap_short_name = value;
+            }
+          }
+        });
+      });
+
+    }
   }
 
   /**
@@ -95,25 +174,41 @@ export class SearchFlightComponent implements OnInit {
       this.point = charModal;
     }
     this.showModal = numModal;
+    //     this.getAirport();  // Load the airport from the Data Base
   }
 
   /**
    * changeCheck
    */
-  public changeCheck(row:number,col:number) {
-    if(row==1){
-      if(col==1){
-        this.typeFlight=false;
-      }else{
-        this.typeFlight=true;
-      }
-    }else{
-      if(col==1){
-        this.class3=false;
-      }else{
-        this.class3=true;
-      }
+  public changeCheck(row: number, col: number) {
+    console.log("<<<<<<<<<<<<<<<<<<<<<Eliminar metodo changeCheck>>>>>>>>>>>>>>>>>>>>>>>>");
+    
+  }
 
+
+  /**
+   * changeWay
+   */
+  public changeWay(s:string) {
+    if(s=='R'){
+      this.typeFlight = false;
+      console.log("Round Trip");
+    }else if(s=='O'){
+      this.typeFlight = true;
+      console.log("One way");
+    }
+  }
+
+   /**
+   * changeClass
+   */
+  public changeClass(s:string) {
+    if(s=='B'){
+      this.class3 = false;
+      console.log("Business Class");
+    }else if(s=='E'){
+      this.class3 = true;
+      console.log("Economy Class ");
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Admin } from './interfaces/admin';
 import { CCard } from './interfaces/ccard';
 import { Customer } from './interfaces/customer';
@@ -17,20 +17,20 @@ const httpOptions = {
 export class ServiceService {
 
   private api = 'http://localhost:5000/tecairlines/';
-  
+
 
   constructor(private http: HttpClient) { }
 
   // Component Home
   logIn(jsonData) {
-    console.log("Data sent: "); 
-    console.log(jsonData);    
+    console.log("Data sent: ");
+    console.log(jsonData);
     const path = `${this.api}admin/login`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
   createAdmin(admin: Admin) {
-    console.log("Data sent: "); 
+    console.log("Data sent: ");
     console.log(admin);
     const path = `${this.api}admin/signup`;
     return this.http.post(path, "'" + JSON.stringify(admin) + "'", httpOptions);
@@ -38,17 +38,23 @@ export class ServiceService {
 
   // Component Sign Up
   createCustomer(customer: Customer) {
-    console.log("Data sent: "); 
+    console.log("Data sent: ");
     console.log(customer);
     const path = `${this.api}signup`;
     return this.http.post(path, "'" + JSON.stringify(customer) + "'", httpOptions);
   }
 
+  // Component Search Flight
+  getAirports() {
+    const path = `${this.api}admin/airports`;
+    return this.http.get(path);
+  }
+
 
   //Closure a Flight
   closeID(id) {
-    console.log("Data sent: "); 
-    console.log(id);    
+    console.log("Data sent: ");
+    console.log(id);
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
   }

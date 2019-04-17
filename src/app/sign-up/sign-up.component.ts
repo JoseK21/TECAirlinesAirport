@@ -60,7 +60,6 @@ export class SignUpComponent implements OnInit {
           student_id: c, username: un, password: pw,
         };
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-
           const userStr = JSON.stringify(jsonTransfer);
           console.log(JSON.parse(userStr));
           JSON.parse(userStr, (key, value) => {

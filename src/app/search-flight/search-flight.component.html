@@ -4,12 +4,12 @@
     <form>
       <div class="form-row">
         <div class="col-md-6 mb-3">
-          From(*)<button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,0)"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >{{ptD}}</button>
+          From(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,0);getAirport()"
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">{{ptD}}</button>
         </div>
         <div class="col-md-6 mb-3">
-          To(*)<button type="button" class="btn btn-outline-info btn-block" (click)="changeModal(0,1)"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" >{{ptA}}</button>
+          To(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,1); getAirport()"
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">{{ptA}}</button>
         </div>
       </div>
       <div class="form-row">
@@ -21,18 +21,21 @@
         <br>
         <div class="col-md-2 mb-3 ">
           <div class="form-check ">
-            <input class="form-check-input" type="radio" name="r1" id="inlineR11" (click)="changeCheck(1,1)" checked>Round Trip
+            <input class="form-check-input" type="radio" name="r1" id="inlineR11" (click)="changeWay('R')"
+              checked>Round Trip
           </div>
           <div class="form-check ">
-            <input class="form-check-input" type="radio" name="r2" id="inlineR21" (click)="changeCheck(1,2)" checked>Business Class
+            <input class="form-check-input" type="radio" name="r2" id="inlineR21" (click)="changeClass('B')"
+              checked>Business Class
           </div>
         </div>
         <div class="col-md-2 mb-3 ">
           <div class="form-check ">
-            <input class="form-check-input" type="radio" name="r1" id="inlineR12" (click)="changeCheck(2,1)" >One way
+            <input class="form-check-input" type="radio" name="r1" id="inlineR12" (click)="changeWay('O')">One way
           </div>
           <div class="form-check ">
-            <input class="form-check-input" type="radio" name="r2" id="inlineR22" (click)="changeCheck(2,2)">Economy Class
+            <input class="form-check-input" type="radio" name="r2" id="inlineR22" (click)="changeClass('E')">Economy
+            Class
           </div>
         </div>
         <div class="col-md-8 mb-5">
@@ -49,8 +52,9 @@
           </div>
         </div>
       </div>
-      <button [disabled]="!enableSF" class="btn btn-primary btn-block" (click)="sendData(Date.value,Adult.value,Children.value,Infants.value)" type="button">Submit
-        form</button>
+      <!--PONER ! EN !enableSF-->
+      <button [disabled]="enableSF" class="btn btn-primary btn-block"
+        (click)="sendData(Date.value,Adult.value,Children.value,Infants.value)" type="button">Submit form</button>
     </form>
     <br>
   </div>
@@ -102,7 +106,19 @@
         <h5 class="modal-title" id="exampleModalLabel">Select Airport</h5>
       </div>
       <div class="modal-body">
-        <app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>
+        <!--<app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>-->
+        <form>
+          <div class="form-group">
+            Airport
+            <select #selection id="inputState" class="form-control" size="10">
+              <option *ngFor="let ap of airport">{{ap}}</option>
+            </select><br>
+            <button *ngIf="point==0" type="button" (click)="setptD(selection.value)"
+              class="btn btn-outline-success btn-block" data-dismiss="modal">Select</button>
+            <button *ngIf="point==1" type="button" (click)="setptA(selection.value)"
+              class="btn btn-outline-success btn-block" data-dismiss="modal">Select</button>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
