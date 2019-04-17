@@ -91,17 +91,19 @@ export class HomeComponent implements OnInit {
       const json = { full_name: fn, phone_numbr: pn, email: em, username: un, password: pw, role: ro, };
       this.service.createAdmin(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer);
-        console.log(JSON.parse(userStr));
-        JSON.parse(userStr, (key, value) => {
+        JSON.parse(JSON.parse(userStr), (key, value) => {
+
+          if (key === 'msg') {
+            this.msjAPI = value;
+          }
+
           if (key === 'http_result') {
             console.log(value);
             if (value == 1) {//todo bien
-              this.editAlert("Success! ", "Account created ", "success", 2);
+              this.editAlert("Success! ", this.msjAPI, "success", 2);
             } else {
-              this.editAlert("Error! ", "This username is used", "danger", 2);
+              this.editAlert("Error! ", this.msjAPI, "danger", 2);
             }
-          } else {
-            alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
           }
         });
       });
@@ -176,7 +178,9 @@ export class HomeComponent implements OnInit {
 
     JSON.parse(userStr, (key, value) => {
       console.log(key);
-
+      if (key === 'msg') {
+        console.log(value);
+      }
       if (key === 'http_result') {
         console.log(value);
       }
