@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-flight-closure',
@@ -12,7 +13,7 @@ export class FlightClosureComponent implements OnInit {
   openB:number=0;
   type:string="";
 
-  constructor() { }
+  constructor(private service: ServiceService) { }
 
   ngOnInit() {
   }
@@ -29,6 +30,9 @@ export class FlightClosureComponent implements OnInit {
    */
   public sendID(id:number) {
     console.log("ID : "+id);   
+
+
+
     // Consuta    
     if(id==1){     
       this.openB=1;
@@ -44,4 +48,12 @@ export class FlightClosureComponent implements OnInit {
       this.openB=0;
     }
   }
+
+  public closeID(id: string) {
+    
+    this.service.closeID(id).subscribe((jsonTransfer) => {
+      console.log(jsonTransfer);
+    });
+  }
+
 }

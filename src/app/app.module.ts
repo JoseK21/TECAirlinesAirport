@@ -12,7 +12,6 @@ import { SearchFlightComponent } from './search-flight/search-flight.component';
 import { PromotionComponent } from './promotion/promotion.component';
 import { PassegerCheckComponent } from './passeger-check/passeger-check.component';
 import { RegisterFlightComponent } from './register-flight/register-flight.component';
-import { OpeningOfFlightComponent } from './opening-of-flight/opening-of-flight.component';
 import { FlightClosureComponent } from './flight-closure/flight-closure.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { AirportComponent } from './airport/airport.component';
@@ -27,7 +26,6 @@ import { AirportComponent } from './airport/airport.component';
     PromotionComponent,
     PassegerCheckComponent,
     RegisterFlightComponent,
-    OpeningOfFlightComponent,
     FlightClosureComponent,
     ReservationComponent,
     AirportComponent,

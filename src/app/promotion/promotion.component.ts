@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-promotion',
@@ -10,7 +11,7 @@ export class PromotionComponent implements OnInit {
   img:any="assets/image1200400.jpg";
   dateNOW:string;
   dateMIN:string;
-  constructor() { }
+  constructor(private service: ServiceService) { }
 
   ngOnInit() {   
     this.dateNOW= formatDate(new Date(), 'yyyy-MM-dd', 'en');

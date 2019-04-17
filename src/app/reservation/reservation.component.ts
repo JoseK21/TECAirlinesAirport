@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-reservation',
@@ -9,7 +10,7 @@ export class ReservationComponent implements OnInit {
   userCheck:boolean=false;
   userName:string="";
 
-  constructor() { }
+  constructor(private service: ServiceService) { }
 
   ngOnInit() {
   }

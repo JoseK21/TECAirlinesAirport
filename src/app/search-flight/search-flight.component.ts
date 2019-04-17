@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { and } from '@angular/router/src/utils/collection';
 import { DatePipe, formatDate } from '@angular/common';
+import { ServiceService } from '../service.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class SearchFlightComponent implements OnInit {
   typeFlight:boolean=false; // false : Round Class - true : One way
   class3:boolean=false; // false : Bussiness Class - true : Economy Class
   
-  constructor() {         
+  constructor(private service: ServiceService) {         
    }
 
   ngOnInit() {   

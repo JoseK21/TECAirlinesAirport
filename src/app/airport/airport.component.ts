@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-airport',
@@ -12,7 +13,7 @@ export class AirportComponent implements OnInit {
   showAp: boolean = true;
   airportSelected: string = ""; 
   
-  constructor() { }
+  constructor(private service: ServiceService) { }
 
   ngOnInit() {    
   }

@@ -16,7 +16,7 @@ const httpOptions = {
 })
 export class ServiceService {
 
-  private api = 'http://localhost:5000/tecairlines/admin/';
+  private api = 'http://localhost:5000/tecairlines/';
   
 
   constructor(private http: HttpClient) { }
@@ -25,17 +25,33 @@ export class ServiceService {
   logIn(jsonData) {
     console.log("Data sent: "); 
     console.log(jsonData);    
-    const path = `${this.api}login/${jsonData}`;
-    return this.http.get<Admin>(path);
+    const path = `${this.api}admin/login`;
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
   createAdmin(admin: Admin) {
     console.log("Data sent: "); 
     console.log(admin);
-    const path = `${this.api}signup`;
+    const path = `${this.api}admin/signup`;
     return this.http.post(path, "'" + JSON.stringify(admin) + "'", httpOptions);
   }
 
+  // Component Sign Up
+  createCustomer(customer: Customer) {
+    console.log("Data sent: "); 
+    console.log(customer);
+    const path = `${this.api}signup`;
+    return this.http.post(path, "'" + JSON.stringify(customer) + "'", httpOptions);
+  }
+
+
+  //Closure a Flight
+  closeID(id) {
+    console.log("Data sent: "); 
+    console.log(id);    
+    const path = `${this.api}admin/close/${id}`;
+    return this.http.put(path, "'" + id + "'", httpOptions);
+  }
 
   /*
 getAllCliente() {

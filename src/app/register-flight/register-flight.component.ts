@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-register-flight',
@@ -12,7 +13,7 @@ export class RegisterFlightComponent implements OnInit {
   point: number = 0;
   dateNOW:string;
   dateMIN:string;
-  constructor() { }
+  constructor(private service: ServiceService) { }
 
   ngOnInit() {
     this.dateNOW= formatDate(new Date(), 'yyyy-MM-dd', 'en');

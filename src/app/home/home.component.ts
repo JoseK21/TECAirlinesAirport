@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
    * setStatusRegistry
    */
   public setStatusRegistry(un: string, pw: string) {
+
     if ((un.length && pw.length) > 0) {
       this.registry = true;
       this.name = un;   // No recuerdo porque se guardan estas variables, sino eliminar
@@ -55,6 +56,7 @@ export class HomeComponent implements OnInit {
    * @param pw password
    */
   public logIn(un: string, pw: string) {
+    this.name = un;  
     const json = {
       password: pw,
       username: un,
@@ -76,7 +78,7 @@ export class HomeComponent implements OnInit {
       password: pw,
       role: ro,
     };
-    this.service.logIn(json).subscribe((jsonTransfer) => {
+    this.service.createAdmin(json).subscribe((jsonTransfer) => {
       console.log(jsonTransfer);
     });
   }
@@ -86,7 +88,6 @@ export class HomeComponent implements OnInit {
    */
   public signOut() {
     this.show_LI_SO = false; //Show Sign Out : SO
-    this.name = "";
   }
 
   /**
@@ -101,7 +102,7 @@ export class HomeComponent implements OnInit {
    * registryAdmin : Change msg
    */
   public registryAdmin(firstName: string, lastName: string, phone: string, email: string, username: string, password: string , rol: string) {
-    this.showMessage=true;
+    
     if (firstName.trim() == "" || lastName.trim() == "" || phone.trim() == "" || email.trim() == "" || username.trim() == "" || password.trim() == ""  || rol.trim() == "") {
       this.msj = "Warning! ";
       this.text = "Empty inputs ";
