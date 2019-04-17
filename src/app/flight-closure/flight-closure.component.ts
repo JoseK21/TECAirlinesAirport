@@ -31,7 +31,7 @@ export class FlightClosureComponent implements OnInit {
   public sendID(id:number) {
     console.log("ID : "+id);   
 
-
+    this.closeID(id);
 
     // Consuta    
     if(id==1){     
@@ -49,10 +49,9 @@ export class FlightClosureComponent implements OnInit {
     }
   }
 
-  public closeID(id: string) {
-    
+  public closeID(id: number) {    
     this.service.closeID(id).subscribe((jsonTransfer) => {
-      console.log(jsonTransfer);
+      console.log("Dato a usar para hacer compraciones : "+jsonTransfer);
     });
   }
 

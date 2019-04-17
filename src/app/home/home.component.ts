@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   type: string = "";
   showMessage: boolean = false;
 
+  showMessageErrorLogin: boolean = false;
+
   constructor(private service: ServiceService) { }
 
   ngOnInit() {
@@ -38,15 +40,10 @@ export class HomeComponent implements OnInit {
    */
   public setStatusRegistry(un: string, pw: string) {
 
-    if ((un.length && pw.length) > 0) {
-      this.registry = true;
-      this.name = un;   // No recuerdo porque se guardan estas variables, sino eliminar
-      this.password = pw;  // No recuerdo porque se guardan estas variables, sino eliminar
-
+    if (un.length > 0 && pw.length > 0) {
       this.logIn(un, pw);
-      // Aqui hacer la validacion del resultado de la consulta : show_LI_SO y registry
-      this.sendCheck("true");
-      this.signOut();
+    } else {
+      this.editAlert("Warning! ", "Empty inputs", "warning",1);
     }
   }
 
@@ -55,15 +52,48 @@ export class HomeComponent implements OnInit {
    * @param un username
    * @param pw password
    */
-  public logIn(un: string, pw: string) {
-    this.name = un;  
+  private logIn(un: string, pw: string) {
+
+    this.editAlert("Error! ", "Username or password wrong", "danger", 1); // EXAMPLE
     const json = {
       password: pw,
       username: un,
     };
     this.service.logIn(json).subscribe((jsonTransfer) => {
+      if (jsonTransfer == 'error') {  //Username or password wrong
+        this.editAlert("Error! ", "Username or password wrong", "danger", 1);
+      } else {  // All is correct
+        this.registry = true;
+        this.name = un;
+        this.sendCheck("true");
+        this.signOut();
+      }
       console.log(jsonTransfer);
     });
+  }
+
+  /**
+   * editAlert
+   */
+  public editAlert(msg: string, text: string, type: string, numAlert: number) {
+    if (numAlert == 1) {
+      this.showMessageErrorLogin = true;
+      this.showMessage = false;
+    } else if (numAlert == 2) {
+      this.showMessageErrorLogin = false;
+      this.showMessage = true;
+    }
+
+    this.msj = msg;
+    this.text = text;
+    this.type = type;
+  }
+
+  /**
+   * changeModeShow
+   */
+  public changeModeShow() {
+    this.showMessageErrorLogin = false;
   }
 
   /**
@@ -101,27 +131,21 @@ export class HomeComponent implements OnInit {
   /**
    * registryAdmin : Change msg
    */
-  public registryAdmin(firstName: string, lastName: string, phone: string, email: string, username: string, password: string , rol: string) {
-    
-    if (firstName.trim() == "" || lastName.trim() == "" || phone.trim() == "" || email.trim() == "" || username.trim() == "" || password.trim() == ""  || rol.trim() == "") {
-      this.msj = "Warning! ";
-      this.text = "Empty inputs ";
-      this.type = "warning";
+  public registryAdmin(firstName: string, lastName: string, phone: string, email: string, username: string, password: string, rol: string) {
+
+    if (firstName.trim() == "" || lastName.trim() == "" || phone.trim() == "" || email.trim() == "" || username.trim() == "" || password.trim() == "" || rol.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 2);
     } else {
       //Consulta al services : username
 
-      this.createAdmin(firstName+" "+lastName,phone,email,username,password,rol);
+      this.createAdmin(firstName + " " + lastName, phone, email, username, password, rol);
 
       if (username == 'a') {
-        this.msj = "Success! ";
-        this.text = "Account created ";
-        this.type = "success";
+        this.editAlert("Success! ", "Account created ", "success", 2);
       } else {
-        this.msj = "Error! ";
-        this.text = "This username is used ";
-        this.type = "danger";
+        this.editAlert("Error! ", "This username is used", "danger", 2);
       }
-      console.log("Firtsname: " + firstName + " Lastname:" + lastName + " Phone:" + phone + " Email:" + email + " Rol:" + rol + " Username:" + username + " Password:" + password ); 
+      console.log("Firtsname: " + firstName + " Lastname:" + lastName + " Phone:" + phone + " Email:" + email + " Rol:" + rol + " Username:" + username + " Password:" + password);
     }
     this.showMessage = true;
   }
