@@ -17,7 +17,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
   }
   /**
-   * checkStudent Cambio de condición : estudiante o no
+   * checkStudent Change condition Student 
    */
   public checkStudent() {
     this.isStudent = !this.isStudent ;   

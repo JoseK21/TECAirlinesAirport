@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * registryAdmin : Change msg
+   * registryAdmin Create account a Admin
    */
   public registryAdmin(fn: string, pn: string, em: string, un: string, pw: string, ro: string) {
     if (fn.trim() == "" || pn.trim() == "" || em.trim() == "" || un.trim() == "" || pw.trim() == "" || ro.trim() == "") {
