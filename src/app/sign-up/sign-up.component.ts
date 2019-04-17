@@ -7,55 +7,98 @@ import { ServiceService } from '../service.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-
-  n: number = 0;
   isStudent: boolean = false;
-  fullName: string = "";
+  msj: string = "";
+  text: string = "";
+  type: string = "";
+  showMessage: boolean = false;
   constructor(private service: ServiceService) { }
 
   ngOnInit() {
   }
-
-  public checkStudent() {
-    if (this.n == 0) {
-      this.n = 1;
-      this.isStudent = true;
-    } else {
-      this.n = 0;
-      this.isStudent = false;
-    }
-  }
-
   /**
-   * signUP
+   * checkStudent Cambio de condición : estudiante o no
    */
-  public signUP(firtsName: string, lastName: string, universityName: string, carnet: number, email: string, phone: string, userName: string, password: string) {
-    this.fullName = firtsName + " " + lastName;
-    if (this.n) {
-      console.log("Student : " + universityName + ">" + carnet + " ");
-    }
-    console.log(this.fullName + ">" + phone + ">" + userName + ">" + password);
-
-    this.createCustomer(firtsName,lastName,universityName,carnet,email,phone,userName,password);
+  public checkStudent() {
+    this.isStudent = !this.isStudent ;   
   }
-
   /**
-   * createAdmin
+   * createCustomer Creación de cuenta de Admin
    */
   public createCustomer(fn: string, ln: string, uvn: string, c: number, e: string, p: string, un: string, pw: string) {
-    const json = {
-      full_name: fn + " " + ln,
-      phone_numbr: p,
-      email: e,
-      is_student: this.isStudent,
-      college_name: uvn,
-      student_id: c,
-      username: un,
-      password: pw,
-    };
-    console.log(":> " + json);
-    this.service.createCustomer(json).subscribe((jsonTransfer) => {
-      console.log(jsonTransfer);
-    });
+
+    console.log("Inside");
+
+    if(this.isStudent){
+      if ((fn.trim().length == 0 || ln.trim().length == 0 || uvn.trim().length == 0 || c<= 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+  
+      } else {
+        this.editAlert("Success! ", "Account created", "success");
+        const json = {
+          full_name: fn + " " + ln,
+          phone_numbr: p,
+          email: e,
+          is_student: this.isStudent,
+          college_name: uvn,
+          student_id: c,
+          username: un,
+          password: pw,
+        };
+        console.log(":> " + json);
+        this.service.createCustomer(json).subscribe((jsonTransfer) => {
+  
+          if (jsonTransfer == 'error') {
+            this.editAlert("Error! ", "Username used", "danger");
+          } else {
+            this.editAlert("Success! ", "Account created", "success");
+          }
+          console.log(jsonTransfer);
+        });
+      }
+    }else{
+      if ((fn.trim().length == 0 || ln.trim().length == 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+  
+      } else {
+        this.editAlert("Success! ", "Account created", "success");
+        const json = {
+          full_name: fn + " " + ln,
+          phone_numbr: p,
+          email: e,
+          is_student: this.isStudent,
+          college_name: uvn,
+          student_id: c,
+          username: un,
+          password: pw,
+        };
+        console.log(":> " + json);
+        this.service.createCustomer(json).subscribe((jsonTransfer) => {
+  
+          if (jsonTransfer == 'error') {
+            this.editAlert("Error! ", "Username used", "danger");
+          } else {
+            this.editAlert("Success! ", "Account created", "success");
+          }
+          console.log(jsonTransfer);
+        });
+      }
+    }
+  }
+  /**
+   * editAlert
+   */
+  public editAlert(msg: string, text: string, type: string) {
+    this.showMessage = true;
+    this.msj = msg;
+    this.text = text;
+    this.type = type;
+  }
+
+  /**
+   * changeModeShow
+   */
+  public changeModeShow() {
+    this.showMessage = false;
   }
 }

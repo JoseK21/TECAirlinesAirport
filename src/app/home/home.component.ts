@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
   text: string = "";
   type: string = "";
   showMessage: boolean = false;
-
   showMessageErrorLogin: boolean = false;
 
   constructor(private service: ServiceService) { }
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
     if (un.length > 0 && pw.length > 0) {
       this.logIn(un, pw);
     } else {
-      this.editAlert("Warning! ", "Empty inputs", "warning",1);
+      this.editAlert("Warning! ", "Empty inputs", "warning", 1);
     }
   }
 
@@ -53,8 +52,6 @@ export class HomeComponent implements OnInit {
    * @param pw password
    */
   private logIn(un: string, pw: string) {
-
-    this.editAlert("Error! ", "Username or password wrong", "danger", 1); // EXAMPLE
     const json = {
       password: pw,
       username: un,
@@ -69,7 +66,13 @@ export class HomeComponent implements OnInit {
         this.signOut();
       }
       console.log(jsonTransfer);
+      
     });
+    // Quitar cuando se verifique correctamente el usuario 
+    this.registry = true;
+    this.name = un;
+    this.sendCheck("true");
+    this.signOut();
   }
 
   /**
@@ -83,7 +86,6 @@ export class HomeComponent implements OnInit {
       this.showMessageErrorLogin = false;
       this.showMessage = true;
     }
-
     this.msj = msg;
     this.text = text;
     this.type = type;

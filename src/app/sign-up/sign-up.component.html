@@ -1,63 +1,74 @@
 <div class="container">
   <br>
   <form>
-  <div class="form-row align-items-center">
-    <div class="col-3 align-self-center">
-      <img src="assets/users.svg" alt="">
-    </div>
-    <div class="col-1">
-    </div>
-    <div class="col align-self-center">
-      <div class="form-group">
-        Full name
+    <div class="form-row align-items-center">
+      <div class="col-3 align-self-center">
+        <img src="assets/users.svg" alt="">
+      </div>
+      <div class="col-1">
+      </div>
+      <div class="col align-self-center">
+        <div class="form-group">
+          Full name
+          <div class="form-row">
+            <div class="col-4">
+              <input #FN type="text" class="form-control" placeholder="First name" required>
+            </div>
+            <div class="col-4">
+              <input #LN type="text" class="form-control" placeholder="Last name" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-check">
+          <input #IS class="form-check-input" type="checkbox" id="gridCheck" (click)="checkStudent()">I'm a Student
+        </div>
+        <div class="form-group" [hidden]="!isStudent">
+          <div class="form-row">
+            <div class="col-4">
+              University's name<input #UVN type="text" class="form-control" required>
+            </div>
+            <div class="col-4">
+              Carnet <input #C type="number" class="form-control" min="0" value="0" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-row ">
+          <div class="col-4">
+            E-mail <input #EM type="email" class="form-control" required>
+          </div>
+          <div class="col-4">
+            Phone <input #P type="text" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-row ">
+          <div class="col-4">
+            Username <input #UN type="text" class="form-control" required>
+          </div>
+          <div class="col-4">
+            Password <input #PW type="text" class="form-control" required>
+          </div>
+        </div>
+        <br>
         <div class="form-row">
-          <div class="col-4">
-            <input #FN type="text" class="form-control" placeholder="First name" required>
-          </div>
-          <div class="col-4">
-            <input #LN type="text" class="form-control" placeholder="Last name" required>
-          </div>
-        </div>
-      </div>
-      <div class="form-check">
-        <input #IS class="form-check-input" type="checkbox" id="gridCheck" (click)="checkStudent()">I'm a Student
-      </div>
-      <div class="form-group" [hidden]="n==0">
-        <div class="form-row">
-          <div class="col-4">
-            University's name<input #UVN type="text" class="form-control" required>
-          </div>
-          <div class="col-4">
-            Carnet <input #C type="text" class="form-control" required>
+          <div class="col-8" *ngIf="showMessage">
+            <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+              <strong>{{msj}}</strong> {{text}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="changeModeShow()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-row ">
-        <div class="col-4">
-          E-mail <input #EM type="email" class="form-control" required>
-        </div>
-        <div class="col-4">
-          Phone <input #P type="text" class="form-control" required>
-        </div>
-      </div>
-      <div class="form-row ">
-        <div class="col-4">
-          Username <input #UN type="text" class="form-control" required>
-        </div>
-        <div class="col-4">
-          Password <input #PW type="text" class="form-control" required>
-        </div>
-      </div>
-      <br>
-      <div class="form-row ">
-        <div class="col-8">
-          <button class="btn btn-success btn-block"
-            (click)="signUP(FN.value,LN.value,UVN.value,C.value,EM.value,P.value,UN.value,PW.value)" type="submit">Sign
-            Up</button>
+        <div class="form-row ">
+          <div class="col-8">
+            <button class="btn btn-success btn-block"
+              (click)="createCustomer(FN.value,LN.value,UVN.value,C.value,EM.value,P.value,UN.value,PW.value)"
+              type="button">Sign
+              Up</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</form>
+  </form>
 </div>
