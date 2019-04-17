@@ -7,10 +7,10 @@ import { ServiceService } from '../service.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  registry: boolean = false;
+  registry: boolean = false; 
   name: string = '';
   password: string = '';
-  show_LI_SO: boolean = true; //Show Logn In : LO  
+  show_LI_SO: boolean = true; //Show Logn In : LO   
   message: string = "Hola Mundo!"
 
   msj: string = "";
@@ -25,9 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   // Este nombre :messageEvent es el nombre con que el otro componente sabe quien lo esta llamando
-  /**
-   * Variables and Methods to send data to another componenet
-   */
+  /* Variables and Methods to send data to another componenet  */
 
   @Output() messageEvent = new EventEmitter<string>();
   /**
@@ -43,6 +41,8 @@ export class HomeComponent implements OnInit {
   sendCheck(check: string) {
     this.messageEvent.emit(check)
   }
+
+   /* WEB API */
 
   /**
    * logInAdmin Login of an admin
@@ -104,9 +104,7 @@ export class HomeComponent implements OnInit {
     this.showMessage = true;
   }
 
-  /**
-   * GRAPHICS METHODS
-   */
+  /* GRAPHICS METHODS */
 
   /**
    * closeMessage

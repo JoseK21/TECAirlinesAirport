@@ -16,78 +16,19 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  /* GRAPHICS METHODS  */
+
   /**
    * checkStudent Change condition Student 
    */
   public checkStudent() {
-    this.isStudent = !this.isStudent ;   
+    this.isStudent = !this.isStudent;
   }
-  /**
-   * createCustomer Creación de cuenta de Admin
-   */
-  public createCustomer(fn: string, ln: string, uvn: string, c: number, e: string, p: string, un: string, pw: string) {
 
-    console.log("Inside");
-
-    if(this.isStudent){
-      if ((fn.trim().length == 0 || ln.trim().length == 0 || uvn.trim().length == 0 || c<= 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
-        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
-  
-      } else {
-        this.editAlert("Success! ", "Account created", "success");
-        const json = {
-          full_name: fn + " " + ln,
-          phone_numbr: p,
-          email: e,
-          is_student: this.isStudent,
-          college_name: uvn,
-          student_id: c,
-          username: un,
-          password: pw,
-        };
-        console.log(":> " + json);
-        this.service.createCustomer(json).subscribe((jsonTransfer) => {
-          
-          if (jsonTransfer == 'error') {
-            this.editAlert("Error! ", "Username used", "danger");
-          } else {
-            this.editAlert("Success! ", "Account created", "success");
-          }
-          console.log(jsonTransfer);
-        });
-      }
-    }else{
-      if ((fn.trim().length == 0 || ln.trim().length == 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
-        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
-  
-      } else {
-        this.editAlert("Success! ", "Account created", "success");
-        const json = {
-          full_name: fn + " " + ln,
-          phone_numbr: p,
-          email: e,
-          is_student: this.isStudent,
-          college_name: uvn,
-          student_id: c,
-          username: un,
-          password: pw,
-        };
-        console.log(":> " + json);
-        this.service.createCustomer(json).subscribe((jsonTransfer) => {
-  
-          if (jsonTransfer == 'error') {
-            this.editAlert("Error! ", "Username used", "danger");
-          } else {
-            this.editAlert("Success! ", "Account created", "success");
-          }
-          console.log(jsonTransfer);
-        });
-      }
-    }
-  }
   /**
-   * editAlert
-   */
+  * editAlert
+  */
   public editAlert(msg: string, text: string, type: string) {
     this.showMessage = true;
     this.msj = msg;
@@ -101,4 +42,77 @@ export class SignUpComponent implements OnInit {
   public changeModeShow() {
     this.showMessage = false;
   }
+
+  /* WEB API */
+
+  /**
+   * createCustomer Creación de cuenta de Admin
+   */
+  public createCustomer(fn: string, ln: string, uvn: string, c: number, e: string, p: string, un: string, pw: string) {
+
+    if (this.isStudent) {
+      if ((fn.trim().length == 0 || ln.trim().length == 0 || uvn.trim().length == 0 || c <= 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+
+      } else {
+        const json = {
+          full_name: fn + " " + ln, phone_numbr: p, email: e, is_student: this.isStudent, college_name: uvn,
+          student_id: c, username: un, password: pw,
+        };
+        this.service.createCustomer(json).subscribe((jsonTransfer) => {
+
+          const userStr = JSON.stringify(jsonTransfer);
+          console.log(JSON.parse(userStr));
+          JSON.parse(userStr, (key, value) => {
+            if (key === 'http_result') {
+              console.log(value);
+              if (value == 1) {//todo bien
+                this.editAlert("Success! ", "Account created", "success");
+              } else {
+                this.editAlert("Error! ", "Username used", "danger");
+              }
+            } else {
+              alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
+            }
+          });
+        });
+      }
+    } else {
+      if ((fn.trim().length == 0 || ln.trim().length == 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+
+      } else {
+        const json = {
+          full_name: fn + " " + ln,
+          phone_numbr: p,
+          email: e,
+          is_student: this.isStudent,
+          college_name: uvn,
+          student_id: c,
+          username: un,
+          password: pw,
+        };
+        console.log(":> " + json);
+        this.service.createCustomer(json).subscribe((jsonTransfer) => {
+          const userStr = JSON.stringify(jsonTransfer);
+          console.log(JSON.parse(userStr));
+          JSON.parse(userStr, (key, value) => {
+            if (key === 'http_result') {
+              console.log(value);
+              if (value == 1) {//todo bien
+                this.editAlert("Success! ", "Account created", "success");
+              } else {
+                this.editAlert("Error! ", "Username used", "danger");
+              }
+            } else {
+              alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
+            }
+          });
+        });
+      }
+    }
+  }
+
+
+
 }
