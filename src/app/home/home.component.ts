@@ -10,7 +10,6 @@ export class HomeComponent implements OnInit {
   registry: boolean = false;
   name: string = '';
   password: string = '';
-  validAdmin: number = 0;
   show_LI_SO: boolean = true; //Show Logn In : LO  
   message: string = "Hola Mundo!"
 
@@ -26,78 +25,116 @@ export class HomeComponent implements OnInit {
   }
 
   // Este nombre :messageEvent es el nombre con que el otro componente sabe quien lo esta llamando
+  /**
+   * Variables and Methods to send data to another componenet
+   */
+
   @Output() messageEvent = new EventEmitter<string>();
+  /**
+   * sendMessage Tranfers data bewteen component
+   */
   sendMessage() {
     this.messageEvent.emit(this.message)
   }
+  /**
+   * 
+   * @param check Display Name University and ID Student : Carnet
+   */
   sendCheck(check: string) {
     this.messageEvent.emit(check)
   }
 
   /**
-   * setStatusRegistry
+   * logInAdmin Login of an admin
+   * @param un UserName
+   * @param pw Password
    */
-  public setStatusRegistry(un: string, pw: string) {
-
+  public logInAdmin(un: string, pw: string) {
     if (un.trim().length > 0 && pw.trim().length > 0) {
-      this.logIn(un, pw);
+      const json = { password: pw, username: un, };
+      this.service.logIn(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer);
+        console.log(JSON.parse(userStr));
+        JSON.parse(userStr, (key, value) => {
+          if (key === 'http_result') {
+            console.log(value);
+            if (value == 1) {//todo bien
+              this.registry = true;
+              this.name = un;
+              this.sendCheck("true");
+              this.signOut();
+            } else {
+              this.editAlert("Error! ", "Username or password wrong", "danger", 1);
+            }
+          } else {
+            alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
+          }
+        });
+      });
     } else {
       this.editAlert("Warning! ", "Empty inputs", "warning", 1);
     }
   }
 
   /**
-   * testJSON
+   * registryAdmin : Change msg
    */
-  public testJSON() {
-
-    const user = {
-      http_result: 0,
-      msg: 'Error',
-    };
-
-    const userStr = JSON.stringify(user);
-    console.log(JSON.parse(userStr));    
-    JSON.parse(userStr, (key, value) => {
-      if(key==='http_result'){
-        console.log(value);
-      }     
-    });
+  public registryAdmin(fn: string, pn: string, em: string, un: string, pw: string, ro: string) {
+    if (fn.trim() == "" || pn.trim() == "" || em.trim() == "" || un.trim() == "" || pw.trim() == "" || ro.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 2);
+    } else {
+      const json = { full_name: fn, phone_numbr: pn, email: em, username: un, password: pw, role: ro, };
+      this.service.createAdmin(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer);
+        console.log(JSON.parse(userStr));
+        JSON.parse(userStr, (key, value) => {
+          if (key === 'http_result') {
+            console.log(value);
+            if (value == 1) {//todo bien
+              this.editAlert("Success! ", "Account created ", "success", 2);
+            } else {
+              this.editAlert("Error! ", "This username is used", "danger", 2);
+            }
+          } else {
+            alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
+          }
+        });  
+      });
+    }
+    this.showMessage = true;
   }
 
   /**
-   * logIn
-   * @param un username
-   * @param pw password
+   * GRAPHICS METHODS
    */
-  private logIn(un: string, pw: string) {
-    const json = {
-      password: pw,
-      username: un,
-    };
-    this.service.logIn(json).subscribe((jsonTransfer) => {
 
-      const userStr = JSON.stringify(jsonTransfer);
-      console.log(userStr);
-      console.log(JSON.parse(userStr));
+  /**
+   * closeMessage
+   */
+  public closeMessage() {
+    this.showMessage = false;
+  }
 
+  /**
+   * changeModeShow
+   */
+  public changeModeShow() {
+    this.showMessageErrorLogin = false;
+  }
 
-      if (jsonTransfer == 'error') {  //Username or password wrong
-        this.editAlert("Error! ", "Username or password wrong", "danger", 1);
-      } else {  // All is correct
-        this.registry = true;
-        this.name = un;
-        this.sendCheck("true");
-        this.signOut();
-      }
-      console.log(jsonTransfer);
+  /**
+   * signOut
+   */
+  public signOut() {
+    this.show_LI_SO = false; //Show Sign Out : SO
+  }
 
-    });
-    // Quitar cuando se verifique correctamente el usuario 
-    this.registry = true;
-    this.name = un;
-    this.sendCheck("true");
-    this.signOut();
+  /**
+   * SignIn
+   */
+  public SignIn() {
+    this.show_LI_SO = true; //Show Sign Out : SO
+    this.sendCheck("false");
   }
 
   /**
@@ -117,70 +154,24 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * changeModeShow
+   * JSON
    */
-  public changeModeShow() {
-    this.showMessageErrorLogin = false;
-  }
 
   /**
-   * createAdmin
+   * testJSON
    */
-  public createAdmin(fn: string, pn: string, em: string, un: string, pw: string, ro: string) {
-    const json = {
-      full_name: fn,
-      phone_numbr: pn,
-      email: em,
-      username: un,
-      password: pw,
-      role: ro,
+  public testJSON() {
+    const user = {
+      http_result: 0,
+      msg: 'Error',
     };
-    this.service.createAdmin(json).subscribe((jsonTransfer) => {
-      console.log(jsonTransfer);
-    });
-  }
 
-  /**
-   * signOut
-   */
-  public signOut() {
-    this.show_LI_SO = false; //Show Sign Out : SO
-  }
-
-  /**
-   * SignIn
-   */
-  public SignIn() {
-    this.show_LI_SO = true; //Show Sign Out : SO
-    this.sendCheck("false");
-  }
-
-  /**
-   * registryAdmin : Change msg
-   */
-  public registryAdmin(firstName: string, lastName: string, phone: string, email: string, username: string, password: string, rol: string) {
-
-    if (firstName.trim() == "" || lastName.trim() == "" || phone.trim() == "" || email.trim() == "" || username.trim() == "" || password.trim() == "" || rol.trim() == "") {
-      this.editAlert("Warning! ", "Empty inputs", "warning", 2);
-    } else {
-      //Consulta al services : username
-
-      this.createAdmin(firstName + " " + lastName, phone, email, username, password, rol);
-
-      if (username == 'a') {
-        this.editAlert("Success! ", "Account created ", "success", 2);
-      } else {
-        this.editAlert("Error! ", "This username is used", "danger", 2);
+    const userStr = JSON.stringify(user);
+    console.log(JSON.parse(userStr));
+    JSON.parse(userStr, (key, value) => {
+      if (key === 'http_result') {
+        console.log(value);
       }
-      console.log("Firtsname: " + firstName + " Lastname:" + lastName + " Phone:" + phone + " Email:" + email + " Rol:" + rol + " Username:" + username + " Password:" + password);
-    }
-    this.showMessage = true;
-  }
-
-  /**
-   * closeMessage
-   */
-  public closeMessage() {
-    this.showMessage = false;
+    });
   }
 }
