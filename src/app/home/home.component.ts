@@ -7,7 +7,7 @@ import { ServiceService } from '../service.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  registry: boolean = false; 
+  registry: boolean = false;
   name: string = '';
   password: string = '';
   show_LI_SO: boolean = true; //Show Logn In : LO   
@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   type: string = "";
   showMessage: boolean = false;
   showMessageErrorLogin: boolean = false;
+
+  msjAPI: string = "";
 
   constructor(private service: ServiceService) { }
 
@@ -42,7 +44,7 @@ export class HomeComponent implements OnInit {
     this.messageEvent.emit(check)
   }
 
-   /* WEB API */
+  /* WEB API */
 
   /**
    * logInAdmin Login of an admin
@@ -54,8 +56,13 @@ export class HomeComponent implements OnInit {
       const json = { password: pw, username: un, };
       this.service.logIn(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer);
-        console.log(JSON.parse(userStr));
-        JSON.parse(userStr, (key, value) => {
+
+        JSON.parse(JSON.parse(userStr), (key, value) => {
+
+          if (key === 'msg') {
+            this.msjAPI = value;
+          }
+
           if (key === 'http_result') {
             console.log(value);
             if (value == 1) {//todo bien
@@ -64,10 +71,8 @@ export class HomeComponent implements OnInit {
               this.sendCheck("true");
               this.signOut();
             } else {
-              this.editAlert("Error! ", "Username or password wrong", "danger", 1);
+              this.editAlert("Error! ", this.msjAPI, "danger", 1);
             }
-          } else {
-            alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
           }
         });
       });
@@ -98,7 +103,7 @@ export class HomeComponent implements OnInit {
           } else {
             alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
           }
-        });  
+        });
       });
     }
     this.showMessage = true;
@@ -164,9 +169,14 @@ export class HomeComponent implements OnInit {
       msg: 'Error',
     };
 
+
     const userStr = JSON.stringify(user);
+
     console.log(JSON.parse(userStr));
+
     JSON.parse(userStr, (key, value) => {
+      console.log(key);
+
       if (key === 'http_result') {
         console.log(value);
       }
