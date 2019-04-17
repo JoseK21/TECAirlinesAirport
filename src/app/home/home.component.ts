@@ -39,11 +39,30 @@ export class HomeComponent implements OnInit {
    */
   public setStatusRegistry(un: string, pw: string) {
 
-    if (un.length > 0 && pw.length > 0) {
+    if (un.trim().length > 0 && pw.trim().length > 0) {
       this.logIn(un, pw);
     } else {
       this.editAlert("Warning! ", "Empty inputs", "warning", 1);
     }
+  }
+
+  /**
+   * testJSON
+   */
+  public testJSON() {
+
+    const user = {
+      http_result: 0,
+      msg: 'Error',
+    };
+
+    const userStr = JSON.stringify(user);
+    console.log(JSON.parse(userStr));    
+    JSON.parse(userStr, (key, value) => {
+      if(key==='http_result'){
+        console.log(value);
+      }     
+    });
   }
 
   /**
@@ -57,6 +76,12 @@ export class HomeComponent implements OnInit {
       username: un,
     };
     this.service.logIn(json).subscribe((jsonTransfer) => {
+
+      const userStr = JSON.stringify(jsonTransfer);
+      console.log(userStr);
+      console.log(JSON.parse(userStr));
+
+
       if (jsonTransfer == 'error') {  //Username or password wrong
         this.editAlert("Error! ", "Username or password wrong", "danger", 1);
       } else {  // All is correct
@@ -66,7 +91,7 @@ export class HomeComponent implements OnInit {
         this.signOut();
       }
       console.log(jsonTransfer);
-      
+
     });
     // Quitar cuando se verifique correctamente el usuario 
     this.registry = true;

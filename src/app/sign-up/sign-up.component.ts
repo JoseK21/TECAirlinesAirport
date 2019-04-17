@@ -47,7 +47,7 @@ export class SignUpComponent implements OnInit {
         };
         console.log(":> " + json);
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-  
+          
           if (jsonTransfer == 'error') {
             this.editAlert("Error! ", "Username used", "danger");
           } else {
