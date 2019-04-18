@@ -56,42 +56,23 @@ export class HomeComponent implements OnInit {
       const json = { password: pw, username: un, };
       this.service.logIn(json).subscribe((jsonTransfer) => {
 
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(userStr); // String to Json
 
-        var json = '{"result":true, "count":["Jose","Ana"]}'; //Estos datos seran recargados en la linea 67
-        const obj = JSON.parse(json);    
-        const myObjStr = JSON.stringify(obj);    
-        console.log(myObjStr);
-        // "{"name":"Skip","age":2,"favoriteFood":"Steak"}"   
-        
-        
-        var json = myObjStr;
+        console.log(jsonWEBAPI.http_result);
+        console.log(jsonWEBAPI.msg);
 
-        console.log("\n\n----------------------------------------------------------------------------\n" );
-        console.log("> \n" + JSON.parse(myObjStr));    
-        console.log("http_result : " + obj.http_result);     
-        console.log("msg : " + obj.msg);    
-        console.log("\n\n----------------------------------------------------------------------------\n" );
-
-
-        
-        const userStr = JSON.stringify(jsonTransfer);
-
-        JSON.parse(JSON.parse(userStr), (key, value) => {
-          if (key === 'msg') {
-            this.msjAPI = value;
-          }
-          if (key === 'http_result') {
-            console.log(value);
-            if (value == 1) {//todo bien
-              this.registry = true;
-              this.name = un;
-              this.sendCheck("true");
-              this.signOut();
-            } else {
-              this.editAlert("Error! ", this.msjAPI, "danger", 1);
-            }
-          }
-        });
+        if (jsonWEBAPI.http_result == 1) {
+          this.msjAPI = jsonWEBAPI.msg;
+          this.registry = true;
+          this.name = un;
+          this.sendCheck("true");
+          this.signOut();
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.msjAPI = jsonWEBAPI.msg;
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
       });
     } else {
       this.editAlert("Warning! ", "Empty inputs", "warning", 1);
@@ -107,22 +88,19 @@ export class HomeComponent implements OnInit {
     } else {
       const json = { full_name: fn, phone_numbr: pn, email: em, username: un, password: pw, role: ro, };
       this.service.createAdmin(json).subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer);
-        JSON.parse(JSON.parse(userStr), (key, value) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(userStr); // String to Json
 
-          if (key === 'msg') {
-            this.msjAPI = value;
-          }
+        console.log(jsonWEBAPI.http_result);
+        console.log(jsonWEBAPI.msg);
 
-          if (key === 'http_result') {
-            console.log(value);
-            if (value == 1) {//todo bien
-              this.editAlert("Success! ", this.msjAPI, "success", 2);
-            } else {
-              this.editAlert("Error! ", this.msjAPI, "danger", 2);
-            }
-          }
-        });
+        if (jsonWEBAPI.http_result == 1) {
+          this.editAlert("Success! ", this.msjAPI, "success", 2);
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", this.msjAPI, "danger", 2);
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
       });
     }
     this.showMessage = true;
@@ -210,30 +188,14 @@ export class HomeComponent implements OnInit {
   public testJSON2() {
     var json = '{"result":true, "count":["Jose","Ana"]}';
     const obj = JSON.parse(json);
-
     const myObjStr = JSON.stringify(obj);
 
-    console.log("> \n" + myObjStr);
-    // "{"name":"Skip","age":2,"favoriteFood":"Steak"}"
-
     console.log("> \n" + JSON.parse(myObjStr));
-
     console.log("result : " + obj.result);
-    // expected output: 42
-
     console.log("count : " + obj.count);
 
-    const myArr =  obj.count;
+    console.log(JSON.parse(JSON.stringify(obj.count)));  // Array
 
-    const myArrStr = JSON.stringify(myArr);
-
-
-    console.log(myArrStr);
-    // "["bacon","letuce","tomatoes"]"
-
-    console.log(JSON.parse(myArrStr));
-
-    // expected output: true
   }
 
 }
