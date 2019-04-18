@@ -55,14 +55,31 @@ export class HomeComponent implements OnInit {
     if (un.trim().length > 0 && pw.trim().length > 0) {
       const json = { password: pw, username: un, };
       this.service.logIn(json).subscribe((jsonTransfer) => {
+
+
+        var json = '{"result":true, "count":["Jose","Ana"]}'; //Estos datos seran recargados en la linea 67
+        const obj = JSON.parse(json);    
+        const myObjStr = JSON.stringify(obj);    
+        console.log(myObjStr);
+        // "{"name":"Skip","age":2,"favoriteFood":"Steak"}"   
+        
+        
+        var json = myObjStr;
+
+        console.log("\n\n----------------------------------------------------------------------------\n" );
+        console.log("> \n" + JSON.parse(myObjStr));    
+        console.log("http_result : " + obj.http_result);     
+        console.log("msg : " + obj.msg);    
+        console.log("\n\n----------------------------------------------------------------------------\n" );
+
+
+        
         const userStr = JSON.stringify(jsonTransfer);
 
         JSON.parse(JSON.parse(userStr), (key, value) => {
-
           if (key === 'msg') {
             this.msjAPI = value;
           }
-
           if (key === 'http_result') {
             console.log(value);
             if (value == 1) {//todo bien
@@ -196,15 +213,26 @@ export class HomeComponent implements OnInit {
 
     const myObjStr = JSON.stringify(obj);
 
-    console.log("> \n"+myObjStr);
+    console.log("> \n" + myObjStr);
     // "{"name":"Skip","age":2,"favoriteFood":"Steak"}"
 
-    console.log("> \n"+JSON.parse(myObjStr));
+    console.log("> \n" + JSON.parse(myObjStr));
 
-    console.log(obj.count);
+    console.log("result : " + obj.result);
     // expected output: 42
 
-    console.log(obj.result);
+    console.log("count : " + obj.count);
+
+    const myArr =  obj.count;
+
+    const myArrStr = JSON.stringify(myArr);
+
+
+    console.log(myArrStr);
+    // "["bacon","letuce","tomatoes"]"
+
+    console.log(JSON.parse(myArrStr));
+
     // expected output: true
   }
 
