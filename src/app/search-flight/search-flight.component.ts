@@ -26,14 +26,12 @@ export class SearchFlightComponent implements OnInit {
   typeFlight: boolean = false; // false : Round Class - true : One way
   class3: boolean = false; // false : Bussiness Class - true : Economy Class
 
+  // Variables to need load with info of Data Base
+  ap_name = ["a11","a12","a13","a4","a5","a6","a7","a8"];
+
   airportSelected: string = "";
   airportLoadApi: boolean = false;
   airportLoadCorrect: number = 0;
-
-  // Variables to need load with info of Data Base
-  ap_name = [];
-  ap_short_name = [];
-  ap_List = [];
 
   //Variables to send in Reservation
   s_flight_Id: string = "";
@@ -59,7 +57,31 @@ export class SearchFlightComponent implements OnInit {
     if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
       this.enableSF = true;
     }
+  }
 
+  /**
+   * getAirport
+   */
+  public getAirport() {
+    if (!this.airportLoadApi) {
+      // COLSULTA A LA BASE
+      this.airportLoadApi = true;
+      console.log("Load Airport");
+      this.service.getAirports().subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(userStr); // String to Json
+        console.log(jsonWEBAPI.http_result);
+        console.log(jsonWEBAPI.airport);
+        if (jsonWEBAPI.http_result == 1) {
+          this.airportLoadApi = false; // Lista cargada
+          this.ap_name = jsonWEBAPI.airport;
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
   }
 
   /**
@@ -133,76 +155,6 @@ export class SearchFlightComponent implements OnInit {
   }
 
   /**
-   * getAirport
-   */
-  public getAirport() {
-    if (!this.airportLoadApi) {
-      // COLSULTA A LA BASE
-      console.log("Load Airport");
-      this.airportLoadApi = true; // QUITAR LUEGO QUE SE OBTIENE TODO BIEN DE LA BASE
-      this.service.getAirports().subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer);
-        console.log(JSON.parse(userStr));
-        JSON.parse(JSON.parse(userStr), (key, value) => {
-          if (key === 'http_result') {
-            this.airportLoadCorrect = value;
-            this.airportLoadApi = true;
-            console.log(value);
-          }
-          if (this.airportLoadCorrect == 1) {
-            if (key === 'airports') {
-              console.log('ap_name :' + value);
-              this.ap_name = value;
-            }
-          }
-        });
-      });
-    }
-    var json = '{"result":true, "count":42}';
-    const obj = JSON.parse(json);
-
-    console.log(obj.count);
-    // expected output: 42
-
-    console.log(obj.result);
-    // expected output: true
-  }
-
-  /**
-   * getAirport
-   */
-  public getAirport_toList(d_ap: string, a_ap: string) {
-    if (!this.airportLoadApi) {
-
-
-      const json = { depart_ap: d_ap, arrival_ap: a_ap, };
-
-      console.log("Search Airports");
-      this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
-
-        const userStr = JSON.stringify(jsonTransfer);
-        console.log(JSON.parse(userStr));
-        JSON.parse(userStr, (key, value) => {
-          if (key === 'http_result') {
-            this.airportLoadCorrect = value;
-            console.log(value);
-          }
-          if (this.airportLoadCorrect) {
-            if (key === 'ap_name') {
-              console.log('ap_name :' + value);
-              this.ap_name = value;
-            }
-            if (key === 'ap_short_name') {
-              console.log('ap_short_name :' + value);
-              this.ap_short_name = value;
-            }
-          }
-        });
-      });
-    }
-  }
-
-  /**
    * numModal
    * 0: pointDeparture
    * 1: pointArrival
@@ -214,7 +166,6 @@ export class SearchFlightComponent implements OnInit {
       this.point = charModal;
     }
     this.showModal = numModal;
-    //     this.getAirport();  // Load the airport from the Data Base
   }
 
   /**

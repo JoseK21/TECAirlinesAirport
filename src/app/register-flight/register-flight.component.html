@@ -1,69 +1,98 @@
 <div class="container">
-
   <br>
   <div class="form-row">
     <div class="col-md-6 mb-3">
-      <div class="form-group">
-        <label for="exampleFormControlSelect1">Airport Deparment</label>
-        <app-airport></app-airport>
-      </div>
+      Deparment Airport<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,0); getAirport()"
+        data-toggle="modal" data-target="#modalRegistry" data-whatever="@mdo">{{ptD}}</button>
     </div>
     <div class="col-md-6 mb-3">
-      <div class="form-group">
-        <label for="exampleFormControlSelect1">Arrival Airport</label>
-        <app-airport></app-airport>
-      </div>
+      Airport Arrival<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,1); getAirport()"
+        data-toggle="modal" data-target="#modalRegistry" data-whatever="@mdo">{{ptA}}</button>
     </div>
   </div>
-
   <form>
     <div class="row">
       <div class="col">
-        Flight Id<input type="number" class="form-control" placeholder="Id" min="0" required>
+        Flight Id<input #FI type="number" class="form-control" placeholder="Id" min="0" required>
       </div>
       <div class="col">
-        Deparment Date<input #DS type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
+        Deparment Date<input #DD type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
       </div>
       <div class="col">
-        Arrival Date<input type="date" class="form-control"  (click)="setDate(DS.value)" [min]="dateMIN" required>
+        Arrival Date<input #AD type="date" class="form-control" (click)="setDate(DD.value)" [min]="dateMIN" required>
       </div>
       <div class="col">
         Plane Model
-        <select class="form-control" id="exampleFormControlSelect1" size="1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <select #PM id="inputState" class="form-control" size="1">
+          <option *ngFor="let mf of modelFlight" >{{mf}}</option>
         </select>
+        <!--modelFlight-->
       </div>
       <div class="col">
-        Economic Price($)<input type="text" class="form-control" placeholder="###" required>
+        Economic Price($)<input #EP type="text" class="form-control" placeholder="###" required>
       </div>
       <div class="col">
-        First Class Price($)<input type="text" class="form-control" placeholder="###" required>
+        First Class Price($)<input #FCL type="text" class="form-control" placeholder="###" required>
       </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary btn-block">Registry</button>
-  </form>
+    <button type="button" class="btn btn-primary btn-block" (click)="checkInputs(FI.value,DD.value,AD.value,PM.value,EP.value,FCL.value)">Registry</button>
 
+    <!--Message of input valided-->
+
+
+    <div class="modal-footer">
+      <div style="margin:0 auto;" *ngIf="showMessage" class="alert alert-{{type}} alert-dismissible fade show"
+        role="alert">
+        <strong>{{msj}}</strong>{{text}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
 
+
 <!--MODAL -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modalRegistry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <!--Modal Select Airport-->
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="showModal==0">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Select Airport</h5>
       </div>
       <div class="modal-body">
-        <app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>
+        <!--<app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>-->
+        <form>
+          <div class="form-group">
+            Airport
+            <select #selection id="inputState" class="form-control" size="10">
+              <option *ngFor="let ap of ap_name">{{ap}}</option>
+            </select>
+            <br>
+            <button *ngIf="point==0" type="button" (click)="setptD(selection.value)"
+              class="btn btn-outline-success btn-block" data-dismiss="modal">Select</button>
+            <button *ngIf="point==1" type="button" (click)="setptA(selection.value)"
+              class="btn btn-outline-success btn-block" data-dismiss="modal">Select</button>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- Modal Reservation-->
+    <div class="modal-content" *ngIf="showModal==1">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+      </div>
+      <div class="modal-body">
+        <app-reservation></app-reservation>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>

@@ -8,22 +8,16 @@ import { ServiceService } from '../service.service';
 })
 export class AirportComponent implements OnInit {
 
-  ap_name = ["a1","a2","a3","a4","a5","a6","a7","a8"];
-  ap_short_name = [];
-  showAp: boolean = true;
+  ap_name = ["a1000","a2","a3","a4","a5","a6","a7","a8"];
   airportSelected: string = "";   
   airportLoadApi: boolean = false;
-  airportLoadCorrect : number ;
   
-  constructor(private service: ServiceService) { 
-    
-    this.getAirport();
-    
+  constructor(private service: ServiceService) {         
   }
 
-  ngOnInit() {    
-  }
-  
+  ngOnInit() {   
+    this.getAirport() ;   
+  } 
 
   /**
    * getAirport
@@ -31,37 +25,22 @@ export class AirportComponent implements OnInit {
   public getAirport() {
     if (!this.airportLoadApi) {
       // COLSULTA A LA BASE
-      this.airportLoadApi = false;
-
-
+      this.airportLoadApi = true;
       console.log("Load Airport");
       this.service.getAirports().subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer);
-        console.log(JSON.parse(userStr));
-        JSON.parse(userStr, (key, value) => {
-          if (key === 'http_result') {
-            this.airportLoadCorrect = value;
-            this.airportLoadApi = true;
-            if(value==0){
-              this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
-            }else if(value==1){
-              this.airportLoadApi = false; // Lista cargada
-            }
-            console.log(value);
-          }
-          if (this.airportLoadCorrect) {
-            if (key === 'ap_name') {
-              console.log('ap_name :' + value);
-              this.ap_name = value;
-            }
-            if (key === 'ap_short_name') {
-              console.log('ap_short_name :' + value);
-              this.ap_short_name = value;
-            }
-          }
-        });
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(userStr); // String to Json
+        console.log(jsonWEBAPI.http_result);
+        console.log(jsonWEBAPI.airport);
+        if (jsonWEBAPI.http_result == 1) {
+          this.airportLoadApi = false; // Lista cargada
+          this.ap_name = jsonWEBAPI.airport;
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
       });
     }
   }
-
 }

@@ -95,9 +95,9 @@ export class HomeComponent implements OnInit {
         console.log(jsonWEBAPI.msg);
 
         if (jsonWEBAPI.http_result == 1) {
-          this.editAlert("Success! ", this.msjAPI, "success", 2);
+          this.editAlert("Success! ",jsonWEBAPI.msg, "success", 2);
         } else if (jsonWEBAPI.http_result == 0) {
-          this.editAlert("Error! ", this.msjAPI, "danger", 2);
+          this.editAlert("Error! ", jsonWEBAPI.msg, "danger", 2);
         } else {
           alert("ERROR DEL JSON.... home.componet");
         }

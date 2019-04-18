@@ -17,38 +17,51 @@ const httpOptions = {
 export class ServiceService {
 
   private api = 'http://localhost:5000/tecairlines/';
-
-
   constructor(private http: HttpClient) { }
 
   // Component Home
   logIn(jsonData) {
-    console.log("Data sent: "+jsonData);
+    console.log("Data sent>");
+    console.log(jsonData);
     const path = `${this.api}admin/login`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
   createAdmin(admin: Admin) {
-    console.log("Data sent: "+admin);
+    console.log("Data sent>");
+    console.log(admin);
     const path = `${this.api}admin/signup`;
     return this.http.post(path, "'" + JSON.stringify(admin) + "'", httpOptions);
   }
 
   // Component Sign Up
   createCustomer(customer: Customer) {
-    console.log("Data sent: "+customer);
+    console.log("Data sent>");
+    console.log(customer);
     const path = `${this.api}signup`;
     return this.http.post(path, "'" + JSON.stringify(customer) + "'", httpOptions);
   }
 
   // Component Search Flight
   getAirports() {
+    console.log("Get all Airports>");
     const path = `${this.api}admin/airports`;
     return this.http.get(path);
   }
 
+  // Component Registry Flight
+  
+  registryFlight(flight: Flight){
+    console.log("Data sent>");
+    console.log(flight);
+    const path = `${this.api}admin/new-flight`;
+    return this.http.post(path, "'" + JSON.stringify(flight) + "'", httpOptions);
+
+  }
+
   getAirportByInputs(jsonData){
-    console.log("Data sent: "+jsonData);
+    console.log("Data sent>");
+    console.log(jsonData);
     const path = `${this.api}flights`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
@@ -56,7 +69,8 @@ export class ServiceService {
 
   //Closure a Flight
   closeID(id:number) {
-    console.log("Data sent: "+id);
+    console.log("Data sent>");
+    console.log(id);
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
   }
