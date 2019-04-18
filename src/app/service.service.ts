@@ -23,23 +23,20 @@ export class ServiceService {
 
   // Component Home
   logIn(jsonData) {
-    console.log("Data sent: ");
-    console.log(jsonData);
+    console.log("Data sent: "+jsonData);
     const path = `${this.api}admin/login`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
   createAdmin(admin: Admin) {
-    console.log("Data sent: ");
-    console.log(admin);
+    console.log("Data sent: "+admin);
     const path = `${this.api}admin/signup`;
     return this.http.post(path, "'" + JSON.stringify(admin) + "'", httpOptions);
   }
 
   // Component Sign Up
   createCustomer(customer: Customer) {
-    console.log("Data sent: ");
-    console.log(customer);
+    console.log("Data sent: "+customer);
     const path = `${this.api}signup`;
     return this.http.post(path, "'" + JSON.stringify(customer) + "'", httpOptions);
   }
@@ -52,9 +49,8 @@ export class ServiceService {
 
 
   //Closure a Flight
-  closeID(id) {
-    console.log("Data sent: ");
-    console.log(id);
+  closeID(id:number) {
+    console.log("Data sent: "+id);
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
   }

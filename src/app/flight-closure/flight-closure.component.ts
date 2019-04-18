@@ -8,10 +8,16 @@ import { ServiceService } from '../service.service';
 })
 export class FlightClosureComponent implements OnInit {
 
-  state:string=""
-  message:string="";
-  openB:number=0;
-  type:string="";
+  state: string = ""
+  message: string = "";
+  openB: number = 0;
+  msjAPI: string = "";
+
+  msj: string = "";
+  text: string = "";
+  type: string = "";
+  showMessage: boolean = false;
+  showMessageErrorLogin: boolean = false;
 
   constructor(private service: ServiceService) { }
 
@@ -22,37 +28,53 @@ export class FlightClosureComponent implements OnInit {
    * setStateMessage
    */
   public setStateMessage() {
-    this.openB=0;
+    this.openB = 0;
   }
-  
+
   /**
    * sendID
    */
-  public sendID(id:number) {
-    console.log("ID : "+id);   
-
-    this.closeID(id);
-
-    // Consuta    
-    if(id==1){     
+  public sendID(id: number) {
+    console.log("ID : " + id);
+    if (id.toString() == "") {
+      console.log("VAcio");
+      this.editAlert("Warning! ", "Flight Id empty", "warning");
       this.openB=1;
-      this.state="Success! ";
-      this.message="Flight "+id+" successfully opening";
-      this.type="success";
-    }else if(id==2){
-      this.openB=1;
-      this.state="Wrong! ";
-      this.message="The opening of this flight was not made (check the ID)";
-      this.type="warning";
-    }else{
-      this.openB=0;
+      
+    }
+    else {
+      this.service.closeID(id).subscribe((jsonTransfer) => {
+        console.log("Dato a usar para hacer compraciones : " + jsonTransfer);
+        const userStr = JSON.stringify(jsonTransfer);
+
+        JSON.parse(JSON.parse(userStr), (key, value) => {
+
+          if (key === 'msg') {
+            this.msjAPI = value;
+          }
+
+          if (key === 'http_result') {
+            console.log(value);
+            if (value == 1) {//todo bien
+              this.editAlert("Success! ", this.msjAPI, "success");
+            } else {
+              this.editAlert("Error! ", this.msjAPI, "danger");
+            }
+            this.openB=1;
+          }
+        });
+      });
     }
   }
 
-  public closeID(id: number) {    
-    this.service.closeID(id).subscribe((jsonTransfer) => {
-      console.log("Dato a usar para hacer compraciones : "+jsonTransfer);
-    });
+
+  /**
+   * editAlert
+   */
+  public editAlert(msg: string, text: string, type: string) {
+    this.msj = msg;
+    this.text = text;
+    this.type = type;
   }
 
 }
