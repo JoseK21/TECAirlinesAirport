@@ -186,4 +186,26 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  /**
+   * testJSON2
+   */
+  public testJSON2() {
+    var json = '{"result":true, "count":["Jose","Ana"]}';
+    const obj = JSON.parse(json);
+
+    const myObjStr = JSON.stringify(obj);
+
+    console.log("> \n"+myObjStr);
+    // "{"name":"Skip","age":2,"favoriteFood":"Steak"}"
+
+    console.log("> \n"+JSON.parse(myObjStr));
+
+    console.log(obj.count);
+    // expected output: 42
+
+    console.log(obj.result);
+    // expected output: true
+  }
+
 }

@@ -53,7 +53,7 @@
         </div>
       </div>
       <!--PONER ! EN !enableSF-->
-      <button [disabled]="enableSF" class="btn btn-primary btn-block"
+      <button [disabled]="!enableSF" class="btn btn-primary btn-block"
         (click)="sendData(Date.value,Adult.value,Children.value,Infants.value)" type="button">Submit form</button>
     </form>
     <br>

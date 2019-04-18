@@ -8,6 +8,8 @@ import { ServiceService } from '../service.service';
 })
 export class PassegerCheckComponent implements OnInit {
 
+  listCheck = [];
+
   constructor(private service: ServiceService) { }
 
   ngOnInit() {

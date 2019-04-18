@@ -28,11 +28,12 @@ export class SearchFlightComponent implements OnInit {
 
   airportSelected: string = "";
   airportLoadApi: boolean = false;
-  airportLoadCorrect: boolean = false;
+  airportLoadCorrect: number = 0;
 
   // Variables to need load with info of Data Base
   ap_name = [];
   ap_short_name = [];
+  ap_List = [];
 
   //Variables to send in Reservation
   s_flight_Id: string = "";
@@ -77,26 +78,28 @@ export class SearchFlightComponent implements OnInit {
     this.ptD = "Enter your point of departure ";
     this.ptA = "Enter your point of arrival";
     this.enableSF = false;
-    this.typeFlight=false;
-    this.class3=false;
+    this.typeFlight = false;
+    this.class3 = false;
   }
 
   /**
    * sendData
    */
   public sendData(date: string, adults: number, children: number, infacts: number) {
-    if(!this.typeFlight){ // False
-      this.s_type="Ida y Vuelta";
-    }else{
-      this.s_type="Solo Ida";
+    if (!this.typeFlight) { // False
+      this.s_type = "Ida y Vuelta";
+    } else {
+      this.s_type = "Solo Ida";
     }
-    this.s_is_first_class=!this.class3;  
+    this.s_is_first_class = !this.class3;
 
-   this.s_people_flying= Number(adults)+Number(children)+Number(infacts);
+    this.s_people_flying = Number(adults) + Number(children) + Number(infacts);
 
-    
-    console.log("<Import datas>\n"+ " type: "+this.s_type+ " is_first_class: "+this.s_is_first_class+ " people_flying: "+this.s_people_flying);
-     this.changeWindows();
+    // Consulta sobre los aeropuerto ingresados ... 
+
+
+    console.log("<Import datas>\n" + " type: " + this.s_type + " is_first_class: " + this.s_is_first_class + " people_flying: " + this.s_people_flying);
+    this.changeWindows();
 
   }
 
@@ -140,10 +143,48 @@ export class SearchFlightComponent implements OnInit {
       this.service.getAirports().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer);
         console.log(JSON.parse(userStr));
-        JSON.parse(userStr, (key, value) => {
+        JSON.parse(JSON.parse(userStr), (key, value) => {
           if (key === 'http_result') {
             this.airportLoadCorrect = value;
             this.airportLoadApi = true;
+            console.log(value);
+          }
+          if (this.airportLoadCorrect == 1) {
+            if (key === 'airports') {
+              console.log('ap_name :' + value);
+              this.ap_name = value;
+            }
+          }
+        });
+      });
+    }
+    var json = '{"result":true, "count":42}';
+    const obj = JSON.parse(json);
+
+    console.log(obj.count);
+    // expected output: 42
+
+    console.log(obj.result);
+    // expected output: true
+  }
+
+  /**
+   * getAirport
+   */
+  public getAirport_toList(d_ap: string, a_ap: string) {
+    if (!this.airportLoadApi) {
+
+
+      const json = { depart_ap: d_ap, arrival_ap: a_ap, };
+
+      console.log("Search Airports");
+      this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
+
+        const userStr = JSON.stringify(jsonTransfer);
+        console.log(JSON.parse(userStr));
+        JSON.parse(userStr, (key, value) => {
+          if (key === 'http_result') {
+            this.airportLoadCorrect = value;
             console.log(value);
           }
           if (this.airportLoadCorrect) {
@@ -158,7 +199,6 @@ export class SearchFlightComponent implements OnInit {
           }
         });
       });
-
     }
   }
 
@@ -182,31 +222,31 @@ export class SearchFlightComponent implements OnInit {
    */
   public changeCheck(row: number, col: number) {
     console.log("<<<<<<<<<<<<<<<<<<<<<Eliminar metodo changeCheck>>>>>>>>>>>>>>>>>>>>>>>>");
-    
+
   }
 
 
   /**
    * changeWay
    */
-  public changeWay(s:string) {
-    if(s=='R'){
+  public changeWay(s: string) {
+    if (s == 'R') {
       this.typeFlight = false;
       console.log("Round Trip");
-    }else if(s=='O'){
+    } else if (s == 'O') {
       this.typeFlight = true;
       console.log("One way");
     }
   }
 
-   /**
-   * changeClass
-   */
-  public changeClass(s:string) {
-    if(s=='B'){
+  /**
+  * changeClass
+  */
+  public changeClass(s: string) {
+    if (s == 'B') {
       this.class3 = false;
       console.log("Business Class");
-    }else if(s=='E'){
+    } else if (s == 'E') {
       this.class3 = true;
       console.log("Economy Class ");
     }

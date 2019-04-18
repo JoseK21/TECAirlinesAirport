@@ -47,6 +47,12 @@ export class ServiceService {
     return this.http.get(path);
   }
 
+  getAirportByInputs(jsonData){
+    console.log("Data sent: "+jsonData);
+    const path = `${this.api}flights`;
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+  }
+
 
   //Closure a Flight
   closeID(id:number) {
