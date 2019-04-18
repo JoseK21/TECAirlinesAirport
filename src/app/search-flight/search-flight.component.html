@@ -111,7 +111,7 @@
           <div class="form-group">
             Airport
             <select #selection id="inputState" class="form-control" size="10">
-              <option *ngFor="let ap of airport">{{ap}}</option>
+              <option *ngFor="let ap of ap_name">{{ap}}</option>
             </select><br>
             <button *ngIf="point==0" type="button" (click)="setptD(selection.value)"
               class="btn btn-outline-success btn-block" data-dismiss="modal">Select</button>
