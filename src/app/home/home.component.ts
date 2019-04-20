@@ -55,12 +55,9 @@ export class HomeComponent implements OnInit {
     if (un.trim().length > 0 && pw.trim().length > 0) {
       const json = { password: pw, username: un, };
       this.service.logIn(json).subscribe((jsonTransfer) => {
-
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(userStr); // String to Json
-
-        console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.msg);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log("HTTP_result :"+jsonWEBAPI.http_result);
 
         if (jsonWEBAPI.http_result == 1) {
           this.msjAPI = jsonWEBAPI.msg;
@@ -86,13 +83,12 @@ export class HomeComponent implements OnInit {
     if (fn.trim() == "" || pn.trim() == "" || em.trim() == "" || un.trim() == "" || pw.trim() == "" || ro.trim() == "") {
       this.editAlert("Warning! ", "Empty inputs", "warning", 2);
     } else {
-      const json = { full_name: fn, phone_numbr: pn, email: em, username: un, password: pw, role: ro, };
+      const json = { full_name: fn, phone_numbr: pn, email: em, username: un, password: pw, role: ro};
       this.service.createAdmin(json).subscribe((jsonTransfer) => {
+      
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(userStr); // String to Json
-
-        console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.msg);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log("HTTP_result :"+jsonWEBAPI.http_result);
 
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ",jsonWEBAPI.msg, "success", 2);

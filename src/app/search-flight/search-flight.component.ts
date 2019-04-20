@@ -27,7 +27,7 @@ export class SearchFlightComponent implements OnInit {
   class3: boolean = false; // false : Bussiness Class - true : Economy Class
 
   // Variables to need load with info of Data Base
-  ap_name = ["a11","a12","a13","a4","a5","a6","a7","a8"];
+  ap_name = ["Aeropuertos No Cargados",".",".",".","."];
 
   airportSelected: string = "";
   airportLoadApi: boolean = false;
@@ -69,12 +69,14 @@ export class SearchFlightComponent implements OnInit {
       console.log("Load Airport");
       this.service.getAirports().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(userStr); // String to Json
+        const jsonWEBAPI =  JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log(jsonWEBAPI);
+        
         console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.airport);
+        console.log(jsonWEBAPI.airports);
         if (jsonWEBAPI.http_result == 1) {
           this.airportLoadApi = false; // Lista cargada
-          this.ap_name = jsonWEBAPI.airport;
+          this.ap_name = jsonWEBAPI.airports;
         } else if (jsonWEBAPI.http_result == 0) {
           this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
         } else {
