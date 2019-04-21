@@ -9,20 +9,27 @@
 
   <form>
     <div class="row justify-content-center">
-      <div class="col">
-        Fligth Id<input #Fid type="text" class="form-control" placeholder="Id" required>
+        <div class="col">
+            Fligth Id
+        <select #Fid class="form-control" size="1" >
+          <option *ngFor="let f_id of fligth_ids">{{f_id}}</option>
+        </select>
+     
       </div>
       <div class="col">
-        Start<input #DS type="date" class="form-control" placeholder="Start Date" [value]="dateNOW" [min]="dateNOW" required>
+        Start<input #DS type="date" class="form-control" placeholder="Start Date" [value]="dateNOW" [min]="dateNOW"
+          disabled>
       </div>
       <div class="col">
-        End<input #DE type="date" class="form-control" placeholder="End Date" (click)="setDate(DS.value)" [min]="dateMIN" required>
+        End<input #DE type="date" class="form-control" placeholder="End Date" (click)="setDate(DS.value)"
+          [min]="dateMIN" required>
       </div>
       <div class="col">
         Discount($)<input #D type="number" class="form-control" min="0" max="100" value="0" required>
       </div>
       <div class="col align-self-end">
-        <button type="submit" class="btn btn-success btn-block" (click)="create(Fid.value,DS.value,DE.value,D.value)">Create</button>
+        <button type="button" class="btn btn-success btn-block"
+          (click)="create(Fid.value,DS.value,DE.value,D.value)">Create</button>
       </div>
     </div>
   </form>

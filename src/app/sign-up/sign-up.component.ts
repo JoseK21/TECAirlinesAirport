@@ -8,13 +8,18 @@ import { ServiceService } from '../service.service';
 })
 export class SignUpComponent implements OnInit {
   isStudent: boolean = false;
+  
   msj: string = "";
   text: string = "";
   type: string = "";
   showMessage: boolean = false;
+
+  loadUni: boolean = false;
+  list_univ = [];
   constructor(private service: ServiceService) { }
 
   ngOnInit() {
+    this.getUniversities();
   }
 
   /* GRAPHICS METHODS  */
@@ -99,5 +104,29 @@ export class SignUpComponent implements OnInit {
       }
     }
     this.showMessage = true;
+  }
+
+
+
+  /**
+   * getAirport
+   */
+  public getUniversities() {
+    if (!this.loadUni) {
+      console.log("Load Universities");
+      this.service.getUniversities().subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log(jsonWEBAPI);
+        if (jsonWEBAPI.http_result == 1) {
+          this.list_univ = jsonWEBAPI.universities;
+          this.loadUni=true;
+        } else if (jsonWEBAPI.http_result == 0) {
+          alert("ERROR Universidades no cargadas");
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
   }
 }

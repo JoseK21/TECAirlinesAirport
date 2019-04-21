@@ -15,6 +15,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ServiceService {
+  loadUniv:boolean=false;
 
   private api = 'http://localhost:64660/tecairlines/';
   constructor(private http: HttpClient) { }
@@ -42,6 +43,13 @@ export class ServiceService {
     return this.http.post(path, "'" + JSON.stringify(customer) + "'", httpOptions);
   }
 
+  createSale(sale: Sale) {
+    console.log("Data sent>");
+    console.log(sale);
+    const path = `${this.api}admin/new-sale`;
+    return this.http.post(path, "'" + JSON.stringify(sale) + "'", httpOptions);
+  }
+
   // Component Search Flight
   getAirports() {
     console.log("Get all Airports>");
@@ -65,7 +73,17 @@ export class ServiceService {
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
 
   }
+  getUniversities(){
+      console.log("Get all universities>");
+      const path = `${this.api}universities`;      
+      return this.http.get(path);      
+  }
 
+  getListFlights_id(){
+    console.log("Get List Flight IDs>");  
+    const path = `${this.api}admin/flights/active`;      
+    return this.http.get(path);      
+}
 
   //Closure a Flight
   closeID(id:number) {

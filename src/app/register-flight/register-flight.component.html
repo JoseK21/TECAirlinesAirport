@@ -13,19 +13,22 @@
   <form>
     <div class="row">
       <div class="col">
-        Flight Id<input #FI type="number" class="form-control" placeholder="Id" min="0" required>
+        Flight Id<input #FI type="text" class="form-control" placeholder="Id" required>
       </div>
       <div class="col">
-        Deparment Date<input #DD type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
+        Departure Date<input #DD type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
       </div>
       <div class="col">
         Arrival Date<input #AD type="date" class="form-control" (click)="setDate(DD.value)" [min]="dateMIN" required>
       </div>
       <div class="col">
         Plane Model
+        <input #PM type="text" class="form-control" placeholder="Model" required>
+        <!--
         <select #PM id="inputStateAirports" class="form-control" size="1">
           <option *ngFor="let mf of modelFlight" >{{mf}}</option>
         </select>
+        -->
         <!--modelFlight-->
       </div>
       <div class="col">

@@ -11,10 +11,19 @@ export class PromotionComponent implements OnInit {
   img:any="assets/image1200400.jpg";
   dateNOW:string;
   dateMIN:string;
+  fligth_ids = [];
+  loadF_ids:boolean=false;
+
+  msj: string = "";
+  text: string = "";
+  type: string = "";
+  showMessage: boolean = false;
+  
   constructor(private service: ServiceService) { }
 
   ngOnInit() {   
     this.dateNOW= formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.getList_idFlight();
   }
 
   /**
@@ -25,14 +34,67 @@ export class PromotionComponent implements OnInit {
   }
 
   /**
+  * editAlert
+  */
+ public editAlert(msg: string, text: string, type: string) {
+  this.showMessage = true;
+  this.msj = msg;
+  this.text = text;
+  this.type = type;
+}
+
+  /**
    * create
    */
   public create(Fid:string,DS:string,DE:string,D:string) {
-    console.log(Fid+" "+DS+" "+DE+" "+D+" ");  
-    alert("message here .... ");
-    
+    if(DE==""){
+      alert("Set a day to finish the promotion, please.");
+
+    }else{
+      // SALE -> '{"flight_id":"DE152","discount": 50, "exp_date": "06/12/19"}'
+      const json = {  flight_id: Fid, discount: Number(D), exp_date: DE };
+
+      this.service.createSale(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log("HTTP_result :" + jsonWEBAPI.http_result);
+
+        if (jsonWEBAPI.http_result == 1) {
+          this.editAlert("Success! ", jsonWEBAPI.msg, "success");
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", jsonWEBAPI.msg, "danger");
+        } else {
+          alert("ERROR DEL JSON.... sign-up.componet");
+        }
+      });
+
+    }       
   }
-  public imagePath;
+
+  /**
+   * getList_idFlight
+   */
+  public getList_idFlight() {
+    if (!this.loadF_ids) {
+      console.log("Load Flights IDs");
+      this.service.getListFlights_id().subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log(jsonWEBAPI);
+        if (jsonWEBAPI.http_result == 1) {
+          this.fligth_ids = jsonWEBAPI.flights;
+          this.loadF_ids=true;
+        } else if (jsonWEBAPI.http_result == 0) {
+          alert("ERROR Universidades no cargadas");
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+      }    
+  }
+
+  //Load img in window
+  public imagePath:any;
   imgURL: any;
   public message: string;
  
