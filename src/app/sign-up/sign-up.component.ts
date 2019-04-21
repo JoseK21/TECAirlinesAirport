@@ -57,23 +57,21 @@ export class SignUpComponent implements OnInit {
       } else {
         const json = {
           full_name: fn + " " + ln, phone_numbr: p, email: e, is_student: this.isStudent, college_name: uvn,
-          student_id: c, username: un, password: pw,
+          student_id: c, username: un, password: pw
         };
+
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-          const userStr = JSON.stringify(jsonTransfer);
-          console.log(JSON.parse(userStr));
-          JSON.parse(userStr, (key, value) => {
-            if (key === 'http_result') {
-              console.log(value);
-              if (value == 1) {//todo bien
-                this.editAlert("Success! ", "Account created", "success");
-              } else {
-                this.editAlert("Error! ", "Username used", "danger");
-              }
-            } else {
-              alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
-            }
-          });
+          const userStr = JSON.stringify(jsonTransfer); // Object to String
+          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+          console.log("HTTP_result :" + jsonWEBAPI.http_result);
+
+          if (jsonWEBAPI.http_result == 1) {
+            this.editAlert("Success! ", jsonWEBAPI.msg, "success");
+          } else if (jsonWEBAPI.http_result == 0) {
+            this.editAlert("Error! ", jsonWEBAPI.msg, "danger");
+          } else {
+            alert("ERROR DEL JSON.... sign-up.componet");
+          }
         });
       }
     } else {
@@ -82,36 +80,24 @@ export class SignUpComponent implements OnInit {
 
       } else {
         const json = {
-          full_name: fn + " " + ln,
-          phone_numbr: p,
-          email: e,
-          is_student: this.isStudent,
-          college_name: uvn,
-          student_id: c,
-          username: un,
-          password: pw,
+          full_name: fn + " " + ln, phone_numbr: p, email: e,
+          is_student: this.isStudent, college_name: uvn, student_id: c, username: un,
+          password: pw
         };
-        console.log(":> " + json);
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-          const userStr = JSON.stringify(jsonTransfer);
-          console.log(JSON.parse(userStr));
-          JSON.parse(userStr, (key, value) => {
-            if (key === 'http_result') {
-              console.log(value);
-              if (value == 1) {//todo bien
-                this.editAlert("Success! ", "Account created", "success");
-              } else {
-                this.editAlert("Error! ", "Username used", "danger");
-              }
-            } else {
-              alert("ERROR DE JSON ENVIADO POR WEB API : LOST> http_result");
-            }
-          });
+          const userStr = JSON.stringify(jsonTransfer); // Object to String
+          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+          console.log("HTTP_result :" + jsonWEBAPI.http_result);
+          if (jsonWEBAPI.http_result == 1) {
+            this.editAlert("Success! ", jsonWEBAPI.msg, "success");
+          } else if (jsonWEBAPI.http_result == 0) {
+            this.editAlert("Error! ", jsonWEBAPI.msg, "danger");
+          } else {
+            alert("ERROR DEL JSON.... sing-up.componet");
+          }
         });
       }
     }
+    this.showMessage = true;
   }
-
-
-
 }

@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
         console.log("HTTP_result :"+jsonWEBAPI.http_result);
-
         if (jsonWEBAPI.http_result == 1) {
           this.msjAPI = jsonWEBAPI.msg;
           this.registry = true;
@@ -67,13 +66,15 @@ export class HomeComponent implements OnInit {
           this.signOut();
         } else if (jsonWEBAPI.http_result == 0) {
           this.msjAPI = jsonWEBAPI.msg;
+          this.editAlert("Error! ", this.msjAPI, "warning", 1);
         } else {
           alert("ERROR DEL JSON.... home.componet");
-        }
+        }        
       });
     } else {
       this.editAlert("Warning! ", "Empty inputs", "warning", 1);
     }
+    this.showMessage = true;
   }
 
   /**

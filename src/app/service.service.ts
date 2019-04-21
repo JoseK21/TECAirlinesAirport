@@ -49,21 +49,20 @@ export class ServiceService {
     return this.http.get(path);
   }
 
-  // Component Registry Flight
-  
+  // Component Registry Flight  
   registryFlight(flight: Flight){
     console.log("Data sent>");
     console.log(flight);
     const path = `${this.api}admin/new-flight`;
     return this.http.post(path, "'" + JSON.stringify(flight) + "'", httpOptions);
-
   }
 
+  // Component Search flights
   getAirportByInputs(jsonData){
     console.log("Data sent>");
     console.log(jsonData);
     const path = `${this.api}flights`;
-    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+    return this.http.get(jsonData);
   }
 
 

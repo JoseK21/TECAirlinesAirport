@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { and } from '@angular/router/src/utils/collection';
 import { DatePipe, formatDate } from '@angular/common';
 import { ServiceService } from '../service.service';
+import { Alert } from 'selenium-webdriver';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class SearchFlightComponent implements OnInit {
   windowsSearch: boolean = true;
   showModal: number = 0;
   point: number = 0;
+  destino: string = "";
 
   options: boolean = true; //Change to false
   enableSF: boolean = false;
@@ -27,11 +29,18 @@ export class SearchFlightComponent implements OnInit {
   class3: boolean = false; // false : Bussiness Class - true : Economy Class
 
   // Variables to need load with info of Data Base
-  ap_name = ["Aeropuertos No Cargados",".",".",".","."];
-
+  ap_name = ["Bogota", "San Jose", "Los Angeles"];  //Default
+  list_flights = ['Flight1ERROR', 'Flight2ERROR'];  //Default
   airportSelected: string = "";
   airportLoadApi: boolean = false;
   airportLoadCorrect: number = 0;
+
+  msj: string = "";
+  text: string = "";
+  type: string = "";
+  showMessage: boolean = false;
+  showMessageErrorLogin: boolean = false;
+  msjAPI: string = "";
 
   //Variables to send in Reservation
   s_flight_Id: string = "";
@@ -69,9 +78,9 @@ export class SearchFlightComponent implements OnInit {
       console.log("Load Airport");
       this.service.getAirports().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI =  JSON.parse(JSON.parse(userStr)); // String to Json
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
         console.log(jsonWEBAPI);
-        
+
         console.log(jsonWEBAPI.http_result);
         console.log(jsonWEBAPI.airports);
         if (jsonWEBAPI.http_result == 1) {
@@ -98,7 +107,7 @@ export class SearchFlightComponent implements OnInit {
    * changeWindows
    */
   public changeWindows() {
-    this.windowsSearch = !this.windowsSearch;
+    this.windowsSearch = true;
     this.ptD = "Enter your point of departure ";
     this.ptA = "Enter your point of arrival";
     this.enableSF = false;
@@ -109,7 +118,13 @@ export class SearchFlightComponent implements OnInit {
   /**
    * sendData
    */
-  public sendData(date: string, adults: number, children: number, infacts: number) {
+  public sendData() {
+    // ELIMINAR DE AQUI ESTA MAS ABAJO va en la http_result = 1
+    this.destino = this.ptD + " to " + this.ptA;
+    // this.changeWindows();
+    this.heroes = ['Magneta'];
+
+    /*
     if (!this.typeFlight) { // False
       this.s_type = "Ida y Vuelta";
     } else {
@@ -117,14 +132,69 @@ export class SearchFlightComponent implements OnInit {
     }
     this.s_is_first_class = !this.class3;
 
-    this.s_people_flying = Number(adults) + Number(children) + Number(infacts);
+   this.s_people_flying = Number(adults) + Number(children) + Number(infacts);
 
+   */
     // Consulta sobre los aeropuerto ingresados ... 
 
+    // if ((adults + children + infacts) >= 0) {	//Parametros de entrada
+    alert("Recibiendo datos del jsonTransfer");
+    const json = { depart_ap: this.ptD, arrival_ap: this.ptA };  //{"depart_ap":San Jose, "arrival_ap": New York}
+    alert("Generando json");
+    this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
+      alert("Despues del service");
+      console.log(jsonTransfer);
 
-    console.log("<Import datas>\n" + " type: " + this.s_type + " is_first_class: " + this.s_is_first_class + " people_flying: " + this.s_people_flying);
-    this.changeWindows();
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      console.log("HTTP_result :" + jsonWEBAPI.http_result);
 
+      if (jsonWEBAPI.http_result == 1) {
+        alert("Exito de solicitud de lista de vuelos");
+        this.list_flights = jsonWEBAPI.flights; //list_flights or flights
+
+        //Recorer Esto
+
+        //Por cada uno hacerle const jsonWEBAPI = JSON.parse(JSON.parse("""""userStr""""")); // String to Json
+        // [{},{},{},{}]
+
+        this.destino = this.ptD + " to " + this.ptA;
+
+
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.msjAPI = jsonWEBAPI.msg;
+        this.editAlert("Error! ", this.msjAPI, "warning", 1);
+
+
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+     
+    });
+    alert("Termino request");
+    //}
+    /* else {
+      this.editAlert("Error! ", "Without passengers", "danger", 1);
+    }
+    */
+    
+    console.log("<Fin del metodo>");
+  }
+
+  /**
+   * editAlert
+   */
+  public editAlert(msg: string, text: string, type: string, numAlert: number) {
+    if (numAlert == 1) {
+      this.showMessageErrorLogin = true;
+      this.showMessage = false;
+    } else if (numAlert == 2) {
+      this.showMessageErrorLogin = false;
+      this.showMessage = true;
+    }
+    this.msj = msg;
+    this.text = text;
+    this.type = type;
   }
 
   /**

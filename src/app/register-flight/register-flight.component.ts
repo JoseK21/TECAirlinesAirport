@@ -80,15 +80,17 @@ export class RegisterFlightComponent implements OnInit {
     if (!this.airportLoadApi) {
       // COLSULTA A LA BASE
       this.airportLoadApi = true;
-      console.log("Load Airport");
+      console.log("Load Airport registrar vuelo");
       this.service.getAirports().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(userStr); // String to Json
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        console.log(jsonWEBAPI);
+
         console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.airport);
+        console.log(jsonWEBAPI.airports);
         if (jsonWEBAPI.http_result == 1) {
           this.airportLoadApi = false; // Lista cargada
-          this.ap_name = jsonWEBAPI.airport;
+          this.ap_name = jsonWEBAPI.airports;
         } else if (jsonWEBAPI.http_result == 0) {
           this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
         } else {
@@ -133,7 +135,7 @@ export class RegisterFlightComponent implements OnInit {
 
       this.service.registryFlight(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(userStr); // String to Json
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
 
         console.log(jsonWEBAPI.http_result);
         console.log(jsonWEBAPI.msg);

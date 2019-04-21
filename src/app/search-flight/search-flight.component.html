@@ -1,4 +1,5 @@
-<div *ngIf="windowsSearch">
+<div >
+  <!--  <div *ngIf="windowsSearch"> -->
   <br><br>
   <div class="container">
     <form>
@@ -12,11 +13,13 @@
             data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">{{ptA}}</button>
         </div>
       </div>
+      <!-- 
       <div class="form-row">
         <div class="col-md-4 mb-3">
           Departure(*)<input #Date type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
         </div>
       </div>
+     
       <div class="form-row align-items-start">
         <br>
         <div class="col-md-2 mb-3 ">
@@ -39,40 +42,43 @@
           </div>
         </div>
         <div class="col-md-8 mb-5">
-          <div class="row align-items-end">
+          <div class="row ">
             <div class="col">
-              Adult(+12)<input #Adult type="number" max="10" min="0" value="1">
+              Adult(+12)<br>
+              <input #Adult type="number" max="10" min="0" value="1">
             </div>
             <div class="col">
-              Children(2-11)<input #Children type="number" max="10" min="0" value="0">
+              Children(2-11)<br>
+              <input #Children type="number" max="10" min="0" value="0">
             </div>
             <div class="col">
-              Infants(0-1)<input #Infants type="number" max="10" min="0" value="0">
+              Infants(0-1)<br>
+              <input #Infants type="number" max="10" min="0" value="0">
             </div>
           </div>
         </div>
       </div>
+    -->
       <!--PONER ! EN !enableSF-->
       <button [disabled]="!enableSF" class="btn btn-primary btn-block"
-        (click)="sendData(Date.value,Adult.value,Children.value,Infants.value)" type="button">Submit form</button>
+        (click)="sendData()" type="button">Submit form</button>
     </form>
     <br>
   </div>
 </div>
 
-<div class="container" *ngIf="!windowsSearch">
+<form>
+<div class="container">
   <div class="container-fluid "> <br>
     <div class="container">
-      <button class="btn btn-outline-dark btn-sm" (click)="changeWindows()" type="button">Back</button>
-      <br><br>
-      <table class="table table-striped table-dark">
+      <br>
+      <h3>{{destino}}</h3>
+      <table #tableFlights class="table table-striped table-dark" >
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Airport of origin</th>
-            <th scope="col">Hour origin</th>
-            <th scope="col">Arrival airport</th>
-            <th scope="col">Hour arrival</th>
+            <th scope="col">Flight_id,</th>
+            <th scope="col">Depart_date</th>
             <th scope="col">Price</th>
             <th scope="col">Reservation</th>
           </tr>
@@ -80,10 +86,8 @@
         <tbody>
           <tr *ngFor="let hero of heroes">
             <th scope="row">i</th>
-            <td>Costa Rica</td>
-            <td>04:30pm</td>
-            <td>Canada</td>
-            <td>8:00pm</td>
+            <td>3434</td>
+            <td>12/01/2019</td>
             <td>$300,00</td>
             <td><button type="button" class="btn btn-outline-primary my-2 my-sm-0 btn-block" (click)="changeModal(1,99)"
                 data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Go</button>
@@ -95,6 +99,7 @@
     </div>
   </div>
 </div>
+</form>
 
 <!--MODAL -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -110,7 +115,7 @@
         <form>
           <div class="form-group">
             Airport
-            <select #selection id="inputState" class="form-control" size="10">
+            <select #selection id="inputStateListaAirport" class="form-control" size="10">
               <option *ngFor="let ap of ap_name">{{ap}}</option>
             </select>
             <br>

@@ -14,7 +14,6 @@ import { PassegerCheckComponent } from './passeger-check/passeger-check.componen
 import { RegisterFlightComponent } from './register-flight/register-flight.component';
 import { FlightClosureComponent } from './flight-closure/flight-closure.component';
 import { ReservationComponent } from './reservation/reservation.component';
-import { AirportComponent } from './airport/airport.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { AirportComponent } from './airport/airport.component';
     RegisterFlightComponent,
     FlightClosureComponent,
     ReservationComponent,
-    AirportComponent,
   ],
   imports: [
     BrowserModule,
