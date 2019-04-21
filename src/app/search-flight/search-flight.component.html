@@ -77,18 +77,20 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Flight_id,</th>
-            <th scope="col">Depart_date</th>
-            <th scope="col">Price</th>
+            <th scope="col">Flight_id</th>
+            <th scope="col">Deparment Date</th>
+            <th scope="col">Economic Class Price</th>
+            <th scope="col">First Class Price</th>
             <th scope="col">Reservation</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let hero of heroes">
-            <th scope="row">i</th>
-            <td>3434</td>
-            <td>12/01/2019</td>
-            <td>$300,00</td>
+          <tr *ngFor="let item of list_flights;  let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item.flight_id}}</td>
+            <td>{{item.depart_date}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.fc_price}}</td>
             <td><button type="button" class="btn btn-outline-primary my-2 my-sm-0 btn-block" (click)="changeModal(1,99)"
                 data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Go</button>
             </td>
@@ -96,6 +98,17 @@
         </tbody>
       </table>
       <br>
+
+      <div class="modal-footer" *ngIf="showMessage" >
+          <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show"
+            role="alert">
+            <strong>{{msj}}</strong>{{text}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
     </div>
   </div>
 </div>

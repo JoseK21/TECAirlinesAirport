@@ -30,7 +30,7 @@ export class SearchFlightComponent implements OnInit {
 
   // Variables to need load with info of Data Base
   ap_name = ["Bogota", "San Jose", "Los Angeles"];  //Default
-  list_flights = ['Flight1ERROR', 'Flight2ERROR'];  //Default
+  list_flights = [];  //Default
   airportSelected: string = "";
   airportLoadApi: boolean = false;
   airportLoadCorrect: number = 0;
@@ -138,21 +138,22 @@ export class SearchFlightComponent implements OnInit {
     // Consulta sobre los aeropuerto ingresados ... 
 
     // if ((adults + children + infacts) >= 0) {	//Parametros de entrada
-    alert("Recibiendo datos del jsonTransfer");
+    
     const json = { depart_ap: this.ptD, arrival_ap: this.ptA };  //{"depart_ap":San Jose, "arrival_ap": New York}
-    alert("Generando json");
+    
     this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
-      alert("Despues del service");
       console.log(jsonTransfer);
-
       const userStr = JSON.stringify(jsonTransfer); // Object to String
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
       console.log("HTTP_result :" + jsonWEBAPI.http_result);
-
       if (jsonWEBAPI.http_result == 1) {
-        alert("Exito de solicitud de lista de vuelos");
-        this.list_flights = jsonWEBAPI.flights; //list_flights or flights
+       
 
+       // this.list_flights = jsonWEBAPI.flights; //list_flights or flights
+        var array = JSON.parse("[" + jsonWEBAPI.flights + "]");
+        this.list_flights = array; 
+        console.log(array);
+              
         //Recorer Esto
 
         //Por cada uno hacerle const jsonWEBAPI = JSON.parse(JSON.parse("""""userStr""""")); // String to Json
@@ -163,22 +164,15 @@ export class SearchFlightComponent implements OnInit {
 
       } else if (jsonWEBAPI.http_result == 0) {
         this.msjAPI = jsonWEBAPI.msg;
-        this.editAlert("Error! ", this.msjAPI, "warning", 1);
+        this.list_flights = []; 
+        this.editAlert("Sorry! ", this.msjAPI, "secondary", 1);
+        this.showMessage=true;
 
 
       } else {
         alert("ERROR DEL JSON.... home.componet");
-      }
-     
+      }     
     });
-    alert("Termino request");
-    //}
-    /* else {
-      this.editAlert("Error! ", "Without passengers", "danger", 1);
-    }
-    */
-    
-    console.log("<Fin del metodo>");
   }
 
   /**
@@ -195,6 +189,13 @@ export class SearchFlightComponent implements OnInit {
     this.msj = msg;
     this.text = text;
     this.type = type;
+  }
+
+  /**
+   * closeMessage
+   */
+  public closeMessage() {
+    this.showMessage = false;
   }
 
   /**

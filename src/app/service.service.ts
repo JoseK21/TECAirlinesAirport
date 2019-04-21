@@ -62,7 +62,8 @@ export class ServiceService {
     console.log("Data sent>");
     console.log(jsonData);
     const path = `${this.api}flights`;
-    return this.http.get(jsonData);
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+
   }
 
 
