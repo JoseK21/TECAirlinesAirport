@@ -234,7 +234,10 @@ export class SearchFlightComponent implements OnInit {
    * charModal
    * 
    */
-  public changeModal(numModal: number, charModal: number) { //CharModal: Input seleccionado
+  public changeModal(numModal: number, charModal: number, selectedItem: any) { //CharModal: Input seleccionado
+    console.log("Selected item Id: ", selectedItem.depart_date); // You get the Id of the selected item here
+    console.log("Selected all: ", selectedItem); // You get the Id of the selected item here
+
     if (numModal == 0) {
       this.point = charModal;
     }

@@ -5,11 +5,11 @@
     <form>
       <div class="form-row">
         <div class="col-md-6 mb-3">
-          From(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,0);getAirport()"
+          From(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,0,0);getAirport()"
             data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">{{ptD}}</button>
         </div>
         <div class="col-md-6 mb-3">
-          To(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,1); getAirport()"
+          To(*)<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,1,0); getAirport()"
             data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">{{ptA}}</button>
         </div>
       </div>
@@ -91,7 +91,7 @@
             <td>{{item.depart_date}}</td>
             <td>{{item.price}}</td>
             <td>{{item.fc_price}}</td>
-            <td><button type="button" class="btn btn-outline-primary my-2 my-sm-0 btn-block" (click)="changeModal(1,99)"
+            <td><button type="button" class="btn btn-outline-primary my-2 my-sm-0 btn-block" (click)="changeModal(1,99,item)"
                 data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Go</button>
             </td>
           </tr>
@@ -124,7 +124,6 @@
         <h5 class="modal-title" id="exampleModalLabel">Select Airport</h5>
       </div>
       <div class="modal-body">
-        <!--<app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>-->
         <form>
           <div class="form-group">
             Airport
