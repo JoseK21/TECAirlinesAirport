@@ -1,0 +1,31 @@
+<div class="container-fluid  grad">
+    <br>
+  
+    <div class="align-self-center">
+      <form>
+        <div class="form-row justify-content-center">
+          <div class="col-5 ">
+            <label for="">Univesity</label> 
+            <input #UN type="text" class="form-control" placeholder="Name" required>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-5" *ngIf="showMessageErrorLogin">
+            <div class=" alert alert-{{type}} alert-dismissible fade show" role="alert">
+              <strong>{{msj}}</strong> {{text}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="changeModeShow()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-5">
+            <button class="btn btn-dark btn-block" (click)="addUniversity(UN.value)" type="button">Add University</button>
+          </div>
+        </div>
+        <br>
+      </form>
+    </div>
+  </div>

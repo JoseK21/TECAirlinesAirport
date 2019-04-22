@@ -50,6 +50,20 @@ export class ServiceService {
     return this.http.post(path, "'" + JSON.stringify(sale) + "'", httpOptions);
   }
 
+  addCard(card: CCard) {
+    console.log("Data sent>");
+    console.log(card);
+    const path = `${this.api}payment`;
+    return this.http.post(path, "'" + JSON.stringify(card) + "'", httpOptions);
+  }
+
+  addUniversity(jsonData) {
+    console.log("Data sent>");
+    console.log(jsonData);
+    const path = `${this.api}new-university`;
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+  }
+
   // Component Search Flight
   getAirports() {
     console.log("Get all Airports>");
