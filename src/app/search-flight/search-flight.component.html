@@ -112,10 +112,11 @@
           </div>
           <button (click)="logIn(UN.value,P.value)" class="btn btn-outline-dark btn-block" type="button">Log
             In</button><br>
+
           <div class="modal-footer" *ngIf="modalMSG==0">
             <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show" role="alert">
               <strong>{{msj}}</strong>{{text}}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage_0()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -124,7 +125,7 @@
         <form *ngIf="userCheck">
           <div>
             <h6>Username: {{name}}</h6>
-            <button type="button" (click)="changeAcount()" class="btn btn-outline-dark btn-block btn-sm">Change
+            <button type="button" (click)="changeAcount();closeMessage_0()" class="btn btn-outline-dark btn-block btn-sm">Change
               Acount</button>
             <br>
             <div class="form-row">
@@ -183,7 +184,7 @@
               <div class="modal-footer" *ngIf="modalMSG==1">
                 <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show" role="alert">
                   <strong>{{msj}}</strong>{{text}}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage_0()">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -198,7 +199,7 @@
             <div class="form-row">
               <div class="col-5">
                 Credit Card Number
-                <input #Card type="button" class="form-control" required>
+                <input #Card type="text" class="form-control" required>
               </div>
               <div class="col-2">
                 CVV
@@ -212,7 +213,7 @@
             <div class="modal-footer" *ngIf="modalMSG==2">
               <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show" role="alert">
                 <strong>{{msj}}</strong>{{text}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage_0()">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>

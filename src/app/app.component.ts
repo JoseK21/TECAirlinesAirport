@@ -6,26 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TECAirlinesAirport';  
-  n:string="";
-  init:boolean=true;
-  options:boolean = true; //Change to false
-  message:string;
-
-  receiveMessage($event) {
-    this.message = $event
-    if(this.message=="true"){
-      this.options=true;
-    }else if(this.message=="false"){
-      this.options=false;
-    }
-  }
+  title = 'TECAirlinesAirport'; 
+  options:boolean = false; // Show options
 
   /**
-   * registry
+   * Method to receive a variable from Home.Component
+   * @param $event Display options' data
    */
-  public registry(state:boolean,name:string) {
-    this.options=state;
-    this.n=name;        
+  receiveMessage($event) {
+    if($event=="true"){
+      this.options=true;
+    }else if($event=="false"){
+      this.options=false;
+    }
   }
 }

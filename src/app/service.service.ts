@@ -129,7 +129,7 @@ export class ServiceService {
    * @param jsonData dataJson to transfer
    */
   book(jsonData) {    
-    const path = `${this.api}/booking`;
+    const path = `${this.api}booking`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 

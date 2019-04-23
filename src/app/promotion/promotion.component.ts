@@ -50,7 +50,7 @@ export class PromotionComponent implements OnInit {
     if (DE == "") {
       this.editAlert("Warning! ", "Set a day to finish the promotion, please.", "warning");
     }
-    else if (Number(D) < 0) {
+    else if (Number(D) < 1) {
       this.editAlert("Warning! ", "Establish a positive discount.", "warning");
     } else {
       const json = { flight_id: Fid, discount: Number(D), exp_date: DE };

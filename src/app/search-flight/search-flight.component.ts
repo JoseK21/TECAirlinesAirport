@@ -1,4 +1,4 @@
-import { Component, OnInit, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { and } from '@angular/router/src/utils/collection';
 import { DatePipe, formatDate } from '@angular/common';
 import { ServiceService } from '../service.service';
@@ -24,7 +24,7 @@ export class SearchFlightComponent implements OnInit {
   options: boolean = true; //Change to false
   enableSF: boolean = false;
   dateNOW: string;
-  
+
   typeFlight: boolean = false; // false : Round Class - true : One way
   class3: boolean = false; // false : Bussiness Class - true : Economy Class
 
@@ -60,11 +60,11 @@ export class SearchFlightComponent implements OnInit {
   modalMSG: number = -1;
   wantAddCard: boolean = false; //CheckBox
 
-  selectFlightID:string="";
-  selectUserName:string="";
-  selectPrice:number=0;
+  selectFlightID: string = "";
+  selectUserName: string = "";
+  selectPrice: number = 0;
 
-  showTable:boolean=false;
+  showTable: boolean = false;
 
   constructor(private service: ServiceService) {
   }
@@ -75,136 +75,145 @@ export class SearchFlightComponent implements OnInit {
 
   //RESERVATION
 
-  
+
   /**
  * checkStudent Change condition Student 
  */
-public checkAddCard() {
-  this.wantAddCard = !this.wantAddCard;
-}
-
-/**
- * changeAcount
- */
-public changeAcount() {
-  this.userCheck = false;
-}
-
-/**
- * logIn Login of a Customer
- * @param un UserName
- * @param pw Password
- */
-public logIn(un: string, pw: string) {
-  if (un.trim().length > 0 && pw.trim().length > 0) {
-    const json = { password: pw, username: un, };
-    this.service.logInCustomer(json).subscribe((jsonTransfer) => {
-      const userStr = JSON.stringify(jsonTransfer); 
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
-      if (jsonWEBAPI.http_result == 1) {
-        this.registry = true;
-        this.name = un;
-        this.userCheck = true;
-        this.modalMSG = 0;
-      } else if (jsonWEBAPI.http_result == 0) {
-        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
-        this.modalMSG = 0;
-      } else {
-        alert("ERROR DEL JSON.... home.componet");
-      }
-    });
-  } else {
-    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+  public checkAddCard() {
+    this.wantAddCard = !this.wantAddCard;
   }
-}
 
-/**
- * addC
- */
-public addC(Ccn: string, Cvv: string, Ed: string) {
-  if (Ccn.trim().length > 0 && Cvv.trim().length > 0 && Ed.trim().length > 0) {
-    const json = { card_number: Ccn, exp_date: Ed, security_code: Cvv, username: this.name, };
-    this.service.addCard(json).subscribe((jsonTransfer) => {
-      const userStr = JSON.stringify(jsonTransfer); // Object to String
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      if (jsonWEBAPI.http_result == 1) {
-        this.registry = true;
-        this.userCheck = true;
-        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
-        this.modalMSG = 1;
-      } else if (jsonWEBAPI.http_result == 0) {
-        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
-      } else {
-        alert("ERROR DEL JSON.... home.componet");
-      }
-    });
-  } else {
-    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+  /**
+   * changeAcount
+   */
+  public changeAcount() {
+    this.userCheck = false;
+  }
+
+  /**
+   * logIn Login of a Customer
+   * @param un UserName
+   * @param pw Password
+   */
+  public logIn(un: string, pw: string) {
+    if (un.trim() == "" || pw.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+      this.modalMSG = 0;
+    } else {
+      const json = { password: pw, username: un, };
+      this.service.logInCustomer(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
+        if (jsonWEBAPI.http_result == 1) {
+          this.registry = true;
+          this.name = un;
+          this.userCheck = true;
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+          this.modalMSG = 0;
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
+
+  }
+
+  /**
+   * addC
+   */
+  public addC(Ccn: string, Cvv: string, Ed: string) {
+    if (Ccn.trim() == "" || Cvv.trim() == "" || Ed.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+    } else {
+      const json = { card_number: Ccn, exp_date: Ed, security_code: Cvv, username: this.name, };
+      this.service.addCard(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        if (jsonWEBAPI.http_result == 1) {
+          this.registry = true;
+          this.userCheck = true;
+          this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
     this.modalMSG = 1;
+    // this.showMessage = true;
   }
-  this.showMessage = true;
-}
 
-/**
- * reservation
- */
-public reservation(Way:string,Class:string,Passengers:string) {
-  if (Way.trim() !="" && Class.trim() !="" ) {
-    var way:string ;
-    var classs:number ;
-    if(Way=="Round Trip"){
-      way="Ida y Vuelta";
-    }else{
-      way="Solo Ida";
-    }
-    if(Class=="Business Class"){
-      classs=0;
-    }else{
-      classs=1;
-    }
-    const json = { flight_id: this.selectFlightID , type: way ,is_first_class:classs , people_flying: Number(Passengers),username: this.name};
-    this.service.book(json).subscribe((jsonTransfer) => {
-      const userStr = JSON.stringify(jsonTransfer); // Object to String
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      if (jsonWEBAPI.http_result == 1) {
-        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
-      } else if (jsonWEBAPI.http_result == 0) {
-        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+  /**
+   * reservation
+   */
+  public reservation(Way: string, Class: string, Passengers: string) {
+    if (Way.trim() == "" || Class.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+      this.modalMSG = 3;
+    } else {
+      var way: string;
+      var classs: boolean;
+      if (Way == "Round Trip") {
+        way = "Ida y Vuelta";
       } else {
-        alert("ERROR DEL JSON.... home.componet");
+        way = "Solo Ida";
       }
-    });
-  } else {
-    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
-    this.modalMSG = 3;
+      if (Class == "Business Class") {
+        classs = true;
+      } else {
+        classs = false;
+      }
+      const json = { 
+        flight_id: this.selectFlightID,
+        type: way, 
+        is_first_class: classs, 
+        people_flying: Number(Passengers), 
+        username: this.name 
+      };
+      console.log("JSON to send : ");
+      console.log(JSON.parse(JSON.stringify(json)));
+      this.service.book(json).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+        alert("Respuesta del api :" + userStr)
+        if (jsonWEBAPI.http_result == 1) {
+          this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
   }
-}
 
-/**
- * pay
- */
-public pay(card: string, scode: string,Way:string,Class:string,Passengers:string) {
-  if (card.trim() !=""  && scode.trim() !="" ) {
-    const json = { card_number: card, security_code: scode};
-    this.service.payFlight(json,this.name).subscribe((jsonTransfer) => {
-      const userStr = JSON.stringify(jsonTransfer); 
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
-      if (jsonWEBAPI.http_result == 1) {  //Resultado de pagar con esa tarjeta
-        alert("Tarjeta con cvv correcto...");
-        this.reservation(Way,Class,Passengers);
-        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
-      } else if (jsonWEBAPI.http_result == 0) {
-        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
-      } else {
-        alert("ERROR DEL JSON.... home.componet");
-      }
-    });
-  } else {
-    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+  /**
+   * pay
+   */
+  public pay(card: string, scode: string, Way: string, Class: string, Passengers: string) {
+    if (card.trim() == "" || scode.trim() == "") {
+      this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+    } else {
+      const json = { card_number: card, security_code: scode };
+      this.service.payFlight(json, this.name).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
+        if (jsonWEBAPI.http_result == 1) {
+          alert("Success! " + jsonWEBAPI.msg + "success");
+          this.reservation(Way, Class, Passengers);
+          // this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1); Esta no porque se debe mostrar que si se realizo el pago o no
+        } else if (jsonWEBAPI.http_result == 0) {
+          alert("Warning! " + jsonWEBAPI.msg + "warning");
+           this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+        } else {
+          alert("ERROR DEL JSON.... home.componet");
+        }
+      });
+    }
     this.modalMSG = 2;
-    this.showMessage= true;
   }
-}
   /**
    * getAirport
    */
@@ -251,26 +260,26 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
    */
   public sendData() {
     this.destino = this.ptD + " to " + this.ptA;
-    this.heroes = [];    
-    const json = { depart_ap: this.ptD, arrival_ap: this.ptA };    
+    this.heroes = [];
+    const json = { depart_ap: this.ptD, arrival_ap: this.ptA };
     this.service.getFlightsByInputs(json).subscribe((jsonTransfer) => {
       const userStr = JSON.stringify(jsonTransfer);
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
-      if (jsonWEBAPI.http_result == 1) {       
+      if (jsonWEBAPI.http_result == 1) {
         var array = JSON.parse("[" + jsonWEBAPI.flights + "]");
-        this.list_flights = array; 
+        this.list_flights = array;
         this.destino = this.ptD + " to " + this.ptA;
-        this.showTable=true;
-        this.showMessage=false;
+        this.showTable = true;
+        this.showMessage = false;
       } else if (jsonWEBAPI.http_result == 0) {
         this.msjAPI = jsonWEBAPI.msg;
-        this.list_flights = []; 
+        this.list_flights = [];
         this.editAlert("Sorry! ", this.msjAPI, "secondary", 1);
-        this.showMessage=true;
-        this.showTable=false;
+        this.showMessage = true;
+        this.showTable = false;
       } else {
         alert("ERROR DEL JSON.... home.componet");
-      }     
+      }
     });
   }
 
@@ -296,6 +305,13 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
   public closeMessage() {
     this.showMessage = false;
   }
+  /**
+   * closeMessage
+   */
+  public closeMessage_0() {
+    this.modalMSG = -1;
+  }
+
 
   /**
    * setptD
@@ -332,8 +348,8 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
    * 
    */
   public changeModal(numModal: number, charModal: number, selectedItem: any) { //CharModal: Input seleccionado
-    this.selectFlightID=selectedItem.flight_id;
-    
+    this.selectFlightID = selectedItem.flight_id;
+
     if (numModal == 0) {
       this.point = charModal;
     }
