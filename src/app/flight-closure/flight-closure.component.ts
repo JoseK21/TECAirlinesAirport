@@ -43,8 +43,6 @@ export class FlightClosureComponent implements OnInit {
       this.service.closeID(id).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); 
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
-        console.log(jsonWEBAPI);
-        
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ", jsonWEBAPI.msg, "success");
           this.getList_idFlight();

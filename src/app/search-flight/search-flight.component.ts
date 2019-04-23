@@ -102,16 +102,12 @@ public logIn(un: string, pw: string) {
       const userStr = JSON.stringify(jsonTransfer); 
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
       if (jsonWEBAPI.http_result == 1) {
-        //this.msjAPI = jsonWEBAPI.msg;
         this.registry = true;
         this.name = un;
         this.userCheck = true;
-        // this.editAlert("Success! ",jsonWEBAPI.msg, "success", 1);
         this.modalMSG = 0;
       } else if (jsonWEBAPI.http_result == 0) {
-        this.msjAPI = jsonWEBAPI.msg;
-        this.editAlert("Error! ", this.msjAPI, "warning", 1);
-        // this.showMessage = true;
+        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
         this.modalMSG = 0;
       } else {
         alert("ERROR DEL JSON.... home.componet");
@@ -265,6 +261,7 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
         this.list_flights = array; 
         this.destino = this.ptD + " to " + this.ptA;
         this.showTable=true;
+        this.showMessage=false;
       } else if (jsonWEBAPI.http_result == 0) {
         this.msjAPI = jsonWEBAPI.msg;
         this.list_flights = []; 
@@ -336,6 +333,7 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
    */
   public changeModal(numModal: number, charModal: number, selectedItem: any) { //CharModal: Input seleccionado
     this.selectFlightID=selectedItem.flight_id;
+    
     if (numModal == 0) {
       this.point = charModal;
     }
