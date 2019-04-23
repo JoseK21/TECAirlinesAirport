@@ -23,7 +23,6 @@ export class PromotionComponent implements OnInit {
 
   ngOnInit() {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    this.getList_idFlight();
   }
 
   /**
@@ -48,7 +47,6 @@ export class PromotionComponent implements OnInit {
    * create
    */
   public create(Fid: string, DS: string, DE: string, D: string) {
-    console.log(Number(D));
     if (DE == "") {
       this.editAlert("Warning! ", "Set a day to finish the promotion, please.", "warning");
     }
@@ -77,25 +75,22 @@ export class PromotionComponent implements OnInit {
   public closeMessage() {
     this.showMessage = false;
   }
-  
+
   /**
    * getList_idFlight
    */
   public getList_idFlight() {
-    if (!this.loadF_ids) {
       this.service.getListFlights_id().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
         if (jsonWEBAPI.http_result == 1) {
           this.fligth_ids = jsonWEBAPI.flights;
-          this.loadF_ids = true;
         } else if (jsonWEBAPI.http_result == 0) {
-          alert("ERROR Universidades no cargadas");
+          // console.log("Empty List of Actives Flights");
         } else {
           alert("ERROR DEL JSON.... home.componet");
         }
       });
-    }
   }
 
   //Load img in window

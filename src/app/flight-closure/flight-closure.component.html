@@ -1,8 +1,12 @@
 <div class="container">
     <br>
     <form>
-        Flight Id<input #id type="number" pattern="^[0-9]+" class="form-control" placeholder="Id" min="0" required> <br>
-        <button type="button" class="btn btn-primary btn-block" (click)="sendID(id.value)">Close</button>
+        Flight Id
+        <select #Fid class="form-control" size="1" (click)="getList_idFlight()">
+          <option *ngFor="let f_id of fligth_ids">{{f_id}}</option>
+        </select>
+        <br>
+        <button type="button" class="btn btn-primary btn-block" (click)="sendID(Fid.value)">Close</button>
     </form>
     <br>
 

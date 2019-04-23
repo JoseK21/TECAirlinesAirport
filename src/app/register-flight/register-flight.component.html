@@ -2,48 +2,42 @@
   <br>
   <div class="form-row">
     <div class="col-md-6 mb-3">
-      Deparment Airport<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,0); getAirport()"
-        data-toggle="modal" data-target="#modalRegistry" data-whatever="@mdo">{{ptD}}</button>
+      Deparment Airport<button type="button" class="btn btn-outline-primary btn-block"
+        (click)="changeModal(0,0); getAirport()" data-toggle="modal" data-target="#modalRegistry"
+        data-whatever="@mdo">{{ptD}}</button>
     </div>
     <div class="col-md-6 mb-3">
-      Airport Arrival<button type="button" class="btn btn-outline-primary btn-block" (click)="changeModal(0,1); getAirport()"
-        data-toggle="modal" data-target="#modalRegistry" data-whatever="@mdo">{{ptA}}</button>
+      Airport Arrival<button type="button" class="btn btn-outline-primary btn-block"
+        (click)="changeModal(0,1); getAirport()" data-toggle="modal" data-target="#modalRegistry"
+        data-whatever="@mdo">{{ptA}}</button>
     </div>
   </div>
   <form>
     <div class="row">
       <div class="col">
-        Flight Id<input #FI type="text" class="form-control" placeholder="Id" required>
+        Flight Id
+        <input #FI type="text" class="form-control" required (click)="getPlaneModel()" placeholder="Id">
       </div>
       <div class="col">
         Departure Date<input #DD type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
       </div>
-      <div class="col">
-        Arrival Date<input #AD type="date" class="form-control" (click)="setDate(DD.value)" [min]="dateMIN" required>
-      </div>
+
       <div class="col">
         Plane Model
-        <input #PM type="text" class="form-control" placeholder="Model" required>
-        <!--
         <select #PM id="inputStateAirports" class="form-control" size="1">
-          <option *ngFor="let mf of modelFlight" >{{mf}}</option>
+          <option *ngFor="let mf of modelPlane">{{mf}}</option>
         </select>
-        -->
-        <!--modelFlight-->
       </div>
       <div class="col">
-        Economic Price($)<input #EP type="text" class="form-control" placeholder="###" required>
+        Economic Price($)<input #EP type="number" class="form-control" min="0" value="0" placeholder="###" required>
       </div>
       <div class="col">
-        First Class Price($)<input #FCL type="text" class="form-control" placeholder="###" required>
+        First Class Price($)<input #FCP type="number" class="form-control" min="0" value="0" placeholder="###" required>
       </div>
     </div>
     <br>
-    <button type="button" class="btn btn-primary btn-block" (click)="checkInputs(FI.value,DD.value,AD.value,PM.value,EP.value,FCL.value)">Registry</button>
-
-    <!--Message of input valided-->
-
-
+    <button [disabled]="!enableSF" type="button" class="btn btn-primary btn-block"
+      (click)="checkInputs(FI.value,DD.value,PM.value,EP.value,FCP.value)">Registry</button>
     <div class="modal-footer">
       <div style="margin:0 auto;" *ngIf="showMessage" class="alert alert-{{type}} alert-dismissible fade show"
         role="alert">
@@ -56,18 +50,14 @@
   </form>
 </div>
 
-
-<!--MODAL -->
 <div class="modal fade" id="modalRegistry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <!--Modal Select Airport-->
     <div class="modal-content" *ngIf="showModal==0">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Select Airport</h5>
       </div>
       <div class="modal-body">
-        <!--<app-airport (messageEvent2)="receiveMessage($event)"> </app-airport>-->
         <form>
           <div class="form-group">
             Airport
@@ -86,21 +76,5 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
-    <!-- Modal Reservation-->
-
-<!--
-    <div class="modal-content" *ngIf="showModal==1">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
-      </div>
-      <div class="modal-body">
-        <app-reservation></app-reservation>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-
-  -->
   </div>
 </div>

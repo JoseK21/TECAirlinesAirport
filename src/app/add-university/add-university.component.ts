@@ -7,19 +7,11 @@ import { ServiceService } from '../service.service';
   styleUrls: ['./add-university.component.css']
 })
 export class AddUniversityComponent implements OnInit {
-
-  registry: boolean = false;
-  name: string = '';
-  password: string = '';
-  show_LI_SO: boolean = true; //Show Logn In : LO   
-  message: string = "Hola Mundo!"
-
   msj: string = "";
   text: string = "";
   type: string = "";
   showMessage: boolean = false;
-
-  msjAPI: string = "";
+  
   constructor(private service: ServiceService) { }
 
   ngOnInit() {
@@ -31,7 +23,7 @@ export class AddUniversityComponent implements OnInit {
     console.log(nameUni);
 
     if (nameUni.trim().length == 0 ) {
-      this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+      this.editAlert("Warning! ", "Empty input", "warning");
 
     } else {
       const json = {  uni_name: nameUni    }
@@ -48,7 +40,6 @@ export class AddUniversityComponent implements OnInit {
         }
       });
     }
-    
   }
 
   /**

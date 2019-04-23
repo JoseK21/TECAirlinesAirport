@@ -18,11 +18,11 @@ export class FlightClosureComponent implements OnInit {
   type: string = "";
   showMessage: boolean = false;
   showMessageErrorLogin: boolean = false;
-
+  fligth_ids = [];
+  loadF_ids: boolean = false;
   constructor(private service: ServiceService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   /**
    * setStateMessage
@@ -34,36 +34,27 @@ export class FlightClosureComponent implements OnInit {
   /**
    * sendID
    */
-  public sendID(id: number) {
-    console.log("ID : " + id);
+  public sendID(id: string) {
     if (id.toString() == "") {
-      console.log("VAcio");
       this.editAlert("Warning! ", "Flight Id empty", "warning");
-      this.openB=1;
-      
+      this.openB = 1;
     }
     else {
       this.service.closeID(id).subscribe((jsonTransfer) => {
-        console.log("Dato a usar para hacer compraciones : " + jsonTransfer);
-        const userStr = JSON.stringify(jsonTransfer);
-
-        JSON.parse(JSON.parse(userStr), (key, value) => {
-
-          if (key === 'msg') {
-            this.msjAPI = value;
-          }
-
-          if (key === 'http_result') {
-            console.log(value);
-            if (value == 1) {//todo bien
-              this.editAlert("Success! ", this.msjAPI, "success");
-            } else {
-              this.editAlert("Error! ", this.msjAPI, "danger");
-            }
-            this.openB=1;
-          }
-        });
+        const userStr = JSON.stringify(jsonTransfer); 
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
+        console.log(jsonWEBAPI);
+        
+        if (jsonWEBAPI.http_result == 1) {
+          this.editAlert("Success! ", jsonWEBAPI.msg, "success");
+          this.getList_idFlight();
+        } else if (jsonWEBAPI.http_result == 0) {
+          this.editAlert("Error! ", jsonWEBAPI.msg, "danger");
+        } else {
+          alert("ERROR DEL JSON.... sign-up.componet");
+        }
       });
+      this.openB=1;
     }
   }
 
@@ -77,4 +68,20 @@ export class FlightClosureComponent implements OnInit {
     this.type = type;
   }
 
+  /**
+   * getList_idFlight
+   */
+  public getList_idFlight() {
+    this.service.getListFlights_id().subscribe((jsonTransfer) => {
+      const userStr = JSON.stringify(jsonTransfer);
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
+      if (jsonWEBAPI.http_result == 1) {
+        this.fligth_ids = jsonWEBAPI.flights;
+      } else if (jsonWEBAPI.http_result == 0) {
+        // console.log("Empty List of Actives Flights");
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
+  }
 }

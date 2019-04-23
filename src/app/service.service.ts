@@ -150,12 +150,19 @@ export class ServiceService {
     const path = `${this.api}admin/flights/active`;      
     return this.http.get(path);      
 }
+/**
+   * Get list of plane model
+   */
+  getPlaneModel(){
+    const path = `${this.api}admin/airplanes`;      
+    return this.http.get(path);      
+}
 
   /**
    * Closure a Flight
    * @param id Flight's id 
    */
-  closeID(id:number) {
+  closeID(id:string) {
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
   }
