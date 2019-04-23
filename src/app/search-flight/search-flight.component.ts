@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { and } from '@angular/router/src/utils/collection';
 import { DatePipe, formatDate } from '@angular/common';
 import { ServiceService } from '../service.service';
@@ -24,12 +24,12 @@ export class SearchFlightComponent implements OnInit {
   options: boolean = true; //Change to false
   enableSF: boolean = false;
   dateNOW: string;
-
+  
   typeFlight: boolean = false; // false : Round Class - true : One way
   class3: boolean = false; // false : Bussiness Class - true : Economy Class
 
   // Variables to need load with info of Data Base
-  ap_name = ["Bogota", "San Jose", "Los Angeles"];  //Default
+  ap_name = [];  //Default
   list_flights = [];  //Default
   airportSelected: string = "";
   airportLoadApi: boolean = false;
@@ -49,6 +49,21 @@ export class SearchFlightComponent implements OnInit {
   s_people_flying: number = 0;
   s_username: string = "";
 
+  //RESERVATION
+  userCheck: boolean = false;
+  userName: string = "";
+  registry: boolean = false;
+  name: string = '';
+  password: string = '';
+  show_LI_SO: boolean = true; //Show Logn In : LO   
+  message: string = "Hola Mundo!"
+  modalMSG: number = -1;
+  wantAddCard: boolean = false; //CheckBox
+
+  selectFlightID:string="";
+  selectUserName:string="";
+  selectPrice:number=0;
+
   constructor(private service: ServiceService) {
   }
 
@@ -56,18 +71,159 @@ export class SearchFlightComponent implements OnInit {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
+  //RESERVATION
 
-  receiveMessage($event) {
-    if (this.point == 0) {
-      this.ptD = $event;
-    } else if (this.point == 1) {
-      this.ptA = $event;
-    }
-    if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
-      this.enableSF = true;
-    }
+  
+  /**
+ * checkStudent Change condition Student 
+ */
+public checkAddCard() {
+  this.wantAddCard = !this.wantAddCard;
+}
+
+/**
+ * changeAcount
+ */
+public changeAcount() {
+  this.userCheck = false;
+}
+
+/**
+ * logIn Login of a Customer
+ * @param un UserName
+ * @param pw Password
+ */
+public logIn(un: string, pw: string) {
+  if (un.trim().length > 0 && pw.trim().length > 0) {
+    const json = { password: pw, username: un, };
+    this.service.logInCustomer(json).subscribe((jsonTransfer) => {
+      console.log("Result :" + jsonTransfer);
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      if (jsonWEBAPI.http_result == 1) {
+        //this.msjAPI = jsonWEBAPI.msg;
+        this.registry = true;
+        this.name = un;
+        this.userCheck = true;
+        // this.editAlert("Success! ",jsonWEBAPI.msg, "success", 1);
+        this.modalMSG = 0;
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.msjAPI = jsonWEBAPI.msg;
+        this.editAlert("Error! ", this.msjAPI, "warning", 1);
+        // this.showMessage = true;
+        this.modalMSG = 0;
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
+  } else {
+    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
   }
+}
 
+/**
+ * addC
+ */
+public addC(Ccn: string, Cvv: string, Ed: string) {
+  if (Ccn.trim().length > 0 && Cvv.trim().length > 0 && Ed.trim().length > 0) {
+    const json = { card_number: Ccn, exp_date: Ed, security_code: Cvv, username: this.name, };
+    this.service.addCard(json).subscribe((jsonTransfer) => {
+      console.log("Result :" + jsonTransfer);
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      if (jsonWEBAPI.http_result == 1) {
+        this.registry = true;
+        this.userCheck = true;
+        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
+        this.modalMSG = 1;
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
+  } else {
+    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+    this.modalMSG = 1;
+  }
+  this.showMessage = true;
+}
+
+/**
+ * reservation
+ */
+public reservation(Way:string,Class:string,Passengers:string) {
+  console.log("Forma de viajar :"+Way);
+  console.log("Tipo de clase :"+Class);
+  console.log("Cantidad de pasajeros :"+ Number(Passengers));
+
+  if (Way.trim() !="" && Class.trim() !="" ) {
+    var way:string ;
+    var classs:number ;
+    if(Way=="Round Trip"){
+      way="Ida y Vuelta";
+    }else{
+      way="Solo Ida";
+    }
+    if(Class=="Business Class"){
+      classs=0;
+    }else{
+      classs=1;
+    }
+
+    const json = { flight_id: this.selectFlightID , type: way ,is_first_class:classs , people_flying: Number(Passengers),username: this.name};
+    console.log("UserName : "+this.name);
+    console.log("flight_id : "+this.selectFlightID);
+    
+    this.service.book(json).subscribe((jsonTransfer) => {
+      console.log("Result :" + jsonTransfer);
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      if (jsonWEBAPI.http_result == 1) {
+        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
+  } else {
+    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+    this.modalMSG = 3;
+  }
+}
+
+/**
+ * pay
+ */
+public pay(card: string, scode: string,Way:string,Class:string,Passengers:string) {
+  if (card.trim() !=""  && scode.trim() !="" ) {
+    const json = { card_number: card, security_code: scode};
+    console.log("UserName : "+this.name);    
+    this.service.payFlight(json,this.name).subscribe((jsonTransfer) => {
+      console.log("Result :" + jsonTransfer);
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      if (jsonWEBAPI.http_result == 1) {  //Resultado de pagar con esa tarjeta
+        alert("Tarjeta con cvv correcto...");
+        this.reservation(Way,Class,Passengers);
+        this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
+  } else {
+    this.editAlert("Warning! ", "Empty inputs", "warning", 1);
+    this.modalMSG = 2;
+    this.showMessage= true;
+  }
+}
   /**
    * getAirport
    */
@@ -119,56 +275,24 @@ export class SearchFlightComponent implements OnInit {
    * sendData
    */
   public sendData() {
-    // ELIMINAR DE AQUI ESTA MAS ABAJO va en la http_result = 1
     this.destino = this.ptD + " to " + this.ptA;
-    // this.changeWindows();
-    this.heroes = ['Magneta'];
-
-    /*
-    if (!this.typeFlight) { // False
-      this.s_type = "Ida y Vuelta";
-    } else {
-      this.s_type = "Solo Ida";
-    }
-    this.s_is_first_class = !this.class3;
-
-   this.s_people_flying = Number(adults) + Number(children) + Number(infacts);
-
-   */
-    // Consulta sobre los aeropuerto ingresados ... 
-
-    // if ((adults + children + infacts) >= 0) {	//Parametros de entrada
-    
-    const json = { depart_ap: this.ptD, arrival_ap: this.ptA };  //{"depart_ap":San Jose, "arrival_ap": New York}
-    
+    this.heroes = [];    
+    const json = { depart_ap: this.ptD, arrival_ap: this.ptA };    
     this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
       console.log(jsonTransfer);
-      const userStr = JSON.stringify(jsonTransfer); // Object to String
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      const userStr = JSON.stringify(jsonTransfer);
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
       console.log("HTTP_result :" + jsonWEBAPI.http_result);
-      if (jsonWEBAPI.http_result == 1) {
-       
-
-       // this.list_flights = jsonWEBAPI.flights; //list_flights or flights
+      if (jsonWEBAPI.http_result == 1) {       
         var array = JSON.parse("[" + jsonWEBAPI.flights + "]");
         this.list_flights = array; 
         console.log(array);
-              
-        //Recorer Esto
-
-        //Por cada uno hacerle const jsonWEBAPI = JSON.parse(JSON.parse("""""userStr""""")); // String to Json
-        // [{},{},{},{}]
-
         this.destino = this.ptD + " to " + this.ptA;
-
-
       } else if (jsonWEBAPI.http_result == 0) {
         this.msjAPI = jsonWEBAPI.msg;
         this.list_flights = []; 
         this.editAlert("Sorry! ", this.msjAPI, "secondary", 1);
         this.showMessage=true;
-
-
       } else {
         alert("ERROR DEL JSON.... home.componet");
       }     
@@ -197,6 +321,8 @@ export class SearchFlightComponent implements OnInit {
   public closeMessage() {
     this.showMessage = false;
   }
+
+
 
   /**
    * setptD
@@ -235,47 +361,13 @@ export class SearchFlightComponent implements OnInit {
    * 
    */
   public changeModal(numModal: number, charModal: number, selectedItem: any) { //CharModal: Input seleccionado
-    console.log("Selected item Id: ", selectedItem.depart_date); // You get the Id of the selected item here
+    this.selectFlightID=selectedItem.flight_id;
+    console.log("Selected item Fligth:Id  : ", selectedItem.flight_id); // You get the Id of the selected item here
     console.log("Selected all: ", selectedItem); // You get the Id of the selected item here
 
     if (numModal == 0) {
       this.point = charModal;
     }
     this.showModal = numModal;
-  }
-
-  /**
-   * changeCheck
-   */
-  public changeCheck(row: number, col: number) {
-    console.log("<<<<<<<<<<<<<<<<<<<<<Eliminar metodo changeCheck>>>>>>>>>>>>>>>>>>>>>>>>");
-
-  }
-
-
-  /**
-   * changeWay
-   */
-  public changeWay(s: string) {
-    if (s == 'R') {
-      this.typeFlight = false;
-      console.log("Round Trip");
-    } else if (s == 'O') {
-      this.typeFlight = true;
-      console.log("One way");
-    }
-  }
-
-  /**
-  * changeClass
-  */
-  public changeClass(s: string) {
-    if (s == 'B') {
-      this.class3 = false;
-      console.log("Business Class");
-    } else if (s == 'E') {
-      this.class3 = true;
-      console.log("Economy Class ");
-    }
   }
 }

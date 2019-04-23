@@ -129,8 +129,7 @@ export class RegisterFlightComponent implements OnInit {
       // MARCELO NO ESTA UTILIZANDO ARRIVAL DAY
       const json = {
         depart_ap: this.ptD, arrival_ap: this.ptA, flight_id: FI, depart_date: DD, plane_model: PM,
-        normal_price: Number(EP), fc_price: Number(FCL)
-      };
+        normal_price: Number(EP), fc_price: Number(FCL)  };
 
 
       this.service.registryFlight(json).subscribe((jsonTransfer) => {

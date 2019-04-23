@@ -18,7 +18,6 @@ export class AddUniversityComponent implements OnInit {
   text: string = "";
   type: string = "";
   showMessage: boolean = false;
-  showMessageErrorLogin: boolean = false;
 
   msjAPI: string = "";
   constructor(private service: ServiceService) { }

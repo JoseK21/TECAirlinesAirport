@@ -27,21 +27,7 @@
       <div class="row justify-content-center">
         <div class="col-5">
           <button class="btn btn-dark btn-block" (click)="logInAdmin(UN.value,PW.value)" type="button">Log
-            In</button>
-            <!--
-          <div class="modal-footer" *ngIf="showMessage">
-            <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show"
-              role="alert">
-              <strong>{{msj}}</strong>{{text}}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-              (click)="closeMessage();heroForm.reset()">Close</button>
-          </div>
-          -->
-          <!-- Agregar mensage-->
+            In</button>            
         </div>
       </div>
       <br>
@@ -115,7 +101,7 @@
                 <div class="form-row ">
                   <div class="col-10">
                     <button class="btn btn-success btn-block"
-                      (click)="registryAdmin(FN.value+' '+LN.value,P.value,E.value,US.value,PW.value,Ro.value)"
+                      (click)="registryAdmin(FN.value,LN.value,P.value,E.value,US.value,PW.value,Ro.value)"
                       type="button">Sign Up</button>
                   </div>
                 </div>

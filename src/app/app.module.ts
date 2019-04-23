@@ -13,8 +13,6 @@ import { PromotionComponent } from './promotion/promotion.component';
 import { PassegerCheckComponent } from './passeger-check/passeger-check.component';
 import { RegisterFlightComponent } from './register-flight/register-flight.component';
 import { FlightClosureComponent } from './flight-closure/flight-closure.component';
-import { ReservationComponent } from './reservation/reservation.component';
-import { AddCardComponent } from './add-card/add-card.component';
 import { AddUniversityComponent } from './add-university/add-university.component';
 
 @NgModule({
@@ -28,8 +26,6 @@ import { AddUniversityComponent } from './add-university/add-university.componen
     PassegerCheckComponent,
     RegisterFlightComponent,
     FlightClosureComponent,
-    ReservationComponent,
-    AddCardComponent,
     AddUniversityComponent,
   ],
   imports: [

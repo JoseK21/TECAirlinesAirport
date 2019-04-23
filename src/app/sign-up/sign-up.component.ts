@@ -8,7 +8,6 @@ import { ServiceService } from '../service.service';
 })
 export class SignUpComponent implements OnInit {
   isStudent: boolean = false;
-  
   msj: string = "";
   text: string = "";
   type: string = "";
@@ -50,19 +49,27 @@ export class SignUpComponent implements OnInit {
 
   /* WEB API */
 
-  /**
-   * createCustomer Creación de cuenta de Admin
-   */
-  public createCustomer(fn: string, ln: string, uvn: string, c: number, e: string, p: string, un: string, pw: string) {
+
+   /**
+    * createCustomer Create an acount of Custumer
+    * @param fn first name
+    * @param ln last name
+    * @param uvn university name
+    * @param c carnet
+    * @param e email
+    * @param p phone number
+    * @param un username
+    * @param pw password
+    */
+  public createCustomer(fn: string, ln: string, uvn: string, c: string, e: string, p: string, un: string, pw: string) {
 
     if (this.isStudent) {
-      if ((fn.trim().length == 0 || ln.trim().length == 0 || uvn.trim().length == 0 || c <= 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+      if (fn.trim() == "" || ln.trim() == "" || uvn.trim() == "" || c.trim() == "" || e.trim() == "" || p.trim() == "" || un.trim() == "" || pw.trim() == "") {
         this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
-
       } else {
         const json = {
           full_name: fn + " " + ln, phone_numbr: p, email: e, is_student: this.isStudent, college_name: uvn,
-          student_id: c, username: un, password: pw
+          student_id: Number(c), username: un, password: pw
         };
 
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
@@ -80,13 +87,12 @@ export class SignUpComponent implements OnInit {
         });
       }
     } else {
-      if ((fn.trim().length == 0 || ln.trim().length == 0 || e.trim().length == 0 || p.trim().length == 0 || un.trim().length == 0 || pw.trim().length == 0)) {
+      if (fn.trim() == "" || ln.trim() == "" || e.trim() == "" || p.trim() == "" || un.trim() == "" || pw.trim() == "") {
         this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
-
       } else {
         const json = {
           full_name: fn + " " + ln, phone_numbr: p, email: e,
-          is_student: this.isStudent, college_name: uvn, student_id: c, username: un,
+          is_student: this.isStudent, college_name: uvn, student_id: Number(c), username: un,
           password: pw
         };
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
@@ -120,7 +126,7 @@ export class SignUpComponent implements OnInit {
         console.log(jsonWEBAPI);
         if (jsonWEBAPI.http_result == 1) {
           this.list_univ = jsonWEBAPI.universities;
-          this.loadUni=true;
+          this.loadUni = true;
         } else if (jsonWEBAPI.http_result == 0) {
           alert("ERROR Universidades no cargadas");
         } else {
