@@ -31,6 +31,7 @@ export class SearchFlightComponent implements OnInit {
   // Variables to need load with info of Data Base
   ap_name = [];  //Default
   list_flights = [];  //Default
+  list_cards= [];  //Default
   airportSelected: string = "";
   airportLoadApi: boolean = false;
   airportLoadCorrect: number = 0;
@@ -108,6 +109,7 @@ export class SearchFlightComponent implements OnInit {
           this.registry = true;
           this.name = un;
           this.userCheck = true;
+          this.getCard();
         } else if (jsonWEBAPI.http_result == 0) {
           this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
           this.modalMSG = 0;
@@ -233,6 +235,25 @@ export class SearchFlightComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * getAirport
+   */
+  public getCard() {        
+      this.service.getListCards(this.name).subscribe((jsonTransfer) => {
+        const userStr = JSON.stringify(jsonTransfer); // Object to String
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json    
+        console.log(jsonWEBAPI);
+           
+        if (jsonWEBAPI.http_result == 1) {
+          this.list_cards = jsonWEBAPI.cards;
+        } else if (jsonWEBAPI.http_result == 0) {
+          
+        } else {
+          alert("ERROR DEL JSON.... SEARCH.componet");
+        }
+      });
   }
 
   /**

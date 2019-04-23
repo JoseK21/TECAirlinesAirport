@@ -15,6 +15,8 @@ import { RegisterFlightComponent } from './register-flight/register-flight.compo
 import { FlightClosureComponent } from './flight-closure/flight-closure.component';
 import { AddUniversityComponent } from './add-university/add-university.component';
 
+import { NgxQRCodeModule } from "ngx-qrcode2";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +34,8 @@ import { AddUniversityComponent } from './add-university/add-university.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxQRCodeModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

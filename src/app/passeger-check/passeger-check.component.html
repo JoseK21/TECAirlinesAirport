@@ -1,42 +1,63 @@
 <div class="container">
-<br>
+  <br>
   <form class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">      
-      <input type="text" class="form-control" placeholder="Username" >
+    <div class="form-group mb-2">
+      <input #UseName type="text" class="form-control" placeholder="Username">
     </div>
-    <button type="button" class="btn btn-primary mb-2">Search</button>
+    <div class="form-group mx-2">
+      <button type="button" class="btn btn-primary mb-2" (click)="goToCheck(UseName.value)">Search</button>
+    </div>
   </form>
   <br>
 
+  <div [hidden]="!showTable">
+    <table class="table table-dark">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Journey</th>
+          <th scope="col">Departure time </th>
+          <th scope="col">Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let check of listCheck;  let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{check.flight_id}}</td>
+          <td>{{check.depart_date}}</td>
+          <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" (click)="checkFlight(check)">
+                  Success
+                </button>
+              </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <table class="table table-dark">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Journey</th>
-        <th scope="col">Departure time </th>
-        <th scope="col">Check</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>SJO to COl</td>
-        <td>12/01/2019 : 02:00pm</td>
-        <td><button type="button" class="btn btn-info">Success</button></td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>19/03/2019 : 12:50pm</td>
-        <td><button type="button" class="btn btn-info">Success</button></td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>10/11/2019 : 22:00pm</td>
-        <td><button type="button" class="btn btn-info">Success</button></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">QR Code</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <ngx-qrcode qrc-element-type="url" [qrc-value]="codeQR"></ngx-qrcode>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
 </div>

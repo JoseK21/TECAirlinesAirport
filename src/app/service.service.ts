@@ -97,6 +97,17 @@ export class ServiceService {
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
+  
+  getListCheck(userName:string){    
+    const path = `${this.api}${userName}/check`;
+    return this.http.post(path, "'" + userName+ "'", httpOptions);
+  }
+
+  getListCards(userName:string){    
+    const path = `${this.api}${userName}/cards`;
+    return this.http.get(path);
+  }
+
   /**
    * Get List of Universities
    */
