@@ -25,12 +25,21 @@
           [min]="dateMIN" required>
       </div>
       <div class="col">
-        Discount($)<input #D type="number" class="form-control" min="0" max="100" value="0" required>
+        Discount($)<input #D type="number" pattern="^[0-9]+" class="form-control" min="0" max="100" value="0" required>
       </div>
       <div class="col align-self-end">
         <button type="button" class="btn btn-success btn-block"
           (click)="create(Fid.value,DS.value,DE.value,D.value)">Create</button>
       </div>
     </div>
+    <br>
+    <div class="modal-footer" *ngIf="showMessage">
+        <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+          <strong>{{msj}}</strong>{{text}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeMessage()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
   </form>
 </div>

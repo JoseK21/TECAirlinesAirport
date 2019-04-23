@@ -64,6 +64,8 @@ export class SearchFlightComponent implements OnInit {
   selectUserName:string="";
   selectPrice:number=0;
 
+  showTable:boolean=false;
+
   constructor(private service: ServiceService) {
   }
 
@@ -97,10 +99,8 @@ public logIn(un: string, pw: string) {
   if (un.trim().length > 0 && pw.trim().length > 0) {
     const json = { password: pw, username: un, };
     this.service.logInCustomer(json).subscribe((jsonTransfer) => {
-      console.log("Result :" + jsonTransfer);
-      const userStr = JSON.stringify(jsonTransfer); // Object to String
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      const userStr = JSON.stringify(jsonTransfer); 
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
       if (jsonWEBAPI.http_result == 1) {
         //this.msjAPI = jsonWEBAPI.msg;
         this.registry = true;
@@ -129,10 +129,8 @@ public addC(Ccn: string, Cvv: string, Ed: string) {
   if (Ccn.trim().length > 0 && Cvv.trim().length > 0 && Ed.trim().length > 0) {
     const json = { card_number: Ccn, exp_date: Ed, security_code: Cvv, username: this.name, };
     this.service.addCard(json).subscribe((jsonTransfer) => {
-      console.log("Result :" + jsonTransfer);
       const userStr = JSON.stringify(jsonTransfer); // Object to String
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      console.log("HTTP_result :" + jsonWEBAPI.http_result);
       if (jsonWEBAPI.http_result == 1) {
         this.registry = true;
         this.userCheck = true;
@@ -155,10 +153,6 @@ public addC(Ccn: string, Cvv: string, Ed: string) {
  * reservation
  */
 public reservation(Way:string,Class:string,Passengers:string) {
-  console.log("Forma de viajar :"+Way);
-  console.log("Tipo de clase :"+Class);
-  console.log("Cantidad de pasajeros :"+ Number(Passengers));
-
   if (Way.trim() !="" && Class.trim() !="" ) {
     var way:string ;
     var classs:number ;
@@ -172,16 +166,10 @@ public reservation(Way:string,Class:string,Passengers:string) {
     }else{
       classs=1;
     }
-
     const json = { flight_id: this.selectFlightID , type: way ,is_first_class:classs , people_flying: Number(Passengers),username: this.name};
-    console.log("UserName : "+this.name);
-    console.log("flight_id : "+this.selectFlightID);
-    
     this.service.book(json).subscribe((jsonTransfer) => {
-      console.log("Result :" + jsonTransfer);
       const userStr = JSON.stringify(jsonTransfer); // Object to String
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      console.log("HTTP_result :" + jsonWEBAPI.http_result);
       if (jsonWEBAPI.http_result == 1) {
         this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
       } else if (jsonWEBAPI.http_result == 0) {
@@ -202,12 +190,9 @@ public reservation(Way:string,Class:string,Passengers:string) {
 public pay(card: string, scode: string,Way:string,Class:string,Passengers:string) {
   if (card.trim() !=""  && scode.trim() !="" ) {
     const json = { card_number: card, security_code: scode};
-    console.log("UserName : "+this.name);    
     this.service.payFlight(json,this.name).subscribe((jsonTransfer) => {
-      console.log("Result :" + jsonTransfer);
-      const userStr = JSON.stringify(jsonTransfer); // Object to String
-      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-      console.log("HTTP_result :" + jsonWEBAPI.http_result);
+      const userStr = JSON.stringify(jsonTransfer); 
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
       if (jsonWEBAPI.http_result == 1) {  //Resultado de pagar con esa tarjeta
         alert("Tarjeta con cvv correcto...");
         this.reservation(Way,Class,Passengers);
@@ -229,23 +214,17 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
    */
   public getAirport() {
     if (!this.airportLoadApi) {
-      // COLSULTA A LA BASE
       this.airportLoadApi = true;
-      console.log("Load Airport");
       this.service.getAirports().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        console.log(jsonWEBAPI);
-
-        console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.airports);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json       
         if (jsonWEBAPI.http_result == 1) {
           this.airportLoadApi = false; // Lista cargada
           this.ap_name = jsonWEBAPI.airports;
         } else if (jsonWEBAPI.http_result == 0) {
           this.airportLoadApi = true; // Lista no cargada : no se retorno del web api
         } else {
-          alert("ERROR DEL JSON.... home.componet");
+          alert("ERROR DEL JSON.... SEARCH.componet");
         }
       });
     }
@@ -278,21 +257,20 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
     this.destino = this.ptD + " to " + this.ptA;
     this.heroes = [];    
     const json = { depart_ap: this.ptD, arrival_ap: this.ptA };    
-    this.service.getAirportByInputs(json).subscribe((jsonTransfer) => {
-      console.log(jsonTransfer);
+    this.service.getFlightsByInputs(json).subscribe((jsonTransfer) => {
       const userStr = JSON.stringify(jsonTransfer);
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
-      console.log("HTTP_result :" + jsonWEBAPI.http_result);
       if (jsonWEBAPI.http_result == 1) {       
         var array = JSON.parse("[" + jsonWEBAPI.flights + "]");
         this.list_flights = array; 
-        console.log(array);
         this.destino = this.ptD + " to " + this.ptA;
+        this.showTable=true;
       } else if (jsonWEBAPI.http_result == 0) {
         this.msjAPI = jsonWEBAPI.msg;
         this.list_flights = []; 
         this.editAlert("Sorry! ", this.msjAPI, "secondary", 1);
         this.showMessage=true;
+        this.showTable=false;
       } else {
         alert("ERROR DEL JSON.... home.componet");
       }     
@@ -322,8 +300,6 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
     this.showMessage = false;
   }
 
-
-
   /**
    * setptD
    * Selecciona el punto de partida 
@@ -331,7 +307,6 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
   public setptD(input: string) {
     if (input.trim().length > 0) {
       this.ptD = input;
-      console.log(input);
     }
     if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
       this.enableSF = true;
@@ -346,7 +321,6 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
   public setptA(input: string) {
     if (input.trim().length > 0) {
       this.ptA = input;
-      console.log(input);
     }
     if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
       this.enableSF = true;
@@ -362,9 +336,6 @@ public pay(card: string, scode: string,Way:string,Class:string,Passengers:string
    */
   public changeModal(numModal: number, charModal: number, selectedItem: any) { //CharModal: Input seleccionado
     this.selectFlightID=selectedItem.flight_id;
-    console.log("Selected item Fligth:Id  : ", selectedItem.flight_id); // You get the Id of the selected item here
-    console.log("Selected all: ", selectedItem); // You get the Id of the selected item here
-
     if (numModal == 0) {
       this.point = charModal;
     }

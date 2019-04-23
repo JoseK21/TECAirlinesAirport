@@ -4,7 +4,6 @@ import { Admin } from './interfaces/admin';
 import { CCard } from './interfaces/ccard';
 import { Customer } from './interfaces/customer';
 import { Flight } from './interfaces/flight';
-import { Reservation } from './interfaces/reservation';
 import { Sale } from './interfaces/sale';
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
@@ -14,8 +13,8 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
 })
 export class ServiceService {
   loadUniv:boolean=false;
-
   private api = 'http://localhost:64660/tecairlines/';
+
   constructor(private http: HttpClient) { }
 
   /**
@@ -90,91 +89,74 @@ export class ServiceService {
   }
 
   /**
+   * Get flights by the aerports of deparment and arrival
+   * @param jsonData 
+   */
+  getFlightsByInputs(jsonData){    
+    const path = `${this.api}flights`;
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+  }
+
+  /**
+   * Get List of Universities
+   */
+  getUniversities(){
+      const path = `${this.api}universities`;      
+      return this.http.get(path);      
+  }
+
+  /**
+   * Pay a Flight
+   * @param jsonData dataJson to transfer
+   * @param userName username of customer
+   */
+  payFlight(jsonData,userName:string) {    
+    const path = `${this.api}${userName}/pay-flight`;
+    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
+  }
+
+  /**
    * Registry a Flight
-   * @param flight 
+   * @param flight dataJson to transfer
    */
   registryFlight(flight: Flight){
     const path = `${this.api}admin/new-flight`;
     return this.http.post(path, "'" + JSON.stringify(flight) + "'", httpOptions);
   }
 
-  // Component Search flights
-  getAirportByInputs(jsonData){
-    
-    
-    const path = `${this.api}flights`;
-    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
-
-  }
-  getUniversities(){
-      console.log("Get all universities>");
-      const path = `${this.api}universities`;      
-      return this.http.get(path);      
-  }
-
-  
-  payFlight(jsonData,userName:string) {
-    
-    
-    const path = `${this.api}${userName}/pay-flight`;
-    return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
-  }
-
-  book(jsonData) {
-    
-    
+  /**
+   * Book a flight
+   * @param jsonData dataJson to transfer
+   */
+  book(jsonData) {    
     const path = `${this.api}/booking`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
+  /**
+   * Reservation a flight
+   * @param jsonData dataJson to transfer
+   * @param userName Customer's userName
+   */
   reservation(jsonData,userName:string) {
-    
-    
     const path = `${this.api}${userName}/pay-flight`;
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
+  /**
+   * Get list of flights ids
+   */
   getListFlights_id(){
-    console.log("Get List Flight IDs>");  
     const path = `${this.api}admin/flights/active`;      
     return this.http.get(path);      
 }
 
-  //Closure a Flight
+  /**
+   * Closure a Flight
+   * @param id Flight's id 
+   */
   closeID(id:number) {
-    
-    console.log(id);
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
   }
-
-  /*
-getAllCliente() {
-    const path = `${this.api}/`;
-    return this.http.get<Cliente[]>(path);
-  }
-
-  getCliente(id: string) {
-    const path = `${this.api}/${id}`;
-    return this.http.get<Cliente>(path);
-  }
-
-  createCliente(cliente: Cliente) {
-    console.log('>>>>' + cliente)
-    const path = `${this.api}/new`;
-    return this.http.post(path, "'" + JSON.stringify(cliente) + "'", httpOptions);
-  }
-
-  updateCliente(cliente: Cliente) {
-    const path = `${this.api}/${cliente.ID}`;
-    return this.http.put<Cliente>(path, "'" + JSON.stringify(cliente) + "'");
-  }
-
-  deleteCliente(id: string) {
-    console.log('>>>>' + id)
-    const path = `${this.api}/delete/${id}`;
-    return this.http.delete(path);
-  }
-*/
-
 }

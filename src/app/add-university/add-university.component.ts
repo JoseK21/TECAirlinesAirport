@@ -35,7 +35,6 @@ export class AddUniversityComponent implements OnInit {
 
     } else {
       const json = {  uni_name: nameUni    }
-
       this.service.addUniversity(json).subscribe((jsonTransfer) => {   
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json

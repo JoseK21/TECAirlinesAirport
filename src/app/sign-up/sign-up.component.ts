@@ -17,11 +17,7 @@ export class SignUpComponent implements OnInit {
   list_univ = [];
   constructor(private service: ServiceService) { }
 
-  ngOnInit() {
-    this.getUniversities();
-  }
-
-  /* GRAPHICS METHODS  */
+  ngOnInit() {}
 
   /**
    * checkStudent Change condition Student 
@@ -48,8 +44,6 @@ export class SignUpComponent implements OnInit {
   }
 
   /* WEB API */
-
-
    /**
     * createCustomer Create an acount of Custumer
     * @param fn first name
@@ -73,10 +67,8 @@ export class SignUpComponent implements OnInit {
         };
 
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-          const userStr = JSON.stringify(jsonTransfer); // Object to String
-          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-          console.log("HTTP_result :" + jsonWEBAPI.http_result);
-
+          const userStr = JSON.stringify(jsonTransfer);
+          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
           if (jsonWEBAPI.http_result == 1) {
             this.editAlert("Success! ", jsonWEBAPI.msg, "success");
           } else if (jsonWEBAPI.http_result == 0) {
@@ -96,9 +88,8 @@ export class SignUpComponent implements OnInit {
           password: pw
         };
         this.service.createCustomer(json).subscribe((jsonTransfer) => {
-          const userStr = JSON.stringify(jsonTransfer); // Object to String
-          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-          console.log("HTTP_result :" + jsonWEBAPI.http_result);
+          const userStr = JSON.stringify(jsonTransfer); 
+          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
           if (jsonWEBAPI.http_result == 1) {
             this.editAlert("Success! ", jsonWEBAPI.msg, "success");
           } else if (jsonWEBAPI.http_result == 0) {
@@ -119,11 +110,9 @@ export class SignUpComponent implements OnInit {
    */
   public getUniversities() {
     if (!this.loadUni) {
-      console.log("Load Universities");
       this.service.getUniversities().subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        console.log(jsonWEBAPI);
         if (jsonWEBAPI.http_result == 1) {
           this.list_univ = jsonWEBAPI.universities;
           this.loadUni = true;

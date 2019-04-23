@@ -1,7 +1,7 @@
 <div class="container">
     <br>
     <form>
-        Flight Id<input #id type="number" class="form-control" placeholder="Id" min="0" required> <br>
+        Flight Id<input #id type="number" pattern="^[0-9]+" class="form-control" placeholder="Id" min="0" required> <br>
         <button type="button" class="btn btn-primary btn-block" (click)="sendID(id.value)">Close</button>
     </form>
     <br>
