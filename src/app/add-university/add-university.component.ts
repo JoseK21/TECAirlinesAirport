@@ -20,8 +20,6 @@ export class AddUniversityComponent implements OnInit {
    * addUniversity
    */
   public addUniversity(nameUni:string) {
-    console.log(nameUni);
-
     if (nameUni.trim().length == 0 ) {
       this.editAlert("Warning! ", "Empty input", "warning");
 

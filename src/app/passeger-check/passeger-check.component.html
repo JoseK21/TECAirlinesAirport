@@ -10,13 +10,25 @@
   </form>
   <br>
 
+  <div class="row justify-content-center">
+    <div class="col-5" *ngIf="showMessage">
+      <div class=" alert alert-{{type}} alert-dismissible fade show" role="alert">
+        <strong>{{msj}}</strong> {{text}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="changeModeShow()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div [hidden]="!showTable">
     <table class="table table-dark">
       <thead class="thead-light">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Journey</th>
-          <th scope="col">Departure time </th>
+          <th scope="col">Flight id</th>
+          <th scope="col">Departure Airport </th>
+          <th scope="col">Airport Arrival</th>
           <th scope="col">Check</th>
         </tr>
       </thead>
@@ -24,35 +36,37 @@
         <tr *ngFor="let check of listCheck;  let i = index">
           <th scope="row">{{i+1}}</th>
           <td>{{check.flight_id}}</td>
-          <td>{{check.depart_date}}</td>
+          <td>{{check.depart_ap}}</td>
+          <td>{{check.arrival_ap}}</td>
           <td>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" (click)="checkFlight(check)">
-                  Success
-                </button>
-              </td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
+              (click)="checkFlight(check)"> Do
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">QR Code</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <ngx-qrcode qrc-element-type="url" [qrc-value]="codeQR"></ngx-qrcode>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">QR Code</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ngx-qrcode qrc-element-type="url" [qrc-value]="codeQR"></ngx-qrcode>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
 
 
 

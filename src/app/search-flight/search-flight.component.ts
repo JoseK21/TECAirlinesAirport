@@ -174,12 +174,9 @@ export class SearchFlightComponent implements OnInit {
         people_flying: Number(Passengers), 
         username: this.name 
       };
-      console.log("JSON to send : ");
-      console.log(JSON.parse(JSON.stringify(json)));
       this.service.book(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        alert("Respuesta del api :" + userStr)
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1);
         } else if (jsonWEBAPI.http_result == 0) {
@@ -203,11 +200,9 @@ export class SearchFlightComponent implements OnInit {
         const userStr = JSON.stringify(jsonTransfer);
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
         if (jsonWEBAPI.http_result == 1) {
-          alert("Success! " + jsonWEBAPI.msg + "success");
           this.reservation(Way, Class, Passengers);
           // this.editAlert("Success! ", jsonWEBAPI.msg, "success", 1); Esta no porque se debe mostrar que si se realizo el pago o no
         } else if (jsonWEBAPI.http_result == 0) {
-          alert("Warning! " + jsonWEBAPI.msg + "warning");
            this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
         } else {
           alert("ERROR DEL JSON.... home.componet");

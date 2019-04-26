@@ -98,9 +98,9 @@ export class ServiceService {
   }
 
   
-  getListCheck(userName:string){    
-    const path = `${this.api}${userName}/check`;
-    return this.http.post(path, "'" + userName+ "'", httpOptions);
+  getListCheck(userName:string){
+    const path = `${this.api}${userName}/flights`;
+    return this.http.get(path);
   }
 
   getListCards(userName:string){    
