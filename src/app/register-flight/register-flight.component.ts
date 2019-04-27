@@ -83,14 +83,9 @@ export class RegisterFlightComponent implements OnInit {
     if (!this.airportLoadApi) {
       // COLSULTA A LA BASE
       this.airportLoadApi = true;
-      console.log("Load Airport registrar vuelo");
       this.service.getAirports().subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        console.log(jsonWEBAPI);
-
-        console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.airports);
+        const userStr = JSON.stringify(jsonTransfer); 
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
         if (jsonWEBAPI.http_result == 1) {
           this.airportLoadApi = false; // Lista cargada
           this.ap_name = jsonWEBAPI.airports;
@@ -138,17 +133,9 @@ export class RegisterFlightComponent implements OnInit {
         depart_ap: this.ptD,arrival_ap: this.ptA, flight_id: FI, depart_date: DD, plane_model: PM,
         normal_price: Number(EP), fc_price: Number(FCP)
       };
-
-      console.log(json);
-
-
       this.service.registryFlight(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-
-        console.log(jsonWEBAPI.http_result);
-        console.log(jsonWEBAPI.msg);
-
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ", jsonWEBAPI.msg, "success", 2);
           this.showMessage = true;
@@ -177,7 +164,6 @@ export class RegisterFlightComponent implements OnInit {
   public setptD(input: string) {
     if (input.trim().length > 0) {
       this.ptD = input;
-      console.log(input);
     }
     if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
       this.enableSF = true;
@@ -191,7 +177,6 @@ export class RegisterFlightComponent implements OnInit {
   public setptA(input: string) {
     if (input.trim().length > 0) {
       this.ptA = input;
-      console.log(input);
     }
     if (this.ptD != "Enter your point of departure " && this.ptA != "Enter your point of arrival") {
       this.enableSF = true;
@@ -205,16 +190,12 @@ export class RegisterFlightComponent implements OnInit {
   
     if (!this.loadP_model) {
       this.service.getPlaneModel().subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-
-        console.log(jsonWEBAPI);
-
+        const userStr = JSON.stringify(jsonTransfer); 
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
         if (jsonWEBAPI.http_result == 1) {
           this.modelPlane = jsonWEBAPI.airplanes;
           this.loadP_model = true;
         } else if (jsonWEBAPI.http_result == 0) {
-          // console.log("Empty List of Actives Flights");
         } else {
           alert("ERROR DEL JSON.... home.componet");
         }

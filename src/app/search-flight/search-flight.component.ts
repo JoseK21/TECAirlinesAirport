@@ -237,10 +237,8 @@ export class SearchFlightComponent implements OnInit {
    */
   public getCard() {        
       this.service.getListCards(this.name).subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json    
-        console.log(jsonWEBAPI);
-           
+        const userStr = JSON.stringify(jsonTransfer); 
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr));    
         if (jsonWEBAPI.http_result == 1) {
           this.list_cards = jsonWEBAPI.cards;
         } else if (jsonWEBAPI.http_result == 0) {

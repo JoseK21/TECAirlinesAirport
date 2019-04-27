@@ -76,7 +76,6 @@ export class FlightClosureComponent implements OnInit {
       if (jsonWEBAPI.http_result == 1) {
         this.fligth_ids = jsonWEBAPI.flights;
       } else if (jsonWEBAPI.http_result == 0) {
-        // console.log("Empty List of Actives Flights");
       } else {
         alert("ERROR DEL JSON.... home.componet");
       }

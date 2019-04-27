@@ -86,7 +86,6 @@ export class PromotionComponent implements OnInit {
         if (jsonWEBAPI.http_result == 1) {
           this.fligth_ids = jsonWEBAPI.flights;
         } else if (jsonWEBAPI.http_result == 0) {
-          // console.log("Empty List of Actives Flights");
         } else {
           alert("ERROR DEL JSON.... home.componet");
         }
@@ -107,15 +106,9 @@ export class PromotionComponent implements OnInit {
       this.message = "Only images are supported.";
       return;
     }
-
     var reader = new FileReader();
-    
-    
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
-    
-    console.log(files[0]);
-
     reader.onload = (_event) => {
       this.imgURL = reader.result;
       this.img = reader.result;

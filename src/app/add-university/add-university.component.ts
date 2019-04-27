@@ -28,7 +28,6 @@ export class AddUniversityComponent implements OnInit {
       this.service.addUniversity(json).subscribe((jsonTransfer) => {   
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        console.log("HTTP_result :" + jsonWEBAPI.http_result);
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ", jsonWEBAPI.msg, "success");
         } else if (jsonWEBAPI.http_result == 0) {

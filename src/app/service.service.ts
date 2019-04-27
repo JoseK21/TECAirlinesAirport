@@ -98,6 +98,15 @@ export class ServiceService {
   }
 
   
+  /**
+   * Precheck a customer
+   * @param dataFlightId  flight id selected
+   */
+  PreCheckCustomer(dataFlightId,username){    
+    const path = `${this.api}precheck/${username}/${dataFlightId}`;
+    return this.http.post(path, "empty", httpOptions);
+  }
+  
   getListCheck(userName:string){
     const path = `${this.api}${userName}/flights`;
     return this.http.get(path);

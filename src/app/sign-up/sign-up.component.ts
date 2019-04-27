@@ -117,9 +117,8 @@ export class SignUpComponent implements OnInit {
           this.list_univ = jsonWEBAPI.universities;
           this.loadUni = true;
         } else if (jsonWEBAPI.http_result == 0) {
-          // console.log("Empty List of Univesities");
         } else {
-          alert("ERROR DEL JSON.... home.componet");
+          alert("ERROR DEL JSON....");
         }
       });
     }
