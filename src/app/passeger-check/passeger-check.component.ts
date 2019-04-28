@@ -9,7 +9,7 @@ import { ServiceService } from '../service.service';
 })
 export class PassegerCheckComponent implements OnInit {
 
-  listCheck = ["q", "p", "r"];
+  listCheck = [];
   text: string;
   msj: string;
   type: string;
@@ -76,11 +76,11 @@ export class PassegerCheckComponent implements OnInit {
   /**
    * editAlert
    */
-  public editAlert(msg: string, text: string, type: string) {
-    this.showMessage=true;
+  public editAlert(msg: string, text: string, type: string) {    
     this.msj = msg;
     this.text = text;
     this.type = type;
+    this.showMessage=true;
   }
 
   /**

@@ -1,9 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { and } from '@angular/router/src/utils/collection';
 import { DatePipe, formatDate } from '@angular/common';
 import { ServiceService } from '../service.service';
-import { Alert } from 'selenium-webdriver';
-
 
 @Component({
   selector: 'app-search-flight',
@@ -12,8 +9,8 @@ import { Alert } from 'selenium-webdriver';
   providers: [DatePipe]
 })
 export class SearchFlightComponent implements OnInit {
-  airport = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado', 'Bombasto', 'Magneta', 'Tornado'];
-  heroes = ['Magneta', 'Tornado'];
+  airport = [];
+  heroes = [];
   ptD: string = "Enter your point of departure ";
   ptA: string = "Enter your point of arrival";
   windowsSearch: boolean = true;
@@ -301,6 +298,9 @@ export class SearchFlightComponent implements OnInit {
    * editAlert
    */
   public editAlert(msg: string, text: string, type: string, numAlert: number) {
+    this.msj = msg;
+    this.text = text;
+    this.type = type;
     if (numAlert == 1) {
       this.showMessageErrorLogin = true;
       this.showMessage = false;
@@ -308,9 +308,7 @@ export class SearchFlightComponent implements OnInit {
       this.showMessageErrorLogin = false;
       this.showMessage = true;
     }
-    this.msj = msg;
-    this.text = text;
-    this.type = type;
+    
   }
 
   /**

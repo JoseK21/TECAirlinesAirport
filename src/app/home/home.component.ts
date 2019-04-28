@@ -122,6 +122,9 @@ export class HomeComponent implements OnInit {
    * @param numAlert number of modal
    */
   public editAlert(msg: string, text: string, type: string, numAlert: number) {
+    this.msj = msg; 
+    this.text = text; 
+    this.type = type;
     if (numAlert == 1) {
       this.showMessageErrorLogin = true;
       this.showMessage = false;
@@ -129,8 +132,6 @@ export class HomeComponent implements OnInit {
       this.showMessageErrorLogin = false; 
       this.showMessage = true;
     }
-    this.msj = msg; 
-    this.text = text; 
-    this.type = type;
+    
   }
 }

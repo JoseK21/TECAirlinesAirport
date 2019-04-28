@@ -49,11 +49,11 @@ export class AddUniversityComponent implements OnInit {
   /**
   * editAlert
   */
- public editAlert(msg: string, text: string, type: string) {
-  this.showMessage = true;
+ public editAlert(msg: string, text: string, type: string) {  
   this.msj = msg;
   this.text = text;
   this.type = type;
+  this.showMessage = true;
 }
 
   /**

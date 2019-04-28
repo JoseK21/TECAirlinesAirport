@@ -3,10 +3,12 @@
     <br>
     <div>
       <h3>Image of promotion: </h3>
-      <img src="{{img}}" class="img" height="350" width="1110">
+      <img #Image src="{{img}}" class="img" height="350" width="1110">
       <span *ngIf="message">{{message}}</span>
       <input #file type="file" accept='image/*' (change)="preview(file.files)" />
     </div>
+    <button type="button" class="btn btn-success btn-block"
+    (click)="dataURItoBlob(file.value)">Create</button>
 
     <div class="row justify-content-center">
       <div class="col">

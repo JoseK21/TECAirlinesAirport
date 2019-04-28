@@ -175,7 +175,7 @@
                 </div>
                 <div class="col-5">
                   Expiry Date
-                  <input #Ed type="date" class="form-control" required>
+                  <input #Ed type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
                 </div>
               </div>
               <br>
