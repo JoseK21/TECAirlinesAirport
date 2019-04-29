@@ -33,9 +33,11 @@ export class HomeComponent implements OnInit {
       const json = { password: pw, username: un, };
       this.service.logIn(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer);
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
         if (jsonWEBAPI.http_result == 1) {
           this.name = un;
+          this.showMessageErrorLogin = false;
+          this.showMessage = false;
           this.sendMessage("true");
           this.signOut();
         } else if (jsonWEBAPI.http_result == 0) {
@@ -58,13 +60,15 @@ export class HomeComponent implements OnInit {
    * @param ro rol
    */
   public registryAdmin(fn: string, ln: string, pn: string, em: string, un: string, pw: string, ro: string) {
+    this.showMessageErrorLogin = false;
+    this.showMessage = false;
     if (fn.trim() == "" || ln.trim() == "" || pn.trim() == "" || em.trim() == "" || un.trim() == "" || pw.trim() == "" || ro.trim() == "") {
       this.editAlert("Warning! ", "Empty inputs", "warning", 2);
     } else {
       const json = { full_name: fn + " " + ln, phone_numbr: pn, email: em, username: un, password: pw, role: ro };
       this.service.createAdmin(json).subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer); 
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
+        const userStr = JSON.stringify(jsonTransfer);
+        const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
         if (jsonWEBAPI.http_result == 1) {
           this.editAlert("Success! ", jsonWEBAPI.msg, "success", 2);
         } else if (jsonWEBAPI.http_result == 0) {
@@ -122,16 +126,16 @@ export class HomeComponent implements OnInit {
    * @param numAlert number of modal
    */
   public editAlert(msg: string, text: string, type: string, numAlert: number) {
-    this.msj = msg; 
-    this.text = text; 
+    this.msj = msg;
+    this.text = text;
     this.type = type;
     if (numAlert == 1) {
       this.showMessageErrorLogin = true;
       this.showMessage = false;
     } else if (numAlert == 2) {
-      this.showMessageErrorLogin = false; 
+      this.showMessageErrorLogin = false;
       this.showMessage = true;
     }
-    
+
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ServiceService } from '../service.service';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-register-flight',
@@ -47,7 +49,8 @@ export class RegisterFlightComponent implements OnInit {
   modelPlane = [];
   loadF_ids: boolean = false;
   loadP_model: boolean = false;
-  constructor(private service: ServiceService) { }
+  constructor(
+    private service: ServiceService , private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
@@ -119,8 +122,8 @@ export class RegisterFlightComponent implements OnInit {
   /**
    * checkInputs
    */
-  public checkInputs(FI: string, DD: string, PM: string, EP: string, FCP: string) {
-    if (FI.trim() == "" || DD.trim() == "" || PM.trim() == "" || FCP.trim() == "") {
+  public checkInputs(FI: string, DD: string, DH: string, PM: string, EP: string, FCP: string) {
+    if (FI.trim() == "" || DD.trim() == "" || DH.trim() == "" || PM.trim() == "" || FCP.trim() == "") {
       this.editAlert("Warning! ", "Empty inputs", "warning", 2);
       this.showMessage = true;
     } 
@@ -130,9 +133,13 @@ export class RegisterFlightComponent implements OnInit {
     }
     else {
       const json = {
-        depart_ap: this.ptD,arrival_ap: this.ptA, flight_id: FI, depart_date: DD, plane_model: PM,
+        depart_ap: this.ptD,arrival_ap: this.ptA, flight_id: FI, depart_date: this.datePipe.transform(DD ,"MM/dd/yy")+" "+ DH, plane_model: PM,
         normal_price: Number(EP), fc_price: Number(FCP)
       };
+
+      console.log("Json to send");
+      console.log(JSON.parse(JSON.stringify(json)));
+      
       this.service.registryFlight(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json

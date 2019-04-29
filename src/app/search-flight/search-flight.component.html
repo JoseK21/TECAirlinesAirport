@@ -130,7 +130,7 @@
               Acount</button>
             <br>
             <div class="form-row">
-              <div class="col-6">
+              <div class="col-5">
                 <div class="form-group">
                   <label for="selectWay">Way</label>
                   <select #Way class="form-control" id="selectWay">
@@ -139,7 +139,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-5">
                 <div class="form-group">
                   <label for="selectClass">Class</label>
                   <select #Class class="form-control" id="selectClass">
@@ -148,16 +148,17 @@
                   </select>
                 </div>
               </div>
-
-            </div>
-            <div class="form-row">
-              <div class="col-6">
-                <label>Departure</label>
-                <input #Date type="date" class="form-control" [value]="dateNOW" [min]="dateNOW">
-              </div>
-              <div class="col-3">
-                <label for="selectPassengers">Passengers</label>
-                <input #Passengers id="selectPassengers" type="number" pattern="^[0-9]+" max="10" min="1" value="1">
+              <div class="col-2">
+                  <div class="form-group">
+                      <label for="exampleFormControlSelect1">Passengers</label>
+                      <select #Passengers class="form-control" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                    </div>                
               </div>
             </div>
             <div class="form-check">

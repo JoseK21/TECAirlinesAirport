@@ -277,7 +277,7 @@ export class SearchFlightComponent implements OnInit {
       const userStr = JSON.stringify(jsonTransfer);
       const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
       if (jsonWEBAPI.http_result == 1) {
-        var array = JSON.parse("[" + jsonWEBAPI.flights + "]");
+        var array = JSON.parse("[" + jsonWEBAPI.flights + "]");        
         this.list_flights = array;
         this.destino = this.ptD + " to " + this.ptA;
         this.showTable = true;

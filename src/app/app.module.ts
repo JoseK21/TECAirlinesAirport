@@ -15,6 +15,7 @@ import { FlightClosureComponent } from './flight-closure/flight-closure.componen
 import { AddUniversityComponent } from './add-university/add-university.component';
 
 import { NgxQRCodeModule } from "ngx-qrcode2";
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { NgxQRCodeModule } from "ngx-qrcode2";
     NgxQRCodeModule
     
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

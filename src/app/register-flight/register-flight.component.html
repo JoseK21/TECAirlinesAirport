@@ -21,7 +21,9 @@
       <div class="col">
         Departure Date<input #DD type="date" class="form-control" [value]="dateNOW" [min]="dateNOW" required>
       </div>
-
+      <div class="col">
+          Departure Hour<input #DH type="time" class="form-control" step="2" required>
+        </div>
       <div class="col">
         Plane Model
         <select #PM id="inputStateAirports" class="form-control" size="1">
@@ -37,7 +39,7 @@
     </div>
     <br>
     <button [disabled]="!enableSF" type="button" class="btn btn-primary btn-block"
-      (click)="checkInputs(FI.value,DD.value,PM.value,EP.value,FCP.value)">Registry</button>
+      (click)="checkInputs(FI.value,DD.value,DH.value,PM.value,EP.value,FCP.value)">Registry</button>
     <div class="modal-footer">
       <div style="margin:0 auto;" *ngIf="showMessage" class="alert alert-{{type}} alert-dismissible fade show"
         role="alert">

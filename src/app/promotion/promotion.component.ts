@@ -19,10 +19,23 @@ export class PromotionComponent implements OnInit {
   type: string = "";
   showMessage: boolean = false;
 
+
+  selectFile:File = null;
+
   constructor(private service: ServiceService) { }
 
   ngOnInit() {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+  }
+
+  onFileSelect(event) {
+    this.selectFile = <File>event.target.files[0];
+  }
+
+  onUpload(){
+    const fb = new FormData();
+    fb.append('image',this.selectFile,this.selectFile.name);
+    return fb;
   }
 
   /**
@@ -35,7 +48,7 @@ export class PromotionComponent implements OnInit {
   /**
   * editAlert
   */
-  public editAlert(msg: string, text: string, type: string) {    
+  public editAlert(msg: string, text: string, type: string) {
     this.msj = msg;
     this.text = text;
     this.type = type;
@@ -80,16 +93,16 @@ export class PromotionComponent implements OnInit {
    * getList_idFlight
    */
   public getList_idFlight() {
-      this.service.getListFlights_id().subscribe((jsonTransfer) => {
-        const userStr = JSON.stringify(jsonTransfer); // Object to String
-        const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
-        if (jsonWEBAPI.http_result == 1) {
-          this.fligth_ids = jsonWEBAPI.flights;
-        } else if (jsonWEBAPI.http_result == 0) {
-        } else {
-          alert("ERROR DEL JSON.... home.componet");
-        }
-      });
+    this.service.getListFlights_id().subscribe((jsonTransfer) => {
+      const userStr = JSON.stringify(jsonTransfer); // Object to String
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
+      if (jsonWEBAPI.http_result == 1) {
+        this.fligth_ids = jsonWEBAPI.flights;
+      } else if (jsonWEBAPI.http_result == 0) {
+      } else {
+        alert("ERROR DEL JSON.... home.componet");
+      }
+    });
   }
 
   //Load img in window
@@ -122,9 +135,9 @@ export class PromotionComponent implements OnInit {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0)
-        byteString = atob(dataURI.split(',')[1]);
+      byteString = atob(dataURI.split(',')[1]);
     else
-        byteString = unescape(dataURI.split(',')[1]);
+      byteString = unescape(dataURI.split(',')[1]);
 
     // separate out the mime component
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -132,11 +145,11 @@ export class PromotionComponent implements OnInit {
     // write the bytes of the string to a typed array
     var ia = new Uint8Array(byteString.length);
     for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+      ia[i] = byteString.charCodeAt(i);
     }
-    console.log(new Blob([ia], {type:mimeString}));
-    
-    return new Blob([ia], {type:mimeString});
-}
+    console.log(new Blob([ia], { type: mimeString }));
+
+    return new Blob([ia], { type: mimeString });
+  }
 
 }
