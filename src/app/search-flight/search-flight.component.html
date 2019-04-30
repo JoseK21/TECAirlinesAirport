@@ -210,10 +210,17 @@
                 CVV
                 <input #Scode type="text" class="form-control" required>
               </div>
+              <div class="col-4" [hidden]="!milesActive">
+                  Pay with miles
+                  <select #PMil class="form-control">
+                    <option>No</option>
+                    <option>Yes</option>
+                  </select>
+                </div>
             </div>
             <br>
             <button class="btn btn-primary btn-block"
-              (click)="pay(Card.value,Scode.value,Way.value,Class.value,Passengers.value)" type="button">Pay</button>
+              (click)="pay(Card.value,Scode.value,Way.value,Class.value,Passengers.value,PMil.value)" type="button">Pay</button>
             <br>
             <div class="modal-footer" *ngIf="modalMSG==2">
               <div style="margin:0 auto;" class="alert alert-{{type}} alert-dismissible fade show" role="alert">

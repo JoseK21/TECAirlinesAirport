@@ -63,12 +63,32 @@ export class SearchFlightComponent implements OnInit {
   selectPrice: number = 0;
 
   showTable: boolean = false;
+  milesActive: boolean = false;
 
   constructor(private service: ServiceService) {
   }
 
   ngOnInit() {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+  }
+
+  /**
+   * isStudent
+   */
+  public isStudent(userName: string) {
+    this.service.isStudent(userName).subscribe((jsonTransfer) => {
+      const userStr = JSON.stringify(jsonTransfer);
+      const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
+      if (jsonWEBAPI.http_result == 1) {
+        if (jsonWEBAPI.msg == "True") {
+          this.milesActive = true;
+        } else {
+          this.milesActive = false;
+        }
+      } else if (jsonWEBAPI.http_result == 0) {
+        this.milesActive = false;
+      }
+    });
   }
 
   //RESERVATION
@@ -107,6 +127,7 @@ export class SearchFlightComponent implements OnInit {
           this.name = un;
           this.userCheck = true;
           this.getCard();
+          this.isStudent(un);
         } else if (jsonWEBAPI.http_result == 0) {
           this.editAlert("Error! ", jsonWEBAPI.msg, "warning", 1);
           this.modalMSG = 0;
@@ -188,12 +209,16 @@ export class SearchFlightComponent implements OnInit {
   /**
    * pay
    */
-  public pay(card: string, scode: string, Way: string, Class: string, Passengers: string) {
+  public pay(card: string, scode: string, Way: string, Class: string, Passengers: string,payMiles:string) {
     if (card.trim() == "" || scode.trim() == "") {
       this.editAlert("Warning! ", "Empty inputs", "warning", 1);
     } else {
-      const json = { card_number: card, security_code: scode };
-      this.service.payFlight(json, this.name).subscribe((jsonTransfer) => {
+      var payM = 0;
+      if (payMiles == "Yes") {
+        payM = 1;
+      }
+      const json = { card_number: card, security_code: scode, pay_miles: payM };
+      this.service.payFlight(json, this.name,this.selectFlightID).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer);
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr));
         if (jsonWEBAPI.http_result == 1) {

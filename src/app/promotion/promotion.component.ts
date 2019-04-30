@@ -9,6 +9,7 @@ import { ServiceService } from '../service.service';
 })
 export class PromotionComponent implements OnInit {
   img: any = "assets/image1200400.jpg";
+  imageurl:any;
   dateNOW: string;
   dateMIN: string;
   fligth_ids = [];
@@ -18,9 +19,7 @@ export class PromotionComponent implements OnInit {
   text: string = "";
   type: string = "";
   showMessage: boolean = false;
-
-
-  selectFile:File = null;
+  selectFile: File = null;
 
   constructor(private service: ServiceService) { }
 
@@ -28,13 +27,16 @@ export class PromotionComponent implements OnInit {
     this.dateNOW = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
-  onFileSelect(event) {
-    this.selectFile = <File>event.target.files[0];
+  selectedFile: File
+
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0]
   }
 
-  onUpload(){
+
+  onUpload() {
     const fb = new FormData();
-    fb.append('image',this.selectFile,this.selectFile.name);
+    fb.append('image', this.selectFile, this.selectFile.name);
     return fb;
   }
 
@@ -59,14 +61,20 @@ export class PromotionComponent implements OnInit {
    * Creation of a Sale/Promotion
    * create
    */
-  public create(Fid: string, DS: string, DE: string, D: string) {
+  public create(Fid: string, DS: string, DE: string, D: string, file: File) {
     if (DE == "") {
       this.editAlert("Warning! ", "Set a day to finish the promotion, please.", "warning");
     }
     else if (Number(D) < 1) {
       this.editAlert("Warning! ", "Establish a positive discount.", "warning");
     } else {
-      const json = { flight_id: Fid, discount: Number(D), exp_date: DE };
+
+      const uploadData = new FormData();
+      uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
+
+      const json = { flight_id: Fid, discount: Number(D), exp_date: DE, img: uploadData };
+      console.log(JSON.parse(JSON.stringify(json)));
+
       this.service.createSale(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
@@ -123,33 +131,35 @@ export class PromotionComponent implements OnInit {
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL = reader.result;
       this.img = reader.result;
+      const TYPED_ARRAY = new Uint8Array(this.img);
+      const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
+      let base64String = btoa(STRING_CHAR);
+      
+    //  this.imageurl = this..domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
+
+    console.log("Image base64");
+    console.log(STRING_CHAR);
+    
+      console.log(base64String);
+      
     }
+
   }
 
   /**
    * dataURItoBlob  Load image to api
    */
-  public dataURItoBlob(dataURI) {
+  public dataURItoBlob(file) {
     // convert base64/URLEncoded data component to raw binary data held in a string
-    var byteString;
-    if (dataURI.split(',')[0].indexOf('base64') >= 0)
-      byteString = atob(dataURI.split(',')[1]);
-    else
-      byteString = unescape(dataURI.split(',')[1]);
-
-    // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to a typed array
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    console.log(new Blob([ia], { type: mimeString }));
-
-    return new Blob([ia], { type: mimeString });
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
   }
 
 }
