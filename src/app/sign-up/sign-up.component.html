@@ -26,7 +26,7 @@
           <div class="form-row">
             <div class="col-4">
               University's name
-              <select #UVN class="form-control" size="1" >
+              <select #UVN class="form-control" size="1">
                 <option *ngFor="let univ of list_univ">{{univ}}</option>
               </select>
             </div>
@@ -40,7 +40,7 @@
             E-mail <input #EM type="email" class="form-control" required>
           </div>
           <div class="col-4">
-            Phone <input #P type="text"class="form-control" required>
+            Phone <input #P type="text" class="form-control" required>
           </div>
         </div>
         <div class="form-row ">
@@ -51,17 +51,7 @@
             Password <input #PW type="text" class="form-control" required>
           </div>
         </div>
-        <br>
-        <div class="form-row">
-          <div class="col-8" *ngIf="showMessage">
-            <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
-              <strong>{{msj}}</strong> {{text}}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="changeModeShow()">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <br>        
         <div class="form-row ">
           <div class="col-8">
             <button class="btn btn-success btn-block"
@@ -70,8 +60,32 @@
           </div>
         </div>
         <br>
-      </div>
-    </div>
+        <div class="form-row align-items-center">
+          <div class="col-4">
+            Username <input #Username type="text" class="form-control" required>
+          </div>
+          <div class="col-4 align-self-end">
+              <button class="btn btn-danger btn-block" (click)="deleteCustomer(Username.value)"
+                type="button">Delete</button>
+            </div>
+        </div>
 
-  </form>
+        <br>
+        <div class="form-row">
+            <div class="col-8" *ngIf="showMessage">
+              <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+                <strong>{{msj}}</strong> {{text}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="changeModeShow()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      
+
+    </form>
 </div>

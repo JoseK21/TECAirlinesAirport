@@ -135,6 +135,10 @@ export class ServiceService {
     return this.http.post(path, "'" + JSON.stringify(jsonData) + "'", httpOptions);
   }
 
+  /**
+   * Check if a customer is a student
+   * @param userName 
+   */
   isStudent(userName: string) {
     const path = `${this.api}${userName}/student`;
     return this.http.get(path);
@@ -190,5 +194,10 @@ export class ServiceService {
   closeID(id:string) {
     const path = `${this.api}admin/close/${id}`;
     return this.http.put(path, "'" + id + "'", httpOptions);
+  }
+
+  deleteCustomer(userName:string) {
+    const path = `${this.api}delete/${userName}`;
+    return this.http.delete(path);
   }
 }

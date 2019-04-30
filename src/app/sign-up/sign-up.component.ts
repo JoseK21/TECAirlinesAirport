@@ -123,4 +123,25 @@ export class SignUpComponent implements OnInit {
       });
     }
   }
+
+  
+  public deleteCustomer(username: string) {
+      if (username.trim() == "" ) {
+        this.editAlert("Warning! ", "Empty or wrong inputs", "warning");
+      } else {
+        this.service.deleteCustomer(username).subscribe((jsonTransfer) => {
+          const userStr = JSON.stringify(jsonTransfer);
+          const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); 
+          if (jsonWEBAPI.http_result == 1) {
+            this.editAlert("Success! ", jsonWEBAPI.msg, "success");
+          } else if (jsonWEBAPI.http_result == 0) {
+            this.editAlert("Error! ", jsonWEBAPI.msg, "danger");
+          } else {
+            alert("ERROR DEL JSON.... sign-up.componet");
+          }
+        });
+      }
+    this.showMessage = true;
+  }
+
 }

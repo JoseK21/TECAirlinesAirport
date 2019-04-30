@@ -61,20 +61,15 @@ export class PromotionComponent implements OnInit {
    * Creation of a Sale/Promotion
    * create
    */
-  public create(Fid: string, DS: string, DE: string, D: string, file: File) {
+  public create(Fid: string, DS: string, DE: string, D: string) {
     if (DE == "") {
       this.editAlert("Warning! ", "Set a day to finish the promotion, please.", "warning");
     }
     else if (Number(D) < 1) {
       this.editAlert("Warning! ", "Establish a positive discount.", "warning");
     } else {
-
-      const uploadData = new FormData();
-      uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-
-      const json = { flight_id: Fid, discount: Number(D), exp_date: DE, img: uploadData };
+      const json = { flight_id: Fid, discount: Number(D), exp_date: DE };
       console.log(JSON.parse(JSON.stringify(json)));
-
       this.service.createSale(json).subscribe((jsonTransfer) => {
         const userStr = JSON.stringify(jsonTransfer); // Object to String
         const jsonWEBAPI = JSON.parse(JSON.parse(userStr)); // String to Json
