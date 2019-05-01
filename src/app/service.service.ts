@@ -196,8 +196,51 @@ export class ServiceService {
     return this.http.put(path, "'" + id + "'", httpOptions);
   }
 
-  deleteCustomer(userName:string) {
-    const path = `${this.api}delete/${userName}`;
+  /**
+   * Delete Customer
+   * @param data customer
+   */
+  deleteCustomer(data:string) {
+    const path = `${this.api}users/delete/${data}`;
     return this.http.delete(path);
   }
+
+  /**
+   * Delete Universities
+   * @param data university
+   */
+  deleteUniversity(data:string) {
+    const path = `${this.api}universities/delete/${data}`;
+    return this.http.delete(path);
+  }
+
+  /**
+   * Delete Flights
+   * @param data flight
+   */
+  deleteFlight(data:string) {
+    const path = `${this.api}flights/delete/${data}`;
+    return this.http.delete(path);
+  }
+
+  /**
+   * Delete Airports
+   * @param data airport
+   */
+  deleteAirport(data:string) {
+    const path = `${this.api}airports/delete/${data}`;
+    return this.http.delete(path);
+  }
+
+  /**
+   * Delete Planes
+   * @param data plane
+   */
+  deletePlane(data:string) {
+    const path = `${this.api}airplanes/delete/${data}`;
+    return this.http.delete(path);
+  }
+
+
+  
 }

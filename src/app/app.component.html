@@ -5,7 +5,7 @@
   </li>
   <li class="nav-item" *ngIf="options">
     <a class="nav-link " id="signUp-tab" data-toggle="tab" href="#signUp" role="tab" aria-controls="signUp"
-      aria-selected="false">Customer Management</a>
+      aria-selected="false">Customer</a>
   </li>
   <li class="nav-item" *ngIf="options">
     <a class="nav-link " id="addUniversity-tab" data-toggle="tab" href="#addUniversity" role="tab"
@@ -30,6 +30,10 @@
   <li class="nav-item" *ngIf="options">
     <a class="nav-link" id="flightClosure-tab" data-toggle="tab" href="#flightClosure" role="tab"
       aria-controls="flightClosure" aria-selected="false">Flight Closure</a>
+  </li>
+  <li class="nav-item" *ngIf="options">
+    <a class="nav-link" id="remove-tab" data-toggle="tab" href="#remove" role="tab"
+      aria-controls="remove" aria-selected="false">Remove Options</a>
   </li>
 </ul>
 
@@ -57,6 +61,9 @@
   </div>
   <div class="tab-pane fade" id="flightClosure" role="tabpanel" aria-labelledby="flightClosure-tab">
     <app-flight-closure></app-flight-closure>
+  </div>
+  <div class="tab-pane fade" id="remove" role="tabpanel" aria-labelledby="remove-tab">
+    <app-remove></app-remove>
   </div>
 </div>
 

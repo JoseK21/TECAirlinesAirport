@@ -16,6 +16,7 @@ import { AddUniversityComponent } from './add-university/add-university.componen
 
 import { NgxQRCodeModule } from "ngx-qrcode2";
 import { DatePipe } from '@angular/common';
+import { RemoveComponent } from './remove/remove.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DatePipe } from '@angular/common';
     RegisterFlightComponent,
     FlightClosureComponent,
     AddUniversityComponent,
+    RemoveComponent,
   ],
   imports: [
     BrowserModule,

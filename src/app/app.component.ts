@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'TECAirlinesAirport'; 
-  options:boolean = false; // Show options
+  options:boolean = true; // Show options
 
   /**
    * Method to receive a variable from Home.Component
